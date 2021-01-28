@@ -18,21 +18,21 @@
 > * All project phases are to be submitted to this GitHub repository. You should modify this README file to reflect the different phases of the project. In addition, you should regularly hold sprint meetings with your group.
 
 ## Project Description
-We are making a text-based dungeon crawling RPG. The player progresses through different areas, fights various types of enemies and becomes stronger in an attempt to reach the end of the game. \n
-* Why is it important or interesting to you? \n
-We are all epic gamers and as epic gamers, we must make an epic game for this project \n
-* What languages/tools/technologies do you plan to use? (This list may change over the course of the project) \n
-C++, nothing else planned at the moment \n
-* What will be the input/output of your project? \n
-The player will interact with the game through console/text inputs and the game will output a written description of the result of the player's actions. If time permits, we may update it to produce images or simple animations \n
-* What are the two design patterns you will be using? For each design pattern you must explain in 4-5 sentences: \n
-Composite and decorator. For the composite pattern: \n
-   * Why you picked this pattern and what feature you will implement with it \n
-   We selected Composite for easier implementation of similar objects (making enemy types that derive from a generic Enemy class, for example). \n
-   * What problem you anticipate encountering when implementing your project that you will solve using the design pattern \n
-   We want to have different types of rooms and enemies within the game, yet we want to be able to interact with them in the same manner. For example, we may have two different types of enemies with different appearances and abilities, but attacking said enemy should deal damage in the same manner. \n
-   * Why the chosen design pattern will lead to a good solution to that problem \n
-   Subtypes of rooms and enemies will derive from the base class and inherit some global actions that the player can perform on them. This saves time from having to rewrite the same actions for each unique subtype we want to create while keeping the results of the player's actions consistent.  \n
+We are making a text-based dungeon crawling RPG. The player progresses through different areas, fights various types of enemies and becomes stronger in an attempt to reach the end of the game. \
+* Why is it important or interesting to you? \
+We are all epic gamers and as epic gamers, we must make an epic game for this project \
+* What languages/tools/technologies do you plan to use? (This list may change over the course of the project) \
+C++, nothing else planned at the moment \
+* What will be the input/output of your project? \
+The player will interact with the game through console/text inputs and the game will output a written description of the result of the player's actions. If time permits, we may update it to produce images or simple animations \
+* What are the two design patterns you will be using? For each design pattern you must explain in 4-5 sentences: \
+Composite and decorator. For the composite pattern: \
+   * Why you picked this pattern and what feature you will implement with it \
+   We selected Composite for easier implementation of similar objects (making enemy types that derive from a generic Enemy class, for example). \
+   * What problem you anticipate encountering when implementing your project that you will solve using the design pattern \
+   We want to have different types of rooms and enemies within the game, yet we want to be able to interact with them in the same manner. For example, we may have two different types of enemies with different appearances and abilities, but attacking said enemy should deal damage in the same manner. \
+   * Why the chosen design pattern will lead to a good solution to that problem \
+   Subtypes of rooms and enemies will derive from the base class and inherit some global actions that the player can perform on them. This saves time from having to rewrite the same actions for each unique subtype we want to create while keeping the results of the player's actions consistent.  \
    
 For the decorator pattern: \n
    * Why you picked this pattern and what feature you will implement with it \n
