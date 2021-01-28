@@ -1,8 +1,7 @@
 //REMOVE EVERYTHING BENEATH HERE...
- > As you complete each section you **must** remove the prompt text. Every *turnin* of this project includes points for formatting of this README so keep it clean and keep it up to date. 
+> As you complete each section you **must** remove the prompt text. Every *turnin* of this project includes points for formatting of this README so keep it clean and keep it up to date. 
  > Prompt text is any lines beginning with "\>"
- > Replace anything between \<...\> with your project specifics and remove angle brackets. For example, you need to name your project and replace the header right below this line with that title (no angle brackets).
- 
+ > Replace anything between \<...\> with your project specifics and remove angle brackets. For example, you need to name your project and replace the header right below this line with that title (no angle brackets). 
 //...TO HERE.
 # Hanging Pointers of Babylon
  > Your author list below should include links to all members GitHub (remove existing author).
@@ -23,7 +22,7 @@
 ## Project Description
 We are making a text-based dungeon crawling RPG. The player progresses through different areas, fights various types of enemies and becomes stronger in an attempt to reach the end of the game.  
 * Why is it important or interesting to you?  
-We are all epic gamers and as epic gamers, we must make an epic game for this project  
+We are all epic gamers that appreciate gaming and as epic gamers, we must make an epic game for this project. This project gives us the most creative freedom as far as design and allows us to utilize new aspects of C++. 
 * What languages/tools/technologies do you plan to use? (This list may change over the course of the project)  
 C++, nothing else planned at the moment  
 * What will be the input/output of your project?  
