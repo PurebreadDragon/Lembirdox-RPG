@@ -22,7 +22,7 @@
 ## Project Description
 We are making a text-based dungeon crawling RPG. The player progresses through different areas, fights various types of enemies and becomes stronger in an attempt to reach the end of the game.  
 * Why is it important or interesting to you?  
-We are all epic gamers that appreciate gaming and as epic gamers, we must make an epic game for this project. This project gives us the most creative freedom as far as design and allows us to utilize new aspects of C++. 
+We are all epic gamers that appreciate gaming and as epic gamers, we must make an epic game for this project. This project gives us the most creative freedom in story and design and allows us to utilize new aspects of C++. 
 * What languages/tools/technologies do you plan to use? (This list may change over the course of the project)  
 C++, nothing else planned at the moment  
 * What will be the input/output of your project?  
