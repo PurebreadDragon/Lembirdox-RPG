@@ -26,6 +26,7 @@ C++, nothing else planned at the moment
 * What will be the input/output of your project?  
 The player will interact with the game through console/text inputs and the game will output a written description of the result of the player's actions. If time permits, we may update it to produce images or simple animations  
 * What are the two design patterns you will be using? For each design pattern you must explain in 4-5 sentences:  
+
 Composite and decorator. For the composite pattern:  
    * Why you picked this pattern and what feature you will implement with it  
    We selected Composite for easier implementation of similar objects (making enemy types that derive from a generic Enemy class, for example).  
