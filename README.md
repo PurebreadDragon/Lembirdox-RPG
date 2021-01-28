@@ -18,28 +18,28 @@
 > * All project phases are to be submitted to this GitHub repository. You should modify this README file to reflect the different phases of the project. In addition, you should regularly hold sprint meetings with your group.
 
 ## Project Description
-We are making a text-based dungeon crawling RPG. The player progresses through different areas, fights various types of enemies and becomes stronger in an attempt to reach the end of the game. 
-* Why is it important or interesting to you? 
-We are all epic gamers and as epic gamers, we must make an epic game for this project 
-* What languages/tools/technologies do you plan to use? (This list may change over the course of the project) 
-C++, nothing else planned at the moment 
-* What will be the input/output of your project? 
-The player will interact with the game through console/text inputs and the game will output a written description of the result of the player's actions. If time permits, we may update it to produce images or simple animations 
-* What are the two design patterns you will be using? For each design pattern you must explain in 4-5 sentences: 
-Composite and decorator. For the composite pattern: 
-   * Why you picked this pattern and what feature you will implement with it 
-   We selected Composite for easier implementation of similar objects (making enemy types that derive from a generic Enemy class, for example). 
-   * What problem you anticipate encountering when implementing your project that you will solve using the design pattern 
-   We want to have different types of rooms and enemies within the game, yet we want to be able to interact with them in the same manner. For example, we may have two different types of enemies with different appearances and abilities, but attacking said enemy should deal damage in the same manner. 
-   * Why the chosen design pattern will lead to a good solution to that problem 
+We are making a text-based dungeon crawling RPG. The player progresses through different areas, fights various types of enemies and becomes stronger in an attempt to reach the end of the game.  
+* Why is it important or interesting to you?  
+We are all epic gamers and as epic gamers, we must make an epic game for this project  
+* What languages/tools/technologies do you plan to use? (This list may change over the course of the project)  
+C++, nothing else planned at the moment  
+* What will be the input/output of your project?  
+The player will interact with the game through console/text inputs and the game will output a written description of the result of the player's actions. If time permits, we may update it to produce images or simple animations  
+* What are the two design patterns you will be using? For each design pattern you must explain in 4-5 sentences:  
+Composite and decorator. For the composite pattern:  
+   * Why you picked this pattern and what feature you will implement with it  
+   We selected Composite for easier implementation of similar objects (making enemy types that derive from a generic Enemy class, for example).  
+   * What problem you anticipate encountering when implementing your project that you will solve using the design pattern  
+   We want to have different types of rooms and enemies within the game, yet we want to be able to interact with them in the same manner. For example, we may have two different types of enemies with different appearances and abilities, but attacking said enemy should deal damage in the same manner.  
+   * Why the chosen design pattern will lead to a good solution to that problem  
    Subtypes of rooms and enemies will derive from the base class and inherit some global actions that the player can perform on them. This saves time from having to rewrite the same actions for each unique subtype we want to create while keeping the results of the player's actions consistent.  
    
 For the decorator pattern: 
-   * Why you picked this pattern and what feature you will implement with it 
+   * Why you picked this pattern and what feature you will implement with it  
    We selected Decorator for more efficient addition of unique attributes to special types of the same class (making enemy variants from the same type of enemy, for example).
-   * What problem you anticipate encountering when implementing your project that you will solve using the design pattern 
-   We want to have special variants of rooms and enemies. We also want to give additional attributes and features to the main character as he/she progresses through the game.
-   * Why the chosen design pattern will lead to a good solution to that problem 
+   * What problem you anticipate encountering when implementing your project that you will solve using the design pattern  
+   We want to have special variants of rooms and enemies. We also want to give additional attributes and features to the main character as he/she progresses through the game.  
+   * Why the chosen design pattern will lead to a good solution to that problem  
    We can "decorate" enemies and rooms of the same type with additional features while keeping others the same. We can "decorate" the main character with extra features from the items he or she picks up over the course of the game.  
 
  > ## Phase II
