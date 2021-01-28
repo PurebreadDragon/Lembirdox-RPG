@@ -5,20 +5,20 @@ Authors: [Raymond Yuan](https://github.com/raymondlyy), [Shawn-Michael Kern](htt
 ## Project Description
 We are making a text-based dungeon crawling RPG. The player progresses through different areas, fights various types of enemies and becomes stronger in an attempt to reach the end of the game.  
 * Why is it important or interesting to you?  
-We are all epic gamers that appreciate gaming and as epic gamers, we must make an epic game for this project. This project gives us the most creative freedom in story and design and allows us to utilize new aspects of C++. 
+We are all epic gamers who appreciate gaming--and as epic gamers, we must make an epic game for this project while enjoying the experience of making it. This project proposal gives us the most creative freedom in story and design and allows us to utilize and expand on our understanding of C++. 
 * What languages/tools/technologies do you plan to use? (This list may change over the course of the project)  
 C++, nothing else planned at the moment  
 * What will be the input/output of your project?  
-The player will interact with the game through console/text inputs and the game will output a written description of the result of the player's actions. If time permits, we may update it to produce images or simple animations  
+The player will interact with the game through console/text inputs and the game will output a text description of the result of the player's actions. If time permits, we may upgrade it to produce images or simple animations.  
 * What are the two design patterns you will be using? For each design pattern you must explain in 4-5 sentences:  
 
 Composite and decorator. For the composite pattern:  
    * Why you picked this pattern and what feature you will implement with it  
-   We selected Composite for easier implementation of similar objects (making enemy types that derive from a generic Enemy class, for example).  
+   We selected Composite for easier implementation of similar objects (making enemy types that derive from a generic Enemy class, for example, and having all things in the game be Entity class objects).  
    * What problem you anticipate encountering when implementing your project that you will solve using the design pattern  
-   We want to have different types of rooms and enemies within the game, yet we want to be able to interact with them in the same manner. For example, we may have two different types of enemies with different appearances and abilities, but attacking said enemy should deal damage in the same manner.  
+   We want to have a large variety of entity class derived-types but still allow the player to interact with each of them in unique yet consistent ways. 
    * Why the chosen design pattern will lead to a good solution to that problem  
-   Subtypes of rooms and enemies will derive from the base class and inherit some global actions that the player can perform on them. This saves time from having to rewrite the same actions for each unique subtype we want to create while keeping the results of the player's actions consistent.  
+   Using a composite structure of subclasses derived from one master "entity" class saves time from having to rewrite the same methods each time for every new enemy type. On top of that, this keeps the expected results of common actions consistent with other entities. This design pattern can be extended to the "room" object as well, where one master room object contains some basic functionality such as "observe" or "search" and subclasses such as battle rooms, trapped rooms or loot rooms derive from said master room object.
    
 For the decorator pattern: 
    * Why you picked this pattern and what feature you will implement with it  
