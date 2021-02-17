@@ -1,18 +1,19 @@
 # Hanging Pointers of Babylon
  
-Authors: [Raymond Yuan](https://github.com/raymondlyy), [Shawn-Michael Kern](https://github.com/PurebreadDragon), [Jane Ran](https://github.com/jran26), [Zinal Patel](https://github.com/midgetdemon)
+Authors: [Raymond Yuan](https://github.com/raymondlyy), [Shawn-Michael Kern](https://github.com/PurebreadDragon), [Jane Ran](https://github.com/jran26), [Zinal Patel](https://github.com/midgetdemon)  
+Team Name: Lembirdox
 
 ## Project Description
-We are making a text-based dungeon crawling RPG. The player will experience a story plot and various events/chance encounters while passing through game 'floors' that are individually themed and populated. On each floor the player will be presented with different content relating to the theme of the current floor while pathing towards the end of their journey. 
+We are making a text-based dungeon crawling RPG. The player will experience a simple storyline and various randomly-determined events and encounters. Every in-game quest will be individually themed and populated, allowing for each one to be unique. In each random occurrence, the player will be presented with different options relating to the content of the current scenario while progressing towards the end of their journey. 
 * Why is it important or interesting to you?  
 We are all epic gamers who appreciate gaming--and as epic gamers, we must make an epic game for this project while enjoying the experience of making it. This project proposal gives us the most creative freedom in story and design and allows us to both utilize and expand on our understanding of C++. 
 * What languages/tools/technologies do you plan to use? (This list may change over the course of the project)  
-C++, nothing else planned at the moment  
+C++ is the only confirmed tool we will be using. We have discussed utilizing graphic design tools at a future point of the project, but we are keeping that ace tucked into our sleeves for now.  
 * What will be the input/output of your project?  
 The player will interact with the game through console/text inputs and the game will output a text description of the result of the player's actions along with their options for what to do next. If time permits, we may upgrade it to display images or simple animations.  
 * What are the two design patterns you will be using? For each design pattern you must explain in 4-5 sentences:  
 
-Composite and decorator. For the composite pattern:  
+We will be using Composite and Decorator. For the composite pattern:  
    * Why you picked this pattern and what feature you will implement with it  
    We selected Composite for easier implementation of similar objects (making enemy types that derive from a generic Enemy class, for example, and having all things in the game be Entity class objects).  
    * What problem you anticipate encountering when implementing your project that you will solve using the design pattern  
