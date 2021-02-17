@@ -31,9 +31,6 @@ For the decorator pattern:
 
 ## Design Documents
 
-Kanban board link:
-https://trello.com/b/lte2wMLH/text-rpg-cs-100
-
 Class diagram:
 (link goes here)
 
