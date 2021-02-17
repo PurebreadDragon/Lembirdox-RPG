@@ -35,6 +35,8 @@ https://trello.com/b/lte2wMLH/text-rpg-cs-100
 
 Class diagram:
 (link goes here)
+
+This diagram shows the structure of our program. Room and Entity are abstract classes that contain information that each room and entity would need. Players and enemies extend from the Entity class while combat and interaction rooms derive from the Room class. Map contains a vector of Room classes and some global information. 
  
  > ## Phase III
  > You will need to schedule a check-in with the TA (during lab hours or office hours). Your entire team must be present. 
