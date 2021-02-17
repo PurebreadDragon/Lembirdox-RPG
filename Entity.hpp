@@ -6,7 +6,7 @@
 
 class Entity{
 private:
-    string name;
+    std::string name;
 public:
     virtual ~Entity() = default;
 };
