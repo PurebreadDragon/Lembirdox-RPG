@@ -5,6 +5,6 @@
 
 class Room{
     virtual void interact(Entity e) const = 0;
-}
+};
 
 #endif
