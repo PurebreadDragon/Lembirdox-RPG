@@ -13,5 +13,7 @@ int main(){
     Item* stick = new Item("large stick", "it's a stick");
     stick->inspect();
 
+    Entity* joe = new Entity("joe", "average joe");
+    joe->inspect();
     return 0;
 }

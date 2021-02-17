@@ -17,7 +17,7 @@ public:
     }
 
     void inspect(){
-        std::cout << "=====" << name << "=====\n" << description << "\n=====================";
+        std::cout << "=====" << name << "=====\n" << description << "\n=====================\n";
     }
 
     // implement ability if needed
