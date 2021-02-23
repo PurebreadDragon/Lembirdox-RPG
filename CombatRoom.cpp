@@ -44,7 +44,7 @@ class CombatRoom : public Room{
     */
     void printTurnBar(){
         std::cout << "NAME\t\t00%-----25%-----50%-----75%-----100%\n"
-        "\t\t[|       |       |       |       |]\n";
+                         "\t\t[|       |       |       |       |]\n";
         for (int i = 0; i < entities.size(); i++){
             for (int i = 0; i < turnBar[i] / TURN_BAR_LENGTH; ++i) std::cout << "-";
             std::cout << "o";
@@ -55,7 +55,7 @@ class CombatRoom : public Room{
 
     /*
     addEntity: This method adds an entity to the room. Use this to populate a combat room with enemies. 
-    It pushes back a 0 to represent that unit's turn bar. 
+    It pushes back a 0 into the turnBar vector to represent that unit's turn bar. 
     args: e (the enemy to be added)
     outputs: none
     */
@@ -71,12 +71,14 @@ class CombatRoom : public Room{
     outputs: none
     */
     void updateTurn(){
-        /* CURRENTLY INCORRECT */
-        /*for (int i = 0; i < entities.size(); ++i){
-            turnBar[i] += entities[i].getSpeed();
-            if (turnBar[i] >= 1000){
-                turnBar[i] = 0;
-                break;
+        /*bool reachedEnd = false;
+        while (!reachedEnd){
+            for (int i = 0; i < entities.size(); ++i){
+                turnBar[i] += entities[i].getSpeed();
+                if (turnBar[i] >= 1000){
+                    turnBar[i] = 0;
+                    reachedEnd = true;
+                }
             }
         }*/
     }
