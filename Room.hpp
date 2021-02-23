@@ -35,6 +35,16 @@ public:
     }
 
     /*
+    getName: gets the name
+    Used for printing exits usually
+    args: none
+    outputs: a std::string containing the name
+    */
+    std::string getName(){
+        return name;
+    }
+
+    /*
     interact(): this method is called whenever the user wants to interact with the room. Should be called during normal traversal
     Redefine this method in child classes as they have unique functionality. 
     args: none
@@ -49,7 +59,7 @@ public:
     args: r (the room to be added)
     outputs: none
     */
-    void addExit(Room r){
+    void addExit(Room& r){
         exits.push_back(r);
         exitLabels.push_back(std::to_string(exits.size()));
     }
@@ -59,7 +69,7 @@ public:
     args: r (the room to be added), l (the label for the exit)
     outputs: none
     */
-    void addExit(Room r, std::string l){
+    void addExit(Room& r, std::string l){
         exits.push_back(r);
         exitLabels.push_back(l);
     }
@@ -84,6 +94,18 @@ public:
     */
     void printDescription(){
         std::cout << description << "\n";
+    }
+
+    /*
+    printExits: this method prints out all available exits and their names.
+    args: none
+    outputs: none
+    */
+    void printExits(){
+        std::cout << "Available exits: \n";
+        for (int i = 0; i < exits.size(); ++i){
+            std::cout << exitLabels[i] << ": " << exits[i].getName() << "\n";
+        }
     }
 };
 
