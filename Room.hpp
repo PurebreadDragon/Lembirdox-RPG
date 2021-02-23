@@ -7,7 +7,8 @@
 
 class Room{
 protected:
-    std::string description = "";
+    std::string name;
+    std::string description;
     int weight;
     std::vector<Room> exits;
     std::vector<std::string> exitLabels;
@@ -16,12 +17,31 @@ public:
     virtual ~Room() = default;
 
     /*
+    Constructor
+    args: name (the name of the room), description (the description of the room)
+    */
+    Room(std::string name, std::string description){
+        this->name = name;
+        this->description = description;
+    }
+
+    /*
+    Default constructor
+    Sets fields to empty strings
+    */
+    Room(){
+        name = "";
+        description = "";
+    }
+
+    /*
     interact(): this method is called whenever the user wants to interact with the room. Should be called during normal traversal
+    Redefine this method in child classes as they have unique functionality. 
     args: none
     outputs: none
     */
     void interact(){
-        std::cout << "";
+        printDescription();
     };
 
     /*
@@ -51,7 +71,7 @@ public:
     */
     Room* getExit(std::string input){
         for (int i = 0; i < exitLabels.size(); ++i){
-            if (exitLabels.at(i) == input) return exits.at(i);
+            if (exitLabels.at(i) == input) return &exits[i];
         }
         std::cout << "Invalid exit. Please try again.\n";
         return nullptr;

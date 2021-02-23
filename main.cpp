@@ -7,7 +7,7 @@
 using namespace std;
 
 int main(){
-    Room* tree = new EmptyRoom("theres a tree");
+    Room* tree = new Room("tree room", "theres a tree");
     tree->interact();
 
     Item* stick = new Item("large stick", "it's a stick");
