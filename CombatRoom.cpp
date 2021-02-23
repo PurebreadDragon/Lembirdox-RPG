@@ -11,12 +11,12 @@ class CombatRoom : public Room{
     std::vector<Entity> entities;
     std::vector<int> turnBar;
 
-    /*
-    interact: Combat method. 
-    This is where combat is handled. more details to come when entity is finished
-    args: none
-    outputs: none
-    */
+    /**
+     * interact: Combat method. 
+     * This is where combat is handled. more details to come when entity is finished
+     * args: none
+     * outputs: none
+     * */
     void interact(){
         // Print out the description and begin combat.
         printDescription();
@@ -37,11 +37,11 @@ class CombatRoom : public Room{
             // execute the action.
     }
 
-    /*
-    printTurnBar: Prints out the current state of the turn bar and all entities' position on the turn bar. 
-    args: none
-    outputs: none
-    */
+    /**
+     * printTurnBar: Prints out the current state of the turn bar and all entities' position on the turn bar. 
+     * args: none
+     * outputs: none
+     * */
     void printTurnBar(){
         std::cout << "NAME\t\t00%-----25%-----50%-----75%-----100%\n"
                          "\t\t[|       |       |       |       |]\n";
@@ -53,23 +53,23 @@ class CombatRoom : public Room{
         }
     }
 
-    /*
-    addEntity: This method adds an entity to the room. Use this to populate a combat room with enemies. 
-    It pushes back a 0 into the turnBar vector to represent that unit's turn bar. 
-    args: e (the enemy to be added)
-    outputs: none
-    */
+    /**
+     * addEntity: This method adds an entity to the room. Use this to populate a combat room with enemies. 
+     * It pushes back a 0 into the turnBar vector to represent that unit's turn bar. 
+     * args: e (the enemy to be added)
+     * outputs: none
+     * */
     void addEntity(Enemy& e){
         entities.push_back(e);
         turnBar.push_back(0);
     }
 
-    /*
-    updateTurn: This method updates the action bars of all entities currently engaged in combat until one of them reaches 100% turn bar. 
-    100% turn bar is denoted by an integer value.
-    args: none
-    outputs: none
-    */
+    /**
+     * updateTurn: This method updates the action bars of all entities currently engaged in combat until one of them reaches 100% turn bar. 
+     * 100% turn bar is denoted by an integer value.
+     * args: none
+     * outputs: none
+     * */
     void updateTurn(){
         /*bool reachedEnd = false;
         while (!reachedEnd){
@@ -83,16 +83,16 @@ class CombatRoom : public Room{
         }*/
     }
 
-    /*
-    combatOver: checks if combat is done
-    Goes through all entities and checks if their health is higher than zero. 
-    args: none
-    outputs: 
-    */
+    /**
+     * combatOver: checks if combat is done
+     * Goes through all entities and checks if their health is higher than zero. 
+     * *** PROBABLY NEEDS MORE IMPLEMENTATION ***
+     * args: none
+     * outputs: 
+     * */
     bool combatOver(){
         /*bool over = true;
 
-        
         for (const auto& entity : entities){
             if (entities.getHealth() > 0) over = false;
         }
