@@ -38,7 +38,8 @@ public:
     outputs: none
     */
     void addExit(Room r, std::string l){
-
+        exits.push_back(r);
+        exitLabels.push_back(l);
     }
 
     /*
