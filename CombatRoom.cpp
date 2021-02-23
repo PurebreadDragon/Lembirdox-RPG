@@ -30,6 +30,10 @@ public:
         // Turn bar display
         printTurnBar();
 
+        // std::cout << "Calculating next turn\n";
+        // updateTurn();
+        // printTurnBar();
+
         // Pseudocode:
         // while (all enemies or players are alive)
             // while (it's not the player's turn)
@@ -84,7 +88,10 @@ public:
         while (!reachedEnd){
             for (int i = 0; i < entities.size(); ++i){
                 turnBar[i] += entities[i].getSpeed();
-                if (turnBar[i] >= MAX_TURN_BAR) reachedEnd = true;
+                if (turnBar[i] >= MAX_TURN_BAR){
+                    turnBar[i] = 1000;
+                    reachedEnd = true;
+                }
             }
         }
     }

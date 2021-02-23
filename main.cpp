@@ -32,9 +32,12 @@ int main(){
     Entity jill("Jill", "Joe's friend Jill", 150, 5, 5, 50, 50, 80);
     jill.inspect();
 
-    CombatRoom arena("arena", "You're standing in a large open arena. Two enemies stand across from you.");
+    Entity rat("Big rat", "Oh shit a rat", 20, 20, 5, 0, 5, 133);
+
+    CombatRoom arena("arena", "You're standing in a large open arena. There's a big fuckin rat");
     arena.addEntity(joe);
     arena.addEntity(jill);
+    arena.addEntity(rat);
     arena.interact();
     return 0;
 }
