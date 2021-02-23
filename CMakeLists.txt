@@ -8,6 +8,10 @@ ADD_EXECUTABLE(test
 ./tests/test.cpp
 )
 
+ADD_EXECUTABLE(main
+main.cpp
+)
+
 TARGET_LINK_LIBRARIES(test gtest)
 TARGET_COMPILE_DEFINITIONS(test PRIVATE gtest_disable_pthreads=ON)
 
