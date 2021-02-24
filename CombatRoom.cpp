@@ -30,9 +30,9 @@ public:
         // Turn bar display
         printTurnBar();
 
-        std::cout << "Calculating next turn\n";
-        updateTurn();
-        printTurnBar();
+        // std::cout << "Calculating next turn\n";
+        // updateTurn();
+        // printTurnBar();
 
         // Pseudocode:
         // while (all enemies or players are alive)
@@ -45,8 +45,6 @@ public:
             // prompt the player for their action
             // prompt the player for their target
             // execute the action.
-
-
     }
 
     /**
@@ -105,13 +103,12 @@ public:
      * outputs: 
      * */
     bool combatOver(){
-        /*bool over = true;
+        bool over = true;
 
-        for (const auto& entity : entities){
-            if (entities.getHealth() > 0) over = false;
+        for (auto entity : entities){
+            if (entity.getCurrentHealth() > 0) over = false;
         }
 
-        return over;*/
-        return false;
+        return over;
     }
 };
