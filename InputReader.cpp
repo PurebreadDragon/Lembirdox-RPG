@@ -36,7 +36,7 @@ public:
     /**
      * This is a version of the above readInput that takes in a vector instead.
      * */
-    std::string readInput(std::vector<string> choices){
+    std::string readInput(std::vector<std::string> choices){
         std::string input;
         bool valid = false;
 
