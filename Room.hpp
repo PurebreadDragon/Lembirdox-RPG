@@ -23,6 +23,7 @@ public:
     Room(std::string name, std::string description){
         this->name = name;
         this->description = description;
+        weight = 0;
     }
 
     /**
@@ -32,6 +33,7 @@ public:
     Room(){
         name = "";
         description = "";
+        weight = 0;
     }
 
     /**
@@ -82,6 +84,17 @@ public:
     Room* getExit(std::string input){
         for (int i = 0; i < exitLabels.size(); ++i){
             if (exitLabels.at(i) == input) return &exits[i];
+        }
+        std::cout << "Invalid exit. Please try again.\n";
+        return nullptr;
+    }
+
+    /**
+     * This is an integer version of the above getExit. 
+     * */
+    Room* getExit(int input){
+        for (int i = 0; i < exitLabels.size(); ++i){
+            if (std::stoi(exitLabels.at(i)) == input) return &exits[i];
         }
         std::cout << "Invalid exit. Please try again.\n";
         return nullptr;
