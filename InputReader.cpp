@@ -13,7 +13,7 @@ public:
      * args: int choices[] (an array containing the valid choices, ordered numerically)
      * outputs: the user's selection
      * */
-    int readInput(int choices[]){
+    int readInput(int choices[], int numChoices){
         std::string input;
         bool valid = false;
 
@@ -22,7 +22,7 @@ public:
             
             if (!isNumber(input)) std::cout << INVALID_MSG;
             else{
-                for (int i = 0; i < sizeof(choices); ++i){
+                for (int i = 0; i < numChoices; ++i){
                     if (std::stoi(input) == choices[i]) valid = true;
                 }
             }
