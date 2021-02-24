@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #include "Room.hpp"
-#include "EmptyRoom.cpp"
 #include "CombatRoom.cpp"
 #include "Item.hpp"
 
