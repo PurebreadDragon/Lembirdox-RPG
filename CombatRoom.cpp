@@ -39,7 +39,7 @@ public:
             // while (it's not the player's turn)
                 // updateTurn();
                 // printTurnBar();
-                // current entity takes their action. 
+                // all entities that are at or above 100% turn bar take their action. 
             // now it's the player's turn. 
             // print out all the player's options
             // prompt the player for their action
