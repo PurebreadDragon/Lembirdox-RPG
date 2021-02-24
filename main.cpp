@@ -4,6 +4,7 @@
 #include "EmptyRoom.cpp"
 #include "CombatRoom.cpp"
 #include "Item.hpp"
+#include "Town.hpp"
 
 using namespace std;
 
@@ -26,7 +27,7 @@ int main(){
     // Item stick("large stick", "it's a stick");
     // stick.inspect();
 
-    Entity joe("Joe", "It's an average joe.", 200, 50, 30, 5, 30, 100);
+ /* Entity joe("Joe", "It's an average joe.", 200, 50, 30, 5, 30, 100);
     joe.inspect();
 
     Entity jill("Jill", "Joe's friend Jill", 150, 5, 5, 50, 50, 80);
@@ -39,5 +40,17 @@ int main(){
     arena.addEntity(jill);
     arena.addEntity(rat);
     arena.interact();
+    // This entire segment is hilarious XD
+    */
+
+
+
+    //Testing out my Town things :) Comment out if you need to.
+    std::cout << "Constructing Town..." << std::endl;
+    Town* testTown = new Town();
+    
+    testTown->RoamTown();
+    //Town stuff ends here.
+
     return 0;
 }
