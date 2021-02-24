@@ -50,6 +50,7 @@ int main(){
     Town* testTown = new Town();
     
     testTown->RoamTown();
+    delete testTown;
     //Town stuff ends here.
 
     return 0;

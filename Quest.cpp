@@ -6,7 +6,7 @@
 class Quest{
 private:
     std::string description;
-    std::vector<Room> map;
+    std::vector<Room*> map;
     Entity* boss;
     unsigned int reward;
 public:
@@ -15,5 +15,11 @@ public:
         reward = r;
         boss = b;
         description = d;
+    }
+    ~Quest() {
+        delete boss;
+        for (unsigned int i = 0; i < map.size(); ++i) {
+            delete map.at(i);
+        }
     }
 };
