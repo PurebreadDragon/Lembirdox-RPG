@@ -3,6 +3,7 @@
 #include "Room.hpp"
 #include "CombatRoom.cpp"
 #include "Item.hpp"
+#include "InputReader.cpp"
 
 using namespace std;
 
@@ -38,5 +39,13 @@ int main(){
     arena.addEntity(jill);
     arena.addEntity(rat);
     arena.interact();
+
+    InputReader reader;
+    std::cout << "You have 3 choices:\n"
+    "1: choice 1\n"
+    "2: choice 2\n"
+    "3: choice 3\n";
+    int choices[]{1, 2, 3};
+    std::cout << "User picked choice " << reader.readInput(choices, 3);
     return 0;
 }
