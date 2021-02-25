@@ -78,11 +78,26 @@ class DullBlade : public Item {
 		speed = 0;
 	}
 
-	void ability () const {
-		std::cout << "You slash forward with your Dull Blade, dealing " << physAtk << " damage.\n";
+	void ability() const {
+		std::cout << "You slash forward with your "<< name << ", dealing " << physAtk << " damage.\n";
 	}
 
 };
+
+class StickWand : public Item {
+	public:
+	StickWand() {
+		this->name = "Ordinary Wand";
+		this->description = "Some say this wand was once touched by a grand sorcerer, who blessed it with magical affinity...or maybe it's just a stick from the pile of kindling used during a magical experiment...";
+		magAtk = 10;
+	}
+
+	void ability() const {
+		std::cout << "You wave your " << name << " while summoning the traces of magical energy within, dealing " << magAtk << " damage.\n";
+	}
+};
+
+class 
 
 class BasicPotion : public Item {
 	protected: 
@@ -112,7 +127,7 @@ class Swifties : public Item {
 	}
 	
 	void ability() const {
-		std::cout << "The " << this->name << " empower your movement.\n";
+		std::cout << "The " << this->name << " empower your movement, increaing your speed by " << speed << " this turn.\n";
 
 
 	}
