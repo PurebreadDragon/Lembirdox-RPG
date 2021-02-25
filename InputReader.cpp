@@ -34,6 +34,26 @@ public:
     }
 
     /**
+     * This is a version of the above readInput that takes in a vector instead.
+     * */
+    std::string readInput(std::vector<std::string> choices){
+        std::string input;
+        bool valid = false;
+
+        while (!valid){
+            std::cin >> input;
+            
+            for (const auto& choice : choices){
+                if (choice == input) valid = true;
+            }
+
+            if (!valid) std::cout << INVALID_MSG;
+        }
+
+        return input;
+    }
+
+    /**
      * isNumber: Checks if a given input string is a valid integer or not. 
      * Does not accept doubles/decimals
      * args: input (the string to check)
