@@ -88,7 +88,7 @@ class StickWand : public Item {
 	public:
 	StickWand() {
 		this->name = "Ordinary Wand";
-		this->description = "Some say this wand was once touched by a grand sorcerer, who blessed it with magical affinity...or maybe it's just a stick from the pile of kindling used during a magical experiment...";
+		this->description = "Some say this wand was once touched by a grand sorcerer, who blessed it with magical affinity...or maybe it's just a stick from the pile of kindling he used...";
 		magAtk = 10;
 	}
 
@@ -97,7 +97,6 @@ class StickWand : public Item {
 	}
 };
 
-class 
 
 class BasicPotion : public Item {
 	protected: 
