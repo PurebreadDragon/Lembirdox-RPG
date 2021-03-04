@@ -3,6 +3,7 @@
 #include "Room.hpp"
 #include "CombatRoom.cpp"
 #include "Item.hpp"
+#include "Town.hpp"
 #include "InputReader.cpp"
 
 using namespace std;
@@ -49,6 +50,22 @@ int main(){
     // arena.addEntity(jill);
     // arena.addEntity(rat);
     // arena.interact();
+
+    // CombatRoom arena("arena", "You're standing in a large open arena. There's a big fuckin rat");
+    // arena.addEntity(joe);
+    // arena.addEntity(jill);
+    // arena.addEntity(rat);
+    // arena.interact();
+
+
+
+    //Testing out my Town things :) Comment out if you need to.
+    std::cout << "Constructing Town..." << std::endl;
+    Town* testTown = new Town();
+    
+    testTown->RoamTown();
+    delete testTown;
+    //Town stuff ends here.
 
     // InputReader reader;
     // std::cout << "You have 3 choices:\n"

@@ -11,7 +11,7 @@ protected:
     int health, maxHealth, physAtk, physDef, magAtk, magDef, speed;
 
 public:
-    Entity(std::string name, std::string description, int maxHealth, int physAtk, int physDef, int magAtk, int magDef, int speed){
+    Entity(std::string name, std::string description, int maxHealth, int physAtk, int physDef, int magAtk, int magDef, int speed) {
         this->name = name;
         this->description = description;
         this->maxHealth = maxHealth;
@@ -21,7 +21,7 @@ public:
         this->magAtk = magAtk;
         this->magDef = magDef;
         this->speed = speed;
-    };
+    }
 
     void inspect(){
         std::cout << name << ": " << description << "\n";
