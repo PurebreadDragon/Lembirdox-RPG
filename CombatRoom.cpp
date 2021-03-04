@@ -39,14 +39,12 @@ public:
             // while (it's not the player's turn)
                 // updateTurn();
                 // printTurnBar();
-                // current entity takes their action. 
+                // all entities that are at or above 100% turn bar take their action. 
             // now it's the player's turn. 
             // print out all the player's options
             // prompt the player for their action
             // prompt the player for their target
             // execute the action.
-
-
     }
 
     /**
@@ -59,9 +57,9 @@ public:
                          "\t\t[        |        |        |        ]\n";
         for (int i = 0; i < entities.size(); i++){
             std::cout << entities[i].getName().substr(0, 8) << " (" << turnBar[i] / 10 << "%)\t[";
-            for (int k = 0; k < floor((double)turnBar[i] / MAX_TURN_BAR * TURN_BAR_LENGTH); ++k) std::cout << "-";
+            for (int k = 0; k < floor((double)std::min(turnBar[i], MAX_TURN_BAR) / MAX_TURN_BAR * TURN_BAR_LENGTH); ++k) std::cout << "-";
             std::cout << "o";
-            for (int k = 0; k < TURN_BAR_LENGTH - floor((double)turnBar[i] / MAX_TURN_BAR * TURN_BAR_LENGTH); ++k) std::cout << "-";
+            for (int k = 0; k < TURN_BAR_LENGTH - floor((double)std::min(turnBar[i], MAX_TURN_BAR) / MAX_TURN_BAR * TURN_BAR_LENGTH); ++k) std::cout << "-";
             std::cout << "]\n";
         }
     }
@@ -84,14 +82,15 @@ public:
      * outputs: none
      * */
     void updateTurn(){
+        // go through and find if someone is above max turn bar. reset them to zero if so
+        for (int i = 0; i < entities.size(); ++i) if (turnBar[i] >= MAX_TURN_BAR) turnBar[i] = 0;
+
+        // loop through all entities and update their turn bars until somebody reaches maximum. 
         bool reachedEnd = false;
         while (!reachedEnd){
             for (int i = 0; i < entities.size(); ++i){
                 turnBar[i] += entities[i].getSpeed();
-                if (turnBar[i] >= MAX_TURN_BAR){
-                    turnBar[i] = 1000;
-                    reachedEnd = true;
-                }
+                if (turnBar[i] >= MAX_TURN_BAR) reachedEnd = true;
             }
         }
     }
@@ -104,13 +103,12 @@ public:
      * outputs: 
      * */
     bool combatOver(){
-        /*bool over = true;
+        bool over = true;
 
-        for (const auto& entity : entities){
-            if (entities.getHealth() > 0) over = false;
+        for (auto entity : entities){
+            if (entity.getCurrentHealth() > 0) over = false;
         }
 
-        return over;*/
-        return false;
+        return over;
     }
 };

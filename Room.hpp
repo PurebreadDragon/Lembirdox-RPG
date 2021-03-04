@@ -10,7 +10,7 @@ protected:
     std::string name;
     std::string description;
     int weight;
-    std::vector<Room> exits;
+    std::vector<Room*> exits;
     std::vector<std::string> exitLabels;
 
 public:
@@ -23,6 +23,7 @@ public:
     Room(std::string name, std::string description){
         this->name = name;
         this->description = description;
+        weight = 0;
     }
 
     /**
@@ -32,6 +33,7 @@ public:
     Room(){
         name = "";
         description = "";
+        weight = 0;
     }
 
     /**
@@ -59,7 +61,7 @@ public:
      * args: r (the room to be added)
      * outputs: none
      * */
-    void addExit(Room& r){
+    void addExit(Room* r){
         exits.push_back(r);
         exitLabels.push_back(std::to_string(exits.size()));
     }
@@ -69,7 +71,7 @@ public:
      * args: r (the room to be added), l (the label for the exit)
      * outputs: none
      * */
-    void addExit(Room& r, std::string l){
+    void addExit(Room* r, std::string l){
         exits.push_back(r);
         exitLabels.push_back(l);
     }
@@ -79,12 +81,23 @@ public:
      * args: input (the label for the room we want to search for)
      * outputs: the desired room. Returns nullptr if nothing is found
      * */
-    Room* getExit(std::string input){
+    Room& getExit(std::string input){
         for (int i = 0; i < exitLabels.size(); ++i){
-            if (exitLabels.at(i) == input) return &exits[i];
+            if (exitLabels[i] == input) return *exits[i];
+        }
+        std::cout << "Invalid exit. Please try again.\n"; //theoretically you should never reach this
+        //return NULL;
+    }
+
+    /**
+     * This is an integer version of the above getExit. 
+     * */
+    Room& getExit(int input){
+        for (int i = 0; i < exitLabels.size(); ++i){
+            if (std::stoi(exitLabels[i]) == input) return *exits[i];
         }
         std::cout << "Invalid exit. Please try again.\n";
-        return nullptr;
+        //return NULL;
     }
 
     /**
@@ -104,8 +117,17 @@ public:
     void printExits(){
         std::cout << "Available exits: \n";
         for (int i = 0; i < exits.size(); ++i){
-            std::cout << exitLabels[i] << ": " << exits[i].getName() << "\n";
+            std::cout << exitLabels[i] << ": " << exits[i]->getName() << "\n";
         }
+    }
+
+    /**
+     * getExitLabels: this method returns a vector containing all the exit labels. 
+     * args: none
+     * outputs: a std::vector<string> with all exit labels
+     * */
+    std::vector<std::string> getExitLabels(){
+        return exitLabels;
     }
 };
 
