@@ -1,3 +1,6 @@
+#ifndef __INPUT_READER__
+#define __INPUT_READER__
+
 #include <iostream>
 #include <istream>
 #include <string>
@@ -67,3 +70,5 @@ public:
         return true;
     }
 };
+
+#endif

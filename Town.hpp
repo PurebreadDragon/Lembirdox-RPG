@@ -3,6 +3,7 @@
 
 #include "Quest.cpp"
 #include "Entity.hpp"
+#include "InputReader.cpp"
 
 #include <string>
 
