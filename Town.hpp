@@ -3,6 +3,7 @@
 
 #include "Quest.cpp"
 #include "Entity.hpp"
+#include "InputReader.cpp"
 
 #include <string>
 
@@ -27,7 +28,6 @@ struct QuestStub {
 class Town {
 private:
    //unsigned int condition; //Future project for expansion
-   unsigned int clinicPrice;
    QuestStub* q1;
    QuestStub* q2;
    Quest* nextQuest;
@@ -38,23 +38,20 @@ private:
 //Displays the Inn and manages quest selection
    void Inn() {
       if (nextQuest == nullptr) {
-         std::cout << "\n\nYou enter the Inn and rush to the Quest Board."; //May make this more flavorful later.
+         InputReader* read = new InputReader("Invalid response, please press the number of the quest you want to accept. ");
+         std::cout << "\nYou enter the Inn and rush to the Quest Board.\n"; //May make this more flavorful later.
          displayBoard();
 
-         int qSelect;
-         std::cin >> qSelect;
+         int choices[2] = {1, 2};
+         int qSelect = read->readInput(choices, 2);
+         delete read;
 
-         while (qSelect != 1 && qSelect != 2) {
-            std::cout << "Invalid response, please try again: ";
-            std::cin >> qSelect;
-         }
-
-         if (qSelect == 1) { generate(q1); delete q2; }
-         else { generate(q2); delete q1; }
+         if (qSelect == 1) { generate(q1); }
+         else { generate(q2); }
       }
 
       else { //a quest has already been selected
-         std::cout << "You enter the Inn... and remember that you already have a quest!";
+         std::cout << "\nYou enter the Inn... and remember that you already have a quest!\n";
       }
    }
 
@@ -62,7 +59,7 @@ private:
 
 //Displays the Store and manages purchases
    void Store() { //TODO: Implement store once Items are added
-      std::cout << "You enter the Store... " //Will make this flavorful later as well...
+      std::cout << "\nYou enter the Store... " //Will make this flavorful later as well...
                 << "\n...and are promptly shooed out!"
                 << "\n\"Sorry, sorry! We aren't open yet, come back later!" << std::endl;
    }
@@ -71,10 +68,10 @@ private:
 
 //Displays the Clinic and manages revivals
    void Clinic() { //TODO: Finish implementing this once party is added
-      int choice = -1;
-      std::cout << "\n\nYou walk into the Clinic and are greeted by the Healer." //Will make this flavorful too~
+      std::cout << "\nYou walk into the Clinic and are greeted by the Healer."
                 << "\n\"Welcome, travelers, I hope you are faring well...\"";
       int deceased = 0; //FIXME: (number of dead characters in the party);
+
       switch (deceased) {
          case 0:
             std::cout << "\nThe Healer gives you a warm smile."
@@ -94,22 +91,24 @@ private:
             break;
       }
 
-      while (choice != 0) {
+      InputReader* read = new InputReader();
+      int choices[2] = {0,1};
+      int select = -1;
+      while (select != 0) {
          std::cout << std::endl;
          if (deceased != 0) { 
             std::cout << "\nReviving your party will cost " << RevCost(deceased) << " gold.";
          }
          std::cout << "\n1.\tRevive the Party"
                    << "\n0.\tReturn to Town" << std::endl;
-         std::cin >> choice;
-         
-         if (choice == 1) { Revive(deceased); }
+         select = read->readInput(choices,2);
+         if (select == 1) { Revive(deceased); }
       }
    }
 
 //Revives characters and subtracts the cost
    void Revive(int deceased) {
-      if (deceased == 0) { std::cout << "\nNobody is in need of revival!\n"; }
+      if (deceased == 0) { std::cout << "\nNobody is in need of revival!"; }
       else {
       /* for (each character in party) {
             if (character health = 0) { character health = 1; }
@@ -125,13 +124,13 @@ private:
 
 //Displays the quest board
    void displayBoard() {
-      std::cout << "\n\t---------- QUEST BOARD ----------"
+      std::cout << "\n ----------------- QUEST BOARD -----------------"
                 << "\n1.\t" << q1->task << q1->boss->getName() << "!"
                 << "\n\tReward: " << q1->reward << " gold\n"
                 << "\n2.\t" << q2->task << q2->boss->getName() << "!"
-                << "\n\tReward: " << q2->reward << " gold\n"
-                << "Press the corresponding key to accept that quest."
-                << "\n\t---------------------------------" << std::endl;
+                << "\n\tReward: " << q2->reward << " gold"
+                << "\n -----------------------------------------------"
+                << "\nPress the corresponding number to accept that quest." << std::endl;
    }
 
 
@@ -140,7 +139,6 @@ private:
    Quest* generate(QuestStub* q) {
       nextQuest = new Quest(q->reward, q->boss, q->task);
       q->boss = nullptr; //q->boss passed into quest, must not be deleted!
-      delete q;
    }
 
 
@@ -159,34 +157,35 @@ private:
 public:
    Town() {
       //condition = (rand() % 100) + 1;
-      clinicPrice = 100; //testing value... to be implemented further
+      //TODO: Implement "randomness". q1B, q2B, q1, q2 should be randomized on each creation of Town.
       Entity* q1B = new Entity("Awkward Avocado", "We'd put a description but it'd be awkward", 1, 1, 1, 1, 1, 1);
       Entity* q2B = new Entity("Monopoly Man", "The mustachioed menace himself", 9, 9, 9, 9, 9, 9);
       q1 = new QuestStub(100, q1B, "Please save my kitten from the ");
       q2 = new QuestStub(9000, q2B, "Help! I'm being held at gunpoint by ");
-      q1B = nullptr;
-      q2B = nullptr;
       nextQuest = nullptr;
       description = "You are in town."; //testing value, tbif.
    }
 
    ~Town() {
-      delete q1;
-      delete q2;
-      delete nextQuest;
+      if (q1 != nullptr) { delete q1; }
+      if (q2 != nullptr) { delete q2; }
+      nextQuest = nullptr; //cannot be deleted, quest is needed. Delete quest directly instead
    }
 
 
-
-   unsigned int RoamTown() { //Master function that manages all of the town
-      int choice = -1;
+   //Master quest that manages all of the town. Accepts no arguments and returns the Quest to be started.
+   Quest* RoamTown() {
       bool questStarted = false;
+      InputReader* read = new InputReader();
+      int choices[5] = {0,1,2,3,4};
+      int select = -1;
 
-      std::cout << description << std::endl;
-      while (choice != 0 && !questStarted) {
+      while (select != 0 && !questStarted) {
+         std::cout << std::endl << description << std::endl;
          displayMenu();
-         std::cin >> choice;
-         switch(choice) {
+         
+         select = read->readInput(choices,5);
+         switch(select) {
             case 0:
                std::cout << "Save and quit has been called!" << std::endl; //TODO: Add save and exit routine!
                break;
@@ -195,18 +194,18 @@ public:
             case 3: Clinic(); break;
             case 4:
                if (nextQuest == nullptr) {
-                  std::cout << "You don't have a quest to embark on!\n"
+                  std::cout << "\nYou don't have a quest to embark on!\n"
                             << "Head to the Inn first." << std::endl;
                }
                else {
-                  std::cout << "nextQuest should be started now!\n";
+                  //std::cout << "nextQuest should be started now!\n"; //testing statement
                   questStarted = true; 
                }
                break;
-            default:
-               std::cout << "Invalid response, please try again:\n";
          }
       }
+      delete read;
+      return nextQuest;
    }
 
 };
