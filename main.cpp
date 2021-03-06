@@ -1,5 +1,12 @@
+/*	 _    ___  __ __  __   _  ___  __   ___ __  __
+ *	| |  | __||  |  || _\ | || _ ||  \ |   |\ \/ /
+ *	| |_ | _| | |_| || _ || ||  | | | || | | |  |
+ *	|___||___||_| |_||___||_||_|_||__/ |___|/_/\_\
+ */
+
 #include <iostream>
 #include <string>
+
 #include "Room.hpp"
 #include "CombatRoom.cpp"
 #include "Item.hpp"
@@ -9,7 +16,41 @@
 using namespace std;
 
 int main(){
-    Room *currentRoom; // master variable that tracks where we are
+  /* This is a draft of how the game will be expected to proceed.
+   * 	If you have questions, ask the discord :)
+   * 	If you have ideas, by all means, write them in <3
+   * Upon starting the program, the main menu should open.
+   * 	The New Game option will be available.
+   * 	If there is a save file, the Continue option will be available.
+   * 	The High Scores option will be available :: IDEA FOR EXPANSION
+   * 	The Quit option will be available.
+   * Upon pressing Continue, the game will load the current town from the available file.
+   * Upon pressing New Game, the game will prompt the user to create the adventuring party.
+   * 	The party can include up to (4?) characters.
+   * 	Each character can be named.
+   * 	Each character's class can be chosen.
+   * 	After the party is created, the first Town is made.
+   * Town is the "management" part of the game.
+   * 	The Inn (Quest Board) option will be available.
+   * 	The Store option will be available.
+   * 	  - Items can be bought or sold to and from character's inventories.
+   * 	The Clinic option will be available.
+   * 	  - Characters at 0 HP can be brought back to life for a price.
+   * 	The Embark option is only available after a Quest has been accepted.
+   * 	  - This will move the player into the quest and delete the town.
+   * 	The Save and Quit option will be available.
+   * 	  - This will save:
+   * 	      - the adventuring party (levels, names, inventories, classes)
+   *          - the current Town (quest stubs, store inventory)
+   *          - everything will be saved to its own file (name to be determined), overwriting contents
+   *      - This will erase all currently allocated memory (memcheck-clean!)
+   *      - and then will then close the game.
+   * Questing is the "gameplay" part of the game.
+   * 	I have no idea how the quests work lol
+   * 	Upon finishing the quest, a new Town is made.
+   */
+
+  /*Room *currentRoom; // master variable that tracks where we are
     InputReader reader; // helper class that handles read/write
 
     // build some room objects
@@ -21,7 +62,7 @@ int main(){
     Room *cave = new Room("cave", "You proceed deeper into the cave. Placeholder description");
     tree->addExit(cave);
     pool->addExit(tree);
-    cave->addExit(tree);
+    cave->addExit(tree); */
 
     // update the current room
     // currentRoom = tree;

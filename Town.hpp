@@ -39,19 +39,16 @@ private:
 //Displays the Inn and manages quest selection
    void Inn() {
       if (nextQuest == nullptr) {
+         InputReader* read = new InputReader("Invalid response, press the number of the task you want to accept.");
          std::cout << "\n\nYou enter the Inn and rush to the Quest Board."; //May make this more flavorful later.
          displayBoard();
 
-         int qSelect;
-         std::cin >> qSelect;
+         int choices[2] = {1, 2};
+         int qSelect = read->readInput(choices, 2);
+         delete read;
 
-         while (qSelect != 1 && qSelect != 2) {
-            std::cout << "Invalid response, please try again: ";
-            std::cin >> qSelect;
-         }
-
-         if (qSelect == 1) { generate(q1); delete q2; }
-         else { generate(q2); delete q1; }
+         if (qSelect == 1) { generate(q1); /*delete q2;*/ }
+         else { generate(q2); /*delete q1;*/ }
       }
 
       else { //a quest has already been selected
@@ -131,7 +128,7 @@ private:
                 << "\n\tReward: " << q1->reward << " gold\n"
                 << "\n2.\t" << q2->task << q2->boss->getName() << "!"
                 << "\n\tReward: " << q2->reward << " gold\n"
-                << "Press the corresponding key to accept that quest."
+                << "Press the corresponding number to accept that quest."
                 << "\n\t---------------------------------" << std::endl;
    }
 
@@ -160,20 +157,18 @@ private:
 public:
    Town() {
       //condition = (rand() % 100) + 1;
-      clinicPrice = 100; //testing value... to be implemented further
+      //TODO: Implement "randomness". q1B, q2B, q1, q2 should be randomized on each creation of Town.
       Entity* q1B = new Entity("Awkward Avocado", "We'd put a description but it'd be awkward", 1, 1, 1, 1, 1, 1);
       Entity* q2B = new Entity("Monopoly Man", "The mustachioed menace himself", 9, 9, 9, 9, 9, 9);
       q1 = new QuestStub(100, q1B, "Please save my kitten from the ");
       q2 = new QuestStub(9000, q2B, "Help! I'm being held at gunpoint by ");
-      q1B = nullptr;
-      q2B = nullptr;
       nextQuest = nullptr;
       description = "You are in town."; //testing value, tbif.
    }
 
    ~Town() {
-      delete q1;
-      delete q2;
+      if (q1 != nullptr) { delete q1; }
+      if (q2 != nullptr) { delete q2; }
       delete nextQuest;
    }
 
