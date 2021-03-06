@@ -26,8 +26,7 @@ public:
         while (!valid){
             std::cin >> input;
             
-            if (!isNumber(input)) std::cout << message;
-            else{
+            if (isNumber(input)) {
                 for (int i = 0; i < numChoices; ++i){
                     if (std::stoi(input) == choices[i]) valid = true;
                 }

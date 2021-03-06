@@ -15,40 +15,50 @@
 
 using namespace std;
 
-int main(){
   /* This is a draft of how the game will be expected to proceed.
-   * 	If you have questions, ask the discord :)
-   * 	If you have ideas, by all means, write them in <3
+   *  - If you have questions, ask the discord :)
+   *  - If you have ideas, by all means, write them in <3
+   *
    * Upon starting the program, the main menu should open.
-   * 	The New Game option will be available.
-   * 	If there is a save file, the Continue option will be available.
-   * 	The High Scores option will be available :: IDEA FOR EXPANSION
-   * 	The Quit option will be available.
+   *  - The New Game option will be available.
+   *  - If there is a save file, the Continue option will be available.
+   *  - The High Scores option will be available :: IDEA FOR EXPANSION
+   *  - The Quit option will be available.
+   *
    * Upon pressing Continue, the game will load the current town from the available file.
    * Upon pressing New Game, the game will prompt the user to create the adventuring party.
-   * 	The party can include up to (4?) characters.
-   * 	Each character can be named.
-   * 	Each character's class can be chosen.
-   * 	After the party is created, the first Town is made.
+   *  - The party can include up to (4?) characters.
+   *  - Each character can be named.
+   *  - Each character's class can be chosen.
+   *  - After the party is created, the first Town is made.
+   * 
    * Town is the "management" part of the game.
-   * 	The Inn (Quest Board) option will be available.
-   * 	The Store option will be available.
+   *  - The Inn (Quest Board) option will be available.
+   *  - The Store option will be available.
    * 	  - Items can be bought or sold to and from character's inventories.
-   * 	The Clinic option will be available.
+   *  - The Clinic option will be available.
    * 	  - Characters at 0 HP can be brought back to life for a price.
-   * 	The Embark option is only available after a Quest has been accepted.
+   *  - The Embark option is only available after a Quest has been accepted.
    * 	  - This will move the player into the quest and delete the town.
-   * 	The Save and Quit option will be available.
+   *  - The Save and Quit option will be available.
    * 	  - This will save:
    * 	      - the adventuring party (levels, names, inventories, classes)
    *          - the current Town (quest stubs, store inventory)
    *          - everything will be saved to its own file (name to be determined), overwriting contents
    *      - This will erase all currently allocated memory (memcheck-clean!)
    *      - and then will then close the game.
+   * 
    * Questing is the "gameplay" part of the game.
-   * 	I have no idea how the quests work lol
-   * 	Upon finishing the quest, a new Town is made.
+   *  - I have no idea how the quests work lol
+   *  - Upon finishing the quest, a new Town is made.
    */
+
+int main() {
+// rough draft of final project, feel free to add to it! Add your tests below this section please.
+    
+
+
+// ALL PERSONAL TESTING STUFFS SHOULD BE IMPLEMENTED BELOW THIS LINE
 
   /*Room *currentRoom; // master variable that tracks where we are
     InputReader reader; // helper class that handles read/write
@@ -101,11 +111,12 @@ int main(){
 
 
     //Testing out my Town things :) Comment out if you need to.
-    std::cout << "Constructing Town..." << std::endl;
     Town* testTown = new Town();
-    
-    testTown->RoamTown();
+    Quest* currentQuest = testTown->RoamTown();
     delete testTown;
+    currentQuest->showQuestContent();
+    std::cout << "done displaying content!\n";
+    delete currentQuest;
     //Town stuff ends here.
 
     // InputReader reader;
