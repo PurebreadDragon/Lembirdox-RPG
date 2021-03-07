@@ -12,7 +12,7 @@ class Adventurer : public Entity
 		void setLevel(int); 
 		int getLevel() const; 
 	private:
-		int level; 
+		int level, experience; 
 }; 
 
 #endif 

@@ -9,7 +9,7 @@ protected:
     std::string name;
     std::string description;
 	int health, physAtk, physDef, magAtk, magDef, speed;
-
+    bool consumable;
 
 public:
     Item(){
@@ -21,13 +21,14 @@ public:
 		magAtk = 0;
 		magDef = 0;
 		speed = 0;
+        consumable = false;
     }
 
     void inspect(){
         std::cout << "=====" << name << "=====\n" << description << "\n=====================\n";
     }
 
-	virtual void ability() const = 0;
+	virtual void ability(Entity* user, Entity* target) const = 0;
 
 	int gethealthval() {
 		return health;
@@ -78,8 +79,9 @@ class DullBlade : public Item {
 		speed = 0;
 	}
 
-	void ability() const {
-		std::cout << "You slash forward with your "<< name << ", dealing " << physAtk << " damage.\n";
+	void ability(Entity* user, Entity* target) const {
+		std::cout << "You slash forward with your "<< name << ", dealing " 
+        << target->dealPDamage(user->getPAtk() * 1.2) << " damage.\n";
 	}
 
 };
@@ -92,8 +94,9 @@ class StickWand : public Item {
 		magAtk = 10;
 	}
 
-	void ability() const {
-		std::cout << "You wave your " << name << " while summoning the traces of magical energy within, dealing " << magAtk << " damage.\n";
+	void ability(Entity* user, Entity* target) const {
+		std::cout << "You wave your " << name << " while summoning the traces of magical energy within, dealing " 
+        << target->dealMDamage(user->getMAtk() * 1.2) << " damage.\n";
 	}
 };
 
@@ -107,7 +110,7 @@ class BasicPotion : public Item {
 		this->name = "Basic Potion";
 		this->description = "A concoction of herbs and magical essence. It carries the soothing scent of medicinal plants. Surely, this would heal a couple of scratches.\n";
 		healstrength = 20;
-
+        consumable = true;
 	}
 
 	void ability() const {

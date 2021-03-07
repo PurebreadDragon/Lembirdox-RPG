@@ -44,10 +44,6 @@ public:
         "Magical ATK/DEF: \t" << magAtk << "/" << magDef << "\n"
         "Speed: \t\t\t" << speed << "\n";
     }
-	
-    void affectHealth(int damage){
-        health -= damage; 
-    }
 
     bool isAlive() const{
 	    return health > 0; 
@@ -110,16 +106,19 @@ public:
      * Int return value is for displaying feedback e.g. "Enemy deals " << dealPDamage(5) << " damage." 
      * */
     int dealPDamage(int damage){
-        health -= std::max(damage - physDef, 0);
-        return std::max(damage - physDef, 0);
+        health -= std::max(damage * (1 - physDef / (physDef + 100)), 0);
+        return std::max(damage * (1 - physDef / (physDef + 100)), 0);
     }
 
     int dealMDamage(int damage){
-        health -= std::max(damage - magDef, 0);
-        return std::max(damage - magDef, 0);
+        health -= std::max(damage * (1 - magDef / (magDef + 100)), 0);
+        return std::max(damage * (1 - magDef / (magDef + 100), 0);
     }
 
-
+    void heal(int value){
+        health += value; 
+        if (health > maxHealth) health = maxHealth;
+    }
 
     virtual ~Entity() = default;
 };
