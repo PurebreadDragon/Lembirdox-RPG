@@ -34,25 +34,28 @@ void Adventurer::addItem(Item* item){
  * */
 void Adventurer::turn(std::vector<Enemy*> enemies){
     InputReader reader;
-    std::cout << "It's your turn. Available options:\n"
-              << "1:\tAttack\n"
-              << "2:\tInspect\n"
-              << "3:\tUse Item\n"
-              << "4:\tFlee\n";
 
     int inputChoices[]{1, 2, 3, 4};
     int selection = 0;
 
     //turn only proceeds when the player chooses to attack or flee. Successfully using an item sets the selection flag to 1 as well
     while (selection != 1 && selection != 4){ 
+        // prompt the user for their input and read it
+        std::cout << "It's your turn. Available options:\n"
+                << "1:\tAttack\n"
+                << "2:\tInspect\n"
+                << "3:\tUse Item\n"
+                << "4:\tFlee\n";
         selection = reader.readInput(inputChoices, 4);
         
         switch(selection){
             /*************************** ATTACK ***************************/
             case 1:{ 
                 // prompt the user for target selection
-                std::cout << "Choose a target.\n";
+                std::cout << "Choose a target.\n"
+                          << "0:\tCancel\n";
 
+                // build enemy selection array
                 int enemyChoices[enemies.size()];
                 int targetIndex = 1;
                 int enemySelection = 0;
@@ -61,16 +64,21 @@ void Adventurer::turn(std::vector<Enemy*> enemies){
                     enemyChoices[targetIndex - 1] = targetIndex;
                     targetIndex++;
                 }
-                enemySelection = reader.readInput(enemyChoices, enemies.size());
+
+                // read the user's target
+                enemySelection = reader.readInputCancel(enemyChoices, enemies.size());
 
                 // execute the action
-                attack(enemies[enemySelection - 1]);
+                if (enemySelection != 0) attack(enemies[enemySelection - 1]);
+                else selection = 0;
             } break;
             /*************************** INSPECT ***************************/
             case 2:{ //inspect
                 // prompt the user for target selection
-                std::cout << "Choose a target.\n";
+                std::cout << "Choose a target.\n"
+                          << "0:\tCancel\n";
 
+                // build enemy selection array
                 int enemyChoices[enemies.size()];
                 int targetIndex = 1;
                 int enemySelection = 0;
@@ -79,14 +87,22 @@ void Adventurer::turn(std::vector<Enemy*> enemies){
                     enemyChoices[targetIndex - 1] = targetIndex;
                     targetIndex++;
                 }
-                enemySelection = reader.readInput(enemyChoices, enemies.size());
+
+                // read the user's target
+                enemySelection = reader.readInputCancel(enemyChoices, enemies.size());
 
                 // execute the action
-                enemies[enemySelection - 1]->inspect();
+                if (enemySelection != 0) enemies[enemySelection - 1]->inspect();
+                else selection = 0;
             } break;
             /*************************** ITEM ***************************/
             case 3:{ //use item
-                std::cout << "item used\n";
+                std::cout << "Choose an item to use.\n"
+                          << "0:Cancel\n";
+
+                int itemChoices[inventory.size()];
+                int targetIndex = 1;
+                int itemSelection = 0;
             } break;
             /*************************** FLEE ***************************/
             case 4:{ //flee

@@ -29,7 +29,10 @@ public:
             
             if (isNumber(input)) {
                 for (int i = 0; i < numChoices; ++i){
-                    if (std::stoi(input) == choices[i]) valid = true;
+                    if (std::stoi(input) == choices[i]){
+                        valid = true;
+                        break;
+                    }
                 }
             }
 
@@ -58,6 +61,34 @@ public:
 
         return input;
     }
+
+    /**
+     * readInputCancel: The difference between this and the above options is 
+     * that it allows the user to enter a 0 to cancel their selection as well. 
+     * args: int choices[] (an array containing the valid choices, ordered numerically)
+     * outputs: the user's selection
+     * */
+    int readInputCancel(int choices[], int numChoices){
+        std::string input;
+        bool valid = false;
+
+        while (!valid){
+            std::cin >> input;
+            
+            if (isNumber(input)) {
+                for (int i = 0; i < numChoices; ++i){
+                    if (std::stoi(input) == choices[i] || std::stoi(input) == 0){
+                        valid = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!valid) std::cout << message;
+        }
+
+        return std::stoi(input);
+    }    
 
     /**
      * isNumber: Checks if a given input string is a valid integer or not. 

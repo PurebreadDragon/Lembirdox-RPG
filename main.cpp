@@ -76,11 +76,14 @@ int main() {
 
     CombatRoom *arena = new CombatRoom("arena", "You're standing in a large open arena. There's a skellington");
     Skeleton* skelly = new Skeleton();
-    Adventurer* joe = new Adventurer("Joe", "You're an average joe.", 200, 10, 10, 10, 10, 100);
+    Adventurer* joe = new Adventurer("Joe", "You're an average joe.", 200, 30, 10, 30, 10, 100);
     arena->addEnemy(skelly);
     arena->linkPlayer(joe);
     pool->addExit(arena);
     arena->addExit(tree);
+
+    DullBlade *dullBlade = new DullBlade();
+    joe->addItem(dullBlade);
 
     // update the current room
     currentRoom = tree;
