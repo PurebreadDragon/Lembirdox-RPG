@@ -207,8 +207,10 @@ public:
     }
 
     void ability(Entity* user, Entity* target) {
+        int modifier = rand() % 100 + 1;
+        int damage = user->getMAtk() * (200 + modifier) / 100;
         std::cout << "You hold the orb out towards " << target->getName() << " and focus your mind. A magical fire engulfs your arm "
-                  << "briefly before billowing outwards towards your target. It deals " << target->dealMDamage(user->getMAtk() * 2.5) << " magical damage.\n";
+                  << "briefly before billowing outwards towards your target. It deals " << target->dealMDamage(damage) << " magical damage.\n";
         cooldown = maxCooldown;
     }
 };
