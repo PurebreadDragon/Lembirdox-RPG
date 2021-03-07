@@ -63,7 +63,7 @@ public:
      * args: none
      * outputs: none
      * */
-    void interact(){
+    virtual void interact(){
         printDescription();
     };
 
