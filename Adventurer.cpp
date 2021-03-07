@@ -39,7 +39,7 @@ void Adventurer::turn(std::vector<Enemy*> enemies){
     int selection = 0;
 
     //turn only proceeds when the player chooses to attack or flee. Successfully using an item sets the selection flag to 1 as well
-    while (selection != 1 && selection != 4){ 
+    while (selection != 1 && selection != 3 selection != 4){ 
         // prompt the user for their input and read it
         std::cout << "It's your turn. Available options:\n"
                 << "1:\tAttack\n"
@@ -62,7 +62,7 @@ void Adventurer::turn(std::vector<Enemy*> enemies){
                 for (auto e : enemies){
                     std::cout << targetIndex << ":\t" << e->getName() <<"\n";
                     enemyChoices[targetIndex - 1] = targetIndex;
-                    targetIndex++;
+                    ++targetIndex;
                 }
 
                 // read the user's target
@@ -85,7 +85,7 @@ void Adventurer::turn(std::vector<Enemy*> enemies){
                 for (auto e : enemies){
                     std::cout << targetIndex << ":\t" << e->getName() <<"\n";
                     enemyChoices[targetIndex - 1] = targetIndex;
-                    targetIndex++;
+                    ++targetIndex;
                 }
 
                 // read the user's target
@@ -98,15 +98,50 @@ void Adventurer::turn(std::vector<Enemy*> enemies){
             /*************************** ITEM ***************************/
             case 3:{ //use item
                 std::cout << "Choose an item to use.\n"
-                          << "0:Cancel\n";
+                          << "0:\tCancel\n";
 
+                // build item selection array
                 int itemChoices[inventory.size()];
-                int targetIndex = 1;
+                int itemIndex = 1;
                 int itemSelection = 0;
+
+                if (inventory.size() > 0){
+                    for (auto item : inventory){
+                        std::cout << itemIndex << ":\t" << item->getName() << ": " << item->getAbilityName() << "\n";
+                        itemChoices[itemIndex - 1] = itemIndex;
+                        ++itemIndex;
+                    }
+                }
+
+                // read the user's target
+                itemSelection = reader.readInputCancel(itemChoices, inventory.size());
+
+                if (itemSelection != 0){
+                    // now we need to ask the user for their enemy target.
+                    // prompt the user for target selection
+                    std::cout << "Choose a target.\n"
+                            << "0:\tCancel\n";
+
+                    // build enemy selection array
+                    int enemyChoices[enemies.size()];
+                    int targetIndex = 1;
+                    int enemySelection = 0;
+                    for (auto e : enemies){
+                        std::cout << targetIndex << ":\t" << e->getName() <<"\n";
+                        enemyChoices[targetIndex - 1] = targetIndex;
+                        ++targetIndex;
+                    }
+
+                    // read the user's target
+                    enemySelection = reader.readInputCancel(enemyChoices, enemies.size());
+
+                    if (enemySelection != 0) inventory[itemSelection - 1]->ability(this, enemies[enemySelection - 1]);
+                    else selection = 0;
+                } else selection = 0;
             } break;
             /*************************** FLEE ***************************/
             case 4:{ //flee
-                std::cout << "flee used\n";
+                std::cout << "Waste your turn and do nothing\n";
             } break;
         }
     }
