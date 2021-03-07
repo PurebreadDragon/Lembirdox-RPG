@@ -249,4 +249,24 @@ public:
     }
 };
 
+class GoldPaw : public Item {
+public:
+    GoldPaw() {
+        name = "Mort's Gold Paw";
+        description = "It's a severed cat paw with golden fur. Upon closer inspection, it appears to change color when you hold it up to the light.";
+        abilityName = "Smite";
+        abilityDescription = "You can channel energy into the paw to smite a target, healing yourself and damaging it.";
+        speed = 10;
+        magAtk = 5;
+        value = 1000;
+    }
+
+    void ability(Entity* user, Entity* target) {
+        std::cout << "You press on the gold cat's paw. It squeaks. All of a sudden, a golden ray of light blasts out towards "
+                  << target->getName() << ", dealing " << target->dealMDamage(user->getMAtk() * 0.8) << " magic damage. Additionally, "
+                  << "the paw bathes you in warm golden sparkles, curing some of your wounds and restoring " << user->getMaxHealth() * 0.06 << " health.\n";
+        user->heal(user->getMaxHealth() * 0.06);
+    }
+};
+
 #endif

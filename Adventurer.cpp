@@ -201,3 +201,16 @@ void Adventurer::turn(std::vector<Enemy*> enemies){
 void Adventurer::attack(Enemy* target){
     std::cout << name << " strikes the " << target->getName() << " with their bare fists, dealing " << target->dealPDamage(physAtk) << " physical damage.\n";
 }
+
+/**setHealth: used to set the user's health to a certain percentage.
+ * Use this for % max health based healing and attacks.
+ * args: the percentage to set the user's health to
+ * outputs: none
+ * */
+void Adventurer::setHealth(double percent){
+    health = std::min(maxHealth, (int)ceil(maxHealth * percent));
+}
+
+void Adventurer::setHealth(int value){
+    health = value;
+}

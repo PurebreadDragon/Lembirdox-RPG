@@ -48,7 +48,7 @@ class DartTrapRoom : public Room{
 class CatRoom : public Room{
 public:
     CatRoom(){
-        name = "strange door";
+        name = "strange door with cat ears";
         description = "";
     }
 
@@ -77,19 +77,21 @@ public:
 
         if (selection == 3){
             std::cout << "If cats could make expressions, Mort would probably be fuming right now. You can feel his embarrassment "
-                      << "through your telepathic link. \nCEASE YOUR YAPPING. I DIDN'T ASK FOR THIS NAME! YOU AGREE, DO YOU NOT? WHAT KIND OF "
-                      << "DARK LORD IS NAMED \"MORT\"? ALL THE TOWNSFOLK COWER IN TERROR WHEN THEY HEAR EVEN WHISPERS OF MY PRESENCE. I AM FEARED BY "
-                      << "EVERY KIND OF BEING ACROSS THE LAND. MY POWER IS LIMITLESS, LIKE THE BLACKEST OF MIDNIGHT. I COULD CRUSH YOUR PUNY HUMAN "
+                      << "through your telepathic link. \nCEASE YOUR USELESS CHATTER. I DO NOT RECOGNIZE THIS LABEL. YOU AGREE, DO YOU NOT? WHAT KIND OF "
+                      << "DARK LORD IS CALLED \"MORT\"? ALL THE TOWNSFOLK COWER IN TERROR WHEN THEY HEAR EVEN WHISPERS OF MY PRESENCE. I AM FEARED BY "
+                      << "EVERY KIND OF BEING ACROSS THE LAND. MY DARK POWER IS LIMITLESS, LIKE THE BLACKEST OF MIDNIGHT. I COULD CRUSH YOUR PUNY HUMAN "
                       << "BODY IN AN INSTANT. AND YET I AM STUCK WITH THIS "
                       << "ACCURSED HUMAN LABEL, THAT OF "
-                      << "WHICH I DID NOT ASK FOR. CURSE THAT OLD HAG AND HER AWFUL NAMING SENSE. I WILL GET HER BACK ONE DAY.\n"
+                      << "WHICH I DID NOT ASK FOR. CURSE THAT OLD HAG AND HER AWFUL NAMING SENSE. I WILL GET HER BACK ONE DAY. BUT FOR NOW, I WILL NOT "
+                      << "HAVE YOU, A MERE HUMAN, TAUNTING ME.\n"
                       << "1:\tTry to hold back your laughter. \"Okay, I'm sorry. What do you want from me?\"\n"
                       << "2:\tSnicker. \"Mort.\"\n";
             int choices4[]{1, 2};
             selection = reader.readInput(choices4, 2);
 
             if (selection == 2){
-                std::cout << "Mort's hair prickles a bit. \nYOU ARE PLAYING WITH FIRE, HUMAN. ETERNAL BLACK FIRE, TO BE EXACT.\n"
+                std::cout << "Mort's hair prickles a bit. \nYOU ARE PLAYING WITH FIRE, HUMAN. ETERNAL BLACK FIRE, TO BE EXACT. "
+                          << "BE CAREFUL YOU DO NOT GET BURNED. \n"
                           << "1:\t\"Okay, I'm sorry. What do you want from me?\"\n"
                           << "2:\tUnder your breath, whisper again \"Mort. Can you believe it?\"\n";
                 int choices5[]{1, 2};
@@ -143,15 +145,65 @@ public:
                     player->addItem(bluepaw);
                 } break;
             }
-        }
 
-        std::cout << "Mort abruptly disappears in a puff of smoke. You can still faintly sense his presence, but it seems like he's "
-                  << "had his fun for the day. Still a bit perplexed, you head towards the exit.\n";
+            std::cout << "Mort abruptly disappears in a puff of smoke. You can still faintly sense his presence, but it seems like he's "
+                    << "had his fun for the day. Still a bit perplexed, you head towards the exit.\n";
+        }
     }
 
     void mortCombat(){
-        std::cout << "================================================\n";
-        std::cout << "MORT COMBAT GOES HERE WHEN I'M DONE DESIGNING IT\n";
-        std::cout << "================================================\n";
+        std::cout << "NAME                    00%-----25%------50%------75%-----100%\n"
+                  << "                        [        |        |        |        ]\n"
+                  << resize(player->getName(), 16) << " (100%) [-----------------------------------o] (" << player->getCurrentHealth() << "/" << player->getMaxHealth() <<")\n"
+                  << "Mort             (100%) [--------------------------=^ owo ^=] (\?\?\?\?/\?\?\?\?)\n";
+        std::cout << "================================[TURN 1]===============================\n"
+                  << "It's your turn. Available options:\n"
+                  << "1:\tFlail helplessly\n"
+                  << "2:\tPray to Jesus\n"
+                  << "3:\tFlop around on the floor like a fish\n"
+                  << "4:\tFlee\n";
+
+        int choices[]{1, 2, 3, 4};
+        InputReader reader;
+        int selection = reader.readInput(choices, 4);
+        switch(selection){
+            case 1:{
+                std::cout << "You start wildly flapping your arms around. It doesn't seem to have much of an effect. "
+                          << "In your flailing, you trip on the pillows on the floor and land face-first on the carpet.\n";
+            } break;
+            case 2:{
+                std::cout << "You get down on your knees, clasp your hands together and pray that somebody, anybody up there might help you. But nobody came...\n";
+            } break;
+            case 3:{
+                std::cout << "You lay down on your stomach and start flopping on the floor. It's oddly comfy because of the carpet. You flop for a bit"
+                          << " before you eventually get tired. Your flopping doesn't seem to have any effect.\n";
+            } break;
+            case 4:{
+                std::cout << "You sprint out the door in the back and slam it behind you. That was close. You weren't expecting him to be that powerful.\n"
+                          << "You find yourself in a small passageway. You can see a faint light coming from a room in front of you.\n"
+                          << "Available exits:\n"
+                          << "1:\tForward\n";
+                int choices2[]{1};
+                selection = reader.readInput(choices, 1);
+
+                std::cout << "JUST KIDDING, BOZO. YOU THOUGHT YOU WERE SAFE?\n"
+                          << "A tendril made of golden light wraps around you and forcibly drags you back into the room, where you find a very "
+                          << "angry-looking Mort standing over you.\n";
+            } break;
+        }
+
+        std::cout << "You look up at Mort. \"Hey.\"\n"
+                  << "ANY LAST WORDS?\n"
+                  << "Mort doesn't even give you time to speak before the golden aura around him flares up, illuminating the room around you "
+                  << "in bright yellow light. Golden rays shoot out from Mort's small frame, piercing your body. Each of them shocks your nerves with searing, white-hot "
+                  << "lances of pain. You can only stay conscious for a couple of seconds before passing out.\n";
+
+        std::cout << "You wake up what seems like an eternity later. The fireplace has long burnt out, and Mort is nowhere to be seen. Your head is pounding. "
+                  << "You stretch "
+                  << "your aching limbs, rolling over onto something solid? You reach out your hand to grab it. It's a... golden severed cat paw? "
+                  << "Perplexed, you pocket the cat's paw and proceed onward.\n";
+        player->setHealth(1);
+        GoldPaw *goldpaw = new GoldPaw();
+        player->addItem(goldpaw);
     }
 };

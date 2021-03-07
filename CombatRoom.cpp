@@ -38,10 +38,10 @@ public:
                 
                 // execute player turn, if it is their turn
                 if (player->getTurnBar() >= MAX_TURN_BAR){
-                    std::cout << "============================[TURN " << turn << "]===========================\n";
+                    std::cout << "================================[TURN " << turn << "]===============================\n";
                     player->turn(entities);
                     player->setTurnBar(0);
-                    std::cout << "============================[TURN " << turn << "]===========================\n";
+                    std::cout << "================================[TURN " << turn << "]===============================\n";
                     turn++;
                 }
 
@@ -87,11 +87,12 @@ public:
      * */
     void printTurnBar(){
         // print header
-        std::cout << "NAME\t\t00%-----25%------50%------75%-----100%\n"
-                         "\t\t[        |        |        |        ]\n";
+        std::cout << "NAME\t\t\t00%-----25%------50%------75%-----100%\n"
+                         "\t\t\t[        |        |        |        ]\n";
         
         // print adventurer info
-        std::cout << player->getName().substr(0, 8) << " (" << player->getTurnBar() / 10 << "%)\t[";
+        std::string tempName = player->getName();
+        std::cout << resize(tempName, 16) << " (" << player->getTurnBar() / 10 << "%)\t[";
         for (int k = 0; k < floor((double)std::min(player->getTurnBar(), MAX_TURN_BAR) / MAX_TURN_BAR * TURN_BAR_LENGTH); ++k) std::cout << "-";
         std::cout << "o";
         for (int k = 0; k < TURN_BAR_LENGTH - floor((double)std::min(player->getTurnBar(), MAX_TURN_BAR) / MAX_TURN_BAR * TURN_BAR_LENGTH); ++k) std::cout << "-";
@@ -99,7 +100,8 @@ public:
 
         // print enemy info
         for (auto e : entities){
-            std::cout << e->getName().substr(0, 8) << " (" << e->getTurnBar() / 10 << "%)\t[";
+            tempName = e->getName();
+            std::cout << resize(tempName, 16) << " (" << e->getTurnBar() / 10 << "%)\t[";
             for (int k = 0; k < floor((double)std::min(e->getTurnBar(), MAX_TURN_BAR) / MAX_TURN_BAR * TURN_BAR_LENGTH); ++k) std::cout << "-";
             std::cout << "o";
             for (int k = 0; k < TURN_BAR_LENGTH - floor((double)std::min(e->getTurnBar(), MAX_TURN_BAR) / MAX_TURN_BAR * TURN_BAR_LENGTH); ++k) std::cout << "-";
