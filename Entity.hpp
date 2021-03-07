@@ -44,6 +44,14 @@ public:
         "Magical ATK/DEF: \t" << magAtk << "/" << magDef << "\n"
         "Speed: \t\t\t" << speed << "\n";
     }
+	
+void affectHealth(int damage){
+	health -= damage; 
+}
+
+bool isAlive() const{
+	return getCurrentHealth() > 0; 
+}	
 
     /**
      * Getters for all attributes below.

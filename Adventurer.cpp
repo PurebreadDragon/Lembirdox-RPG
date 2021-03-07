@@ -1,31 +1,23 @@
 #include <iostream>
+
+using namespace std; 
+
 #include <string>
-#include <vector>
-#include "Item.hpp"
-#include "Entity.hpp"
+#include "Adventurer.h" 
 
-class Adventurer : public Entity{
-private:
-    std::vector<Item> inventory;
-    int experience, level;
+Adventurer::Adventurer(string name, string description, int maxHealth, int physAtk, int physDef, int magAtk, int magDef, int speed, string class, int level) : Adventurer(name, description, maxHealth, physAtk, physDef, magAtk, magDef, speed),  class(class) level (level) {}
 
-public:
-    Adventurer(std::string name, std::string description, int maxHealth, int physAtk, int physDef, int magAtk, int magDef, int speed) {
-        this->name = name;
-        this->description = description;
-        this->maxHealth = maxHealth;
-        health = maxHealth;
-        this->physAtk = physAtk;
-        this->physDef = physDef;
-        this->magAtk = magAtk;
-        this->magDef = magDef;
-        this->speed = speed;
-        turnBar = 0;
-    }
+void Adventurer::levelUp(){
+	setLevel(getLevel()+1); 	
+}
 
-    /**printAbilities(): This 
-     * */
-    void printAbilities(){
-        std::cout << "Your available abilities are:";
-    }
-};
+void Adventurer::actions(){
+
+}
+
+void Adventurer::setLevel(int l){
+	level = l; 
+	
+int Adventurer::getLevel() const {
+	return level;
+}
