@@ -65,6 +65,8 @@ public:
         // if the player won the combat
         if (player->isAlive()){
             std::cout << "You receive " << goldReward << " gold and " << expReward << " experience.\n";
+        } else {
+            std::cout << "You died.\n";
         }
     }
 
@@ -141,14 +143,13 @@ public:
      * outputs: whether or not combat is over
      * */
     bool combatOver(){
+        if (player->getCurrentHealth() < 0) return true;
+
         bool over = true;
-
-        if (player->getCurrentHealth() > 0){ // if the player is still alive
-            for (auto e: entities){ // check if each enemy is alive
-                if (e->getCurrentHealth() > 0) over = false;
-            }
+        for (auto e: entities){ // check if each enemy is alive
+            if (e->getCurrentHealth() > 0) over = false;
         }
-
+        
         return over;
     }
 };

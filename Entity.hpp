@@ -114,13 +114,15 @@ public:
      * Int return value is for displaying feedback e.g. "Enemy deals " << dealPDamage(5) << " damage." 
      * */
     int dealPDamage(int damage){
-        health -= (damage - physDef);
-        return (damage - physDef);
+        double reduction = 1 - (double) physDef / (physDef + 100);
+        health -= ((double)damage * reduction);
+        return ((double)damage * reduction);
     }
 
     int dealMDamage(int damage){
-        health -= (damage - magDef);
-        return (damage - magDef);
+        double reduction = 1 - (double) magDef / (magDef + 100);
+        health -= ((double)damage * reduction);
+        return ((double)damage * reduction);
     }
 
     void heal(int value){
