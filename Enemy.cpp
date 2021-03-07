@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include "Entity.hpp"
+#pragma once
 
 class Enemy : public Entity{
 protected:

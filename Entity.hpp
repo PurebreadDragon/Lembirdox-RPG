@@ -112,7 +112,7 @@ public:
 
     int dealMDamage(int damage){
         health -= std::max(damage * (1 - magDef / (magDef + 100)), 0);
-        return std::max(damage * (1 - magDef / (magDef + 100), 0);
+        return std::max(damage * (1 - magDef / (magDef + 100)), 0);
     }
 
     void heal(int value){

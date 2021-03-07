@@ -4,6 +4,7 @@
 #include <iostream>
 #include <istream>
 #include <string>
+#include <vector>
 
 const std::string INVALID_MSG = "Invalid input, please try again.\n";
 

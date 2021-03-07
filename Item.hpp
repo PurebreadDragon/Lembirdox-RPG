@@ -115,8 +115,6 @@ class BasicPotion : public Item {
 
 	void ability() const {
 		std::cout << "You pop off the cap and apply " << this->name << ", healing yourself for a total of " << healstrength << " health.\n";
-
-
 	}
 };
 
@@ -128,10 +126,8 @@ class Swifties : public Item {
 		speed = 30;
 	}
 	
-	void ability() const {
-		std::cout << "The " << this->name << " empower your movement, increaing your speed by " << speed << " this turn.\n";
-
-
+	void ability(Entity* user, Entity* target) const {
+        // this is an example of an item that doesn't do anything
 	}
 };
 
