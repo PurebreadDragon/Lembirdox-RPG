@@ -154,7 +154,7 @@ public:
     void mortCombat(){
         std::cout << "NAME                    00%-----25%------50%------75%-----100%\n"
                   << "                        [        |        |        |        ]\n"
-                  << resize(player->getName(), 16) << " (100%) [-----------------------------------o] (" << player->getCurrentHealth() << "/" << player->getMaxHealth() <<")\n"
+                  << resize(player->getName(), 16) << " (100%) [----------------------------------o] (" << player->getCurrentHealth() << "/" << player->getMaxHealth() <<")\n"
                   << "Mort             (100%) [--------------------------=^ owo ^=] (\?\?\?\?/\?\?\?\?)\n";
         std::cout << "================================[TURN 1]===============================\n"
                   << "It's your turn. Available options:\n"
