@@ -134,31 +134,39 @@ void Adventurer::turn(std::vector<Enemy*> enemies){
                     }
                 }
 
-                // read the user's target
+                // read what item the user wants to use
                 itemSelection = reader.readInputCancel(itemChoices, inventory.size());
 
                 if (itemSelection != 0){
-                    // now we need to ask the user for their enemy target.
-                    // prompt the user for target selection
-                    std::cout << "Choose a target.\n"
-                            << "0:\tCancel\n";
+                    // if the item is a self usage item, prompt for their target
+                    if (!inventory[itemSelection - 1]->isSelfUse()){
+                        // prompt the user for target selection
+                        std::cout << "Choose a target.\n"
+                                << "0:\tCancel\n";
 
-                    // build enemy selection array
-                    int enemyChoices[enemies.size()];
-                    int targetIndex = 1;
-                    int enemySelection = 0;
-                    for (auto e : enemies){
-                        std::cout << targetIndex << ":\t" << e->getName() <<"\n";
-                        enemyChoices[targetIndex - 1] = targetIndex;
-                        ++targetIndex;
+                        // build enemy selection array
+                        int enemyChoices[enemies.size()];
+                        int targetIndex = 1;
+                        int enemySelection = 0;
+                        for (auto e : enemies){
+                            std::cout << targetIndex << ":\t" << e->getName() <<"\n";
+                            enemyChoices[targetIndex - 1] = targetIndex;
+                            ++targetIndex;
+                        }
+
+                        // read the user's target
+                        enemySelection = reader.readInputCancel(enemyChoices, enemies.size());
+
+                        // execute the action
+                        if (enemySelection != 0) inventory[itemSelection - 1]->ability(this, enemies[enemySelection - 1]);
+                        else selection = 0; // if a cancel was selected, set selection to 0 so we don't consume the turn. 
+                    } else { // else just use it on yourself 
+                        inventory[itemSelection - 1]->ability(this, NULL);
                     }
-
-                    // read the user's target
-                    enemySelection = reader.readInputCancel(enemyChoices, enemies.size());
-
-                    // execute the action
-                    if (enemySelection != 0) inventory[itemSelection - 1]->ability(this, enemies[enemySelection - 1]);
-                    else selection = 0; // if a cancel was selected, set selection to 0 so we don't consume the turn. 
+                    // if the item is consumable, destroy it
+                    if (inventory[itemSelection - 1]->isConsumable()){
+                        inventory.erase(inventory.begin() + itemSelection - 1);
+                    }
                 } else selection = 0;
             } break;
             /*************************** FLEE ***************************/

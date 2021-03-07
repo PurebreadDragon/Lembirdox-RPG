@@ -87,9 +87,11 @@ int main() {
     DullBlade *dullBlade = new DullBlade();
     WindRazor *windRazor = new WindRazor();
     StickWand *stickWand = new StickWand();
+    BasicPotion *potion = new BasicPotion();
     joe->addItem(dullBlade);
     joe->addItem(windRazor);
     joe->addItem(stickWand);
+    joe->addItem(potion);
     joe->inspect();
 
     // update the current room

@@ -11,7 +11,8 @@ protected:
     std::string abilityName;
     std::string abilityDescription;
 	int maxHealth = 0, physAtk = 0, physDef = 0, magAtk = 0, magDef = 0, speed = 0;
-    bool consumable = false;
+    bool consumable = false, selfUse = false; 
+    // items with the self-use flag set to true should not make use of the second target field in their ability().
 
 public:
     Item(){
@@ -20,7 +21,7 @@ public:
     }
 
     void inspect(){
-        std::cout << "=====" << name << "=====\n" << description << "\n=====================\n";
+        std::cout << name << ": " << description << "\n" << abilityName << ": " << abilityDescription << "\n";
     }
 
 	virtual void ability(Entity* user, Entity* target) const = 0;
@@ -49,6 +50,14 @@ public:
 		return speed;
 	}
 
+    bool isSelfUse(){
+        return selfUse;
+    }
+
+    bool isConsumable(){
+        return consumable;
+    }
+
 	std::string getName() {
 		return name;
 	}
@@ -68,7 +77,7 @@ public:
 
 
 class DullBlade : public Item {
-	public:
+public:
 	DullBlade() {
 		name = "Dull Blade";
 		description = "An ordinary-looking longsword. Scratches along its surface indicate it's passed through the hands of many a traveler.\n";
@@ -84,7 +93,7 @@ class DullBlade : public Item {
 };
 
 class WindRazor : public Item {
-    public:
+public:
     WindRazor() {
         name = "Windrazor";
         description = "This long, curved katana feels incredibly light in your hands. It hums, giving off an aura of magical power. "
@@ -104,7 +113,7 @@ class WindRazor : public Item {
 };
 
 class StickWand : public Item {
-	public:
+public:
 	StickWand() {
 		name = "Ordinary Wand";
 		description = "Some say this wand was once touched by a grand sorcerer, who blessed it with magical affinity...or maybe it's just a stick from the pile of kindling he used...";
@@ -120,29 +129,29 @@ class StickWand : public Item {
 	}
 };
 
-
 class BasicPotion : public Item {
-	protected: 
+protected: 
 	int healstrength;
 
-	public:
+public:
 	BasicPotion() {
-		name = "Basic Potion";
+		name = "Healing Potion";
 		description = "A concoction of herbs and magical essence. It carries the soothing scent of medicinal plants. Surely, this would heal a couple of scratches.";
 		abilityName = "Drink";
         abilityDescription = "Drink the potion to heal yourself a little.";
-        healstrength = 20;
+        healstrength = 50;
         consumable = true;
+        selfUse = true;
 	}
 
 	void ability(Entity* user, Entity* target) const {
-		std::cout << "You pop off the cap and down the " << name << ", healing yourself for " << healstrength << ". It tastes faintly of cherries.\n";
+		std::cout << "You pop off the cap and down the " << name << ", restoring " << healstrength << " health. It tastes faintly of cherries.\n";
         user->heal(healstrength);
 	}
 };
 
 class Swifties : public Item {
-	public:
+public:
 	Swifties() {
 		name = "Boots of Swiftness";
 		description = "A pair of lightweight boots fashioned from fine leather. Putting these on, you feel as nimble as lightning.\n";
@@ -157,16 +166,5 @@ class Swifties : public Item {
         << "It does " << target->dealPDamage(user->getPAtk() * 0.5) << " damage.\n";
 	}
 };
-
-
-
-
-
-
-
-
-
-
-
 
 #endif
