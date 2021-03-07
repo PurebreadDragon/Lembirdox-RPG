@@ -23,38 +23,45 @@ public:
      * outputs: none
      * */
     void interact(){
-        // Print out the description and begin combat.
+        // Print out the description of the room and begin combat.
         printDescription();
 
-        // Turn bar display
-        printTurnBar();
+        int goldReward = 0, expReward = 0;
 
-        // Pseudocode:
-        // while (all enemies or players are alive)
-            // while (it's not the player's turn)
-                // updateTurn();
-                // printTurnBar();
-                // all entities that are at or above 100% turn bar take their action. 
-            // now it's the player's turn. 
-            // print out all the player's options
-            // prompt the player for their action
-            // prompt the player for their target
-            // execute the action.
-        int i = 0;
-        while (!combatOver() && i < 5){
+        while (!combatOver()){
             updateTurn();
             printTurnBar();
+            
+            // execute player turn, if it is their turn
             if (player->getTurnBar() >= MAX_TURN_BAR){
-                std::cout << "player's turn goes here\n";
+                player->turn(entities);
                 player->setTurnBar(0);
             }
+
+            // check if anything died, remove them from the vector if so and accumulate gold/xp reward
+            std::vector<Enemy*>::iterator iter;
+            for (iter = entities.begin(); iter != entities.end(); /* nothing */ ) {
+                if (!(*iter)->isAlive()){
+                    std::cout << (*iter)->getDeathMessage() << "\n";
+                    goldReward += (*iter)->getGoldReward();
+                    expReward += (*iter)->getExpReward();
+                    iter = entities.erase(iter);
+                }
+                else ++iter;
+            }
+
+            // execute any enemy turns
             for (auto e : entities){
                 if (e->getTurnBar() >= MAX_TURN_BAR){
                     e->setTurnBar(0);
                     e->turn(player);
                 }
             }
-            ++i;
+        }
+
+        // if the player won the combat
+        if (player->isAlive()){
+            std::cout << "You receive " << goldReward << " gold and " << expReward << " experience.\n";
         }
     }
 
@@ -64,6 +71,7 @@ public:
      * outputs: none
      * */
     void printTurnBar(){
+        // print header
         std::cout << "NAME\t\t00%-----25%------50%------75%-----100%\n"
                          "\t\t[        |        |        |        ]\n";
         
@@ -72,14 +80,15 @@ public:
         for (int k = 0; k < floor((double)std::min(player->getTurnBar(), MAX_TURN_BAR) / MAX_TURN_BAR * TURN_BAR_LENGTH); ++k) std::cout << "-";
         std::cout << "o";
         for (int k = 0; k < TURN_BAR_LENGTH - floor((double)std::min(player->getTurnBar(), MAX_TURN_BAR) / MAX_TURN_BAR * TURN_BAR_LENGTH); ++k) std::cout << "-";
-        std::cout << "]\n";
+        std::cout << "] (" << player->getCurrentHealth() << "/" << player->getMaxHealth() << ")\n";
+
         // print enemy info
         for (auto e : entities){
             std::cout << e->getName().substr(0, 8) << " (" << e->getTurnBar() / 10 << "%)\t[";
             for (int k = 0; k < floor((double)std::min(e->getTurnBar(), MAX_TURN_BAR) / MAX_TURN_BAR * TURN_BAR_LENGTH); ++k) std::cout << "-";
             std::cout << "o";
             for (int k = 0; k < TURN_BAR_LENGTH - floor((double)std::min(e->getTurnBar(), MAX_TURN_BAR) / MAX_TURN_BAR * TURN_BAR_LENGTH); ++k) std::cout << "-";
-            std::cout << "]\n";
+            std::cout << "] (" << e->getCurrentHealth() << "/" << e->getMaxHealth() << ")\n";
         }
     }
 
@@ -113,8 +122,10 @@ public:
             if (player->getTurnBar() >= MAX_TURN_BAR) reachedEnd = true;
 
             for (auto e : entities){
-                e->addTurnBar(e->getSpeed());
-                if (e->getTurnBar() >= MAX_TURN_BAR) reachedEnd = true;
+                if (e->isAlive()){
+                    e->addTurnBar(e->getSpeed());
+                    if (e->getTurnBar() >= MAX_TURN_BAR) reachedEnd = true;
+                }
             }
         }
     }

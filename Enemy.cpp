@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include "Entity.hpp"
+#pragma once
 
 class Enemy : public Entity{
 protected:
@@ -48,16 +49,39 @@ public:
         expReward = 10;
         name = "Skeleton";
         description = "A skeleton of a long-dead adventurer, but somehow it's moving again.";
-        maxHealth = 50;
-        health = 50;
-        physAtk = 100;
-        physDef = 0;
+        deathMessage = "The skeleton crumbles to the ground, reduced to dust.";
+        maxHealth = 200;
+        health = 200;
+        physAtk = 20;
+        physDef = 10;
         magAtk = 2;
-        magDef = 0;
+        magDef = 30;
         speed = 75;
     }
 
     void turn(Entity* target){
         std::cout << "The skeleton flails its arms at " << target->getName() << ". It deals " << target->dealPDamage(physAtk * 1.5) << " damage.\n";
+    }
+};
+
+class BigRat : public Enemy{
+public:
+    BigRat(){
+        goldReward = 7;
+        expReward = 7;
+        name = "Rat";
+        description = "Usually an indicator of disease and plague, this ordinary gray rat has grown to disgustingly large proportions.";
+        deathMessage = "The rat screeches as it dies.";
+        maxHealth = 100;
+        health = 100;
+        physAtk = 10;
+        physDef = 20;
+        magAtk = 2;
+        magDef = 10;
+        speed = 125;
+    }
+
+    void turn(Entity* target){
+        std::cout << "The rat bites " << target->getName() << ". It deals " << target->dealPDamage(physAtk) << " damage.\n";
     }
 };
