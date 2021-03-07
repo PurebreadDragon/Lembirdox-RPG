@@ -90,6 +90,7 @@ int main() {
     joe->addItem(dullBlade);
     joe->addItem(windRazor);
     joe->addItem(stickWand);
+    joe->inspect();
 
     // update the current room
     currentRoom = tree;

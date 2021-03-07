@@ -20,12 +20,34 @@ int Adventurer::getLevel() const {
 	return level;
 }
 
+void Adventurer::inspect(){
+    std::cout << "It's you!\n";
+    std::cout << "Health: \t\t" << health << "/" << maxHealth << " (+" << maxHealthBonus << ")\n"
+    "Physical ATK: \t\t" << physAtk << " (+" << physAtkBonus << ")\n"
+    "Physical DEF: \t\t" << physDef << " (+" << physDefBonus << ")\n"
+    "Magical ATK: \t\t" << magAtk << " (+" << magAtkBonus << ")\n"
+    "Magical DEF: \t\t" << magDef << " (+" << magDefBonus << ")\n"
+    "Speed: \t\t\t" << speed << " (+" << speedBonus << ")\n";
+}
+
 /**addItem: adds an item to the player's inventory.
  * args: the item to be added
  * outputs: none
  * */
 void Adventurer::addItem(Item* item){
     inventory.push_back(item);
+    maxHealth += item->getMaxHealth();
+    maxHealthBonus += item->getMaxHealth();
+    physAtk += item->getPAtk();
+    physAtkBonus += item->getPAtk();
+    physDef += item->getPDef();
+    physDefBonus += item->getPDef();
+    magAtk += item->getMAtk();
+    magAtkBonus += item->getMAtk();
+    magDef += item->getMDef();
+    magDefBonus += item->getMDef();
+    speed += item->getSpeed();
+    speedBonus += item->getSpeed();
 }
 
 /**turn: This method is called when this adventurer takes a turn in combat.

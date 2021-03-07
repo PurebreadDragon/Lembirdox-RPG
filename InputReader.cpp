@@ -65,7 +65,7 @@ public:
     /**
      * readInputCancel: The difference between this and the above options is 
      * that it allows the user to enter a 0 to cancel their selection as well. 
-     * args: int choices[] (an array containing the valid choices, ordered numerically)
+     * args: int choices[] (an array containing the valid choices, ordered numerically), numChoices (the total number of choices)
      * outputs: the user's selection
      * */
     int readInputCancel(int choices[], int numChoices){

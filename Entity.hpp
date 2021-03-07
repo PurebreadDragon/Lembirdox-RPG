@@ -96,8 +96,7 @@ public:
         return deathMessage;
     }
 
-    /**Setters for some attributes below.
-     * */
+    /**Setters for some attributes below.*/
     void addTurnBar(int turn){
         turnBar += turn;
     }

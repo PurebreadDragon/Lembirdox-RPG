@@ -23,24 +23,15 @@ public:
      * outputs: none
      * */
     void interact(){
-        // Print out the description and begin combat.
+        // Print out the description of the room and begin combat.
         printDescription();
 
-        // Pseudocode:
-        // while (all enemies or players are alive)
-            // while (it's not the player's turn)
-                // updateTurn();
-                // printTurnBar();
-                // all entities that are at or above 100% turn bar take their action. 
-            // now it's the player's turn. 
-            // print out all the player's options
-            // prompt the player for their action
-            // prompt the player for their target
-            // execute the action.
         int goldReward = 0, expReward = 0;
+
         while (!combatOver()){
             updateTurn();
             printTurnBar();
+            
             // execute player turn, if it is their turn
             if (player->getTurnBar() >= MAX_TURN_BAR){
                 player->turn(entities);

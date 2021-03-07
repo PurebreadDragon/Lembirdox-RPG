@@ -10,7 +10,7 @@ protected:
     std::string description;
     std::string abilityName;
     std::string abilityDescription;
-	int health = 0, physAtk = 0, physDef = 0, magAtk = 0, magDef = 0, speed = 0;
+	int maxHealth = 0, physAtk = 0, physDef = 0, magAtk = 0, magDef = 0, speed = 0;
     bool consumable = false;
 
 public:
@@ -25,9 +25,9 @@ public:
 
 	virtual void ability(Entity* user, Entity* target) const = 0;
 
-	int gethealthval() {
-		return health;
-	}
+	int getMaxHealth(){
+        return maxHealth;
+    }
 
 	int getPAtk() {
 		return physAtk;
@@ -144,14 +144,17 @@ class BasicPotion : public Item {
 class Swifties : public Item {
 	public:
 	Swifties() {
-		this->name = "Boots of Swiftness";
-		this->description = "A pair of lightweight boots fashioned from fine leather. Putting these on, you feel as nimble as lightning.\n";
-		speed = 30;
+		name = "Boots of Swiftness";
+		description = "A pair of lightweight boots fashioned from fine leather. Putting these on, you feel as nimble as lightning.\n";
+        abilityName = "Slap";
+        abilityDescription = "These shoes don't have a special ability, but you can certainly hit things with them.";
+		speed = 20;
         consumable = false;
 	}
 	
 	void ability(Entity* user, Entity* target) const {
-        // this is an example of an item that doesn't do anything
+        std::cout << "You pull the shoes off your feet and slap " << target->getName() << ". "
+        << "It does " << target->dealPDamage(user->getPAtk() * 0.5) << " damage.\n";
 	}
 };
 
