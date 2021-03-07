@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 #include "Entity.hpp"
-#include "Adventurer.cpp"
+#include "Adventurer.hpp"
 
 class Room{
 protected:

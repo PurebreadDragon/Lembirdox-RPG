@@ -45,13 +45,13 @@ public:
         "Speed: \t\t\t" << speed << "\n";
     }
 	
-void affectHealth(int damage){
-	health -= damage; 
-}
+    void affectHealth(int damage){
+        health -= damage; 
+    }
 
-bool isAlive() const{
-	return getCurrentHealth() > 0; 
-}	
+    bool isAlive() const{
+	    return health > 0; 
+    }	
 
     /**
      * Getters for all attributes below.
