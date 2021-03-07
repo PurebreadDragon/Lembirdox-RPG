@@ -77,13 +77,13 @@ int main() {
 
     CombatRoom *arena = new CombatRoom("arena", "You're standing in a large open arena. There's a skeleton.", "You're standing in a large open arena. It's empty.");
     // Skeleton* skelly = new Skeleton();
-    BigRat* ratticus = new BigRat();
-    // GrowSlime* growslime = new GrowSlime();
+    // BigRat* ratticus = new BigRat();
+    GrowSlime* growslime = new GrowSlime();
     ShieldSkeleton* shieldSkelly = new ShieldSkeleton();
     Adventurer* joe = new Adventurer("Joe", "You're an average joe.", 200, 30, 10, 30, 10, 100);
     // arena->addEnemy(skelly);
-    arena->addEnemy(ratticus);
-    // arena->addEnemy(growslime);
+    // arena->addEnemy(ratticus);
+    arena->addEnemy(growslime);
     arena->addEnemy(shieldSkelly);
     arena->linkPlayer(joe);
     pool->addExit(arena);
