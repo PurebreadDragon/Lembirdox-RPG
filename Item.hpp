@@ -1,4 +1,4 @@
-fndef ITEM_H
+#ifndef ITEM_H
 #define ITEM_H
 
 #include <iostream>
