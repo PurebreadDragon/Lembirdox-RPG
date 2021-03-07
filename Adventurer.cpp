@@ -23,11 +23,21 @@ int Adventurer::getLevel() const {
 void Adventurer::inspect(){
     std::cout << "It's you!\n";
     std::cout << "Health: \t\t" << health << "/" << maxHealth << " (+" << maxHealthBonus << ")\n"
+    "Experience: \t\t" << experience << "\n"
+    "Gold: \t\t\t" << gold << "\n"
     "Physical ATK: \t\t" << physAtk << " (+" << physAtkBonus << ")\n"
     "Physical DEF: \t\t" << physDef << " (+" << physDefBonus << ")\n"
     "Magical ATK: \t\t" << magAtk << " (+" << magAtkBonus << ")\n"
     "Magical DEF: \t\t" << magDef << " (+" << magDefBonus << ")\n"
     "Speed: \t\t\t" << speed << " (+" << speedBonus << ")\n";
+}
+
+void Adventurer::addGold(int gold){
+    this->gold += gold;
+}
+
+void Adventurer::addExp(int experience){
+    this->experience += experience;
 }
 
 /**addItem: adds an item to the player's inventory.
@@ -190,4 +200,17 @@ void Adventurer::turn(std::vector<Enemy*> enemies){
  * */
 void Adventurer::attack(Enemy* target){
     std::cout << name << " strikes the " << target->getName() << " with their bare fists, dealing " << target->dealPDamage(physAtk) << " physical damage.\n";
+}
+
+/**setHealth: used to set the user's health to a certain percentage.
+ * Use this for % max health based healing and attacks.
+ * args: the percentage to set the user's health to
+ * outputs: none
+ * */
+void Adventurer::setHealth(double percent){
+    health = std::min(maxHealth, (int)ceil(maxHealth * percent));
+}
+
+void Adventurer::setHealth(int value){
+    health = value;
 }
