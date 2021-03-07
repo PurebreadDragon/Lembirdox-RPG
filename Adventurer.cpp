@@ -12,10 +12,6 @@ void Adventurer::levelUp(){
 	setLevel(getLevel()+1); 	
 }
 
-void Adventurer::actions(){
-
-}
-
 void Adventurer::setLevel(int l){
 	level = l; 
 }
@@ -44,20 +40,67 @@ void Adventurer::turn(std::vector<Enemy*> enemies){
               << "3:\tUse Item\n"
               << "4:\tFlee\n";
 
-    int choices[]{1, 2, 3, 4};
-    int selection = reader.readInput(choices, 4);
-    switch(selection){
-        case 1:{ //attack
+    int inputChoices[]{1, 2, 3, 4};
+    int selection = 0;
 
-        } break;
-        case 2:{ //inspect
+    //turn only proceeds when the player chooses to attack or flee. Successfully using an item sets the selection flag to 1 as well
+    while (selection != 1 && selection != 4){ 
+        selection = reader.readInput(inputChoices, 4);
+        
+        switch(selection){
+            /*************************** ATTACK ***************************/
+            case 1:{ 
+                // prompt the user for target selection
+                std::cout << "Choose a target.\n";
 
-        } break;
-        case 3:{ //use item
+                int enemyChoices[enemies.size()];
+                int targetIndex = 1;
+                int enemySelection = 0;
+                for (auto e : enemies){
+                    std::cout << targetIndex << ":\t" << e->getName() <<"\n";
+                    enemyChoices[targetIndex - 1] = targetIndex;
+                    targetIndex++;
+                }
+                enemySelection = reader.readInput(enemyChoices, enemies.size());
 
-        } break;
-        case 4:{ //flee
+                // execute the action
+                attack(enemies[enemySelection - 1]);
+            } break;
+            /*************************** INSPECT ***************************/
+            case 2:{ //inspect
+                // prompt the user for target selection
+                std::cout << "Choose a target.\n";
 
-        } break;
+                int enemyChoices[enemies.size()];
+                int targetIndex = 1;
+                int enemySelection = 0;
+                for (auto e : enemies){
+                    std::cout << targetIndex << ":\t" << e->getName() <<"\n";
+                    enemyChoices[targetIndex - 1] = targetIndex;
+                    targetIndex++;
+                }
+                enemySelection = reader.readInput(enemyChoices, enemies.size());
+
+                // execute the action
+                enemies[enemySelection - 1]->inspect();
+            } break;
+            /*************************** ITEM ***************************/
+            case 3:{ //use item
+                std::cout << "item used\n";
+            } break;
+            /*************************** FLEE ***************************/
+            case 4:{ //flee
+                std::cout << "flee used\n";
+            } break;
+        }
     }
+}
+
+/**attack: Generic attack method. Only the player can use this.
+ * Deals 100% physical attack in damage. Prints a short message.
+ * args: the target of the attack
+ * outputs: none
+ * */
+void Adventurer::attack(Enemy* target){
+    std::cout << name << " strikes the " << target->getName() << " with their bare fists, dealing " << target->dealPDamage(physAtk) << " physical damage.\n";
 }

@@ -60,7 +60,7 @@ public:
     }
 
     int getMaxHealth(){
-        return health;
+        return maxHealth;
     }
 
     int getPAtk(){
@@ -106,13 +106,13 @@ public:
      * Int return value is for displaying feedback e.g. "Enemy deals " << dealPDamage(5) << " damage." 
      * */
     int dealPDamage(int damage){
-        health -= std::max(damage * (1 - physDef / (physDef + 100)), 0);
-        return std::max(damage * (1 - physDef / (physDef + 100)), 0);
+        health -= (damage - physDef);
+        return (damage - physDef);
     }
 
     int dealMDamage(int damage){
-        health -= std::max(damage * (1 - magDef / (magDef + 100)), 0);
-        return std::max(damage * (1 - magDef / (magDef + 100)), 0);
+        health -= (damage - magDef);
+        return (damage - magDef);
     }
 
     void heal(int value){

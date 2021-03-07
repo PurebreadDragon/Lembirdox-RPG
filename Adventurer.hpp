@@ -12,11 +12,11 @@ class Adventurer : public Entity
 	public:
 		Adventurer(std::string, std::string, int, int, int, int, int, int);
 		void levelUp();
-		void actions();
 		void setLevel(int); 
 		int getLevel() const; 
 		void addItem(Item*);
 		void turn(std::vector<Enemy*>);
+		void attack(Enemy*);
 	private:
 		int level, experience; 
 		std::vector<Item*> inventory;
