@@ -1,3 +1,6 @@
+#ifndef __INPUT_READER__
+#define __INPUT_READER__
+
 #include <iostream>
 #include <istream>
 #include <string>
@@ -5,8 +8,11 @@
 const std::string INVALID_MSG = "Invalid input, please try again.\n";
 
 class InputReader{
+private:
+    std::string message;
 public:
-    InputReader(){}
+    InputReader() { message = INVALID_MSG; }
+    InputReader(std::string custom) { message = custom; }
 
     /**
      * readInput: Reads user input, checks if it's valid and outputs their selection as an integer. If invalid, it re-prompts the user.
@@ -20,17 +26,36 @@ public:
         while (!valid){
             std::cin >> input;
             
-            if (!isNumber(input)) std::cout << INVALID_MSG;
-            else{
+            if (isNumber(input)) {
                 for (int i = 0; i < numChoices; ++i){
                     if (std::stoi(input) == choices[i]) valid = true;
                 }
             }
 
-            if (!valid) std::cout << INVALID_MSG;
+            if (!valid) std::cout << message;
         }
 
         return std::stoi(input);
+    }
+
+    /**
+     * This is a version of the above readInput that takes in a vector instead.
+     * */
+    std::string readInput(std::vector<std::string> choices){
+        std::string input;
+        bool valid = false;
+
+        while (!valid){
+            std::cin >> input;
+            
+            for (const auto& choice : choices){
+                if (choice == input) valid = true;
+            }
+
+            if (!valid) std::cout << message;
+        }
+
+        return input;
     }
 
     /**
@@ -47,3 +72,5 @@ public:
         return true;
     }
 };
+
+#endif
