@@ -60,7 +60,7 @@ int main() {
 
 // ALL PERSONAL TESTING STUFFS SHOULD BE IMPLEMENTED BELOW THIS LINE
 
-  /*Room *currentRoom; // master variable that tracks where we are
+    Room *currentRoom; // master variable that tracks where we are
     InputReader reader; // helper class that handles read/write
 
     // build some room objects
@@ -72,18 +72,26 @@ int main() {
     Room *cave = new Room("cave", "You proceed deeper into the cave. Placeholder description");
     tree->addExit(cave);
     pool->addExit(tree);
-    cave->addExit(tree); */
+    cave->addExit(tree); 
+
+    CombatRoom *arena = new CombatRoom("arena", "You're standing in a large open arena. There's a skellington");
+    Skeleton* skelly = new Skeleton();
+    Adventurer* joe = new Adventurer("Joe", "You're an average joe.", 200, 50, 30, 5, 30, 100);
+    arena->addEnemy(skelly);
+    arena->linkPlayer(joe);
+    pool->addExit(arena);
+    arena->addExit(tree);
 
     // update the current room
-    // currentRoom = tree;
-    // currentRoom->printExits();
+    currentRoom = tree;
+    currentRoom->printExits();
 
-    // for (int i = 0; i < 5; ++i){
-    //     std::cout << "Where would you like to go?\n";
-    //     currentRoom = &(currentRoom->getExit(reader.readInput(currentRoom->getExitLabels())));
-    //     currentRoom->interact();
-    //     currentRoom->printExits();
-    // }
+    for (int i = 0; i < 5; ++i){
+        std::cout << "Where would you like to go?\n";
+        currentRoom = &(currentRoom->getExit(reader.readInput(currentRoom->getExitLabels())));
+        currentRoom->interact();
+        currentRoom->printExits();
+    }
 
     // Item stick("large stick", "it's a stick");
     // stick.inspect();
@@ -102,21 +110,13 @@ int main() {
     // arena.addEntity(rat);
     // arena.interact();
 
-    // CombatRoom arena("arena", "You're standing in a large open arena. There's a big fuckin rat");
-    // arena.addEntity(joe);
-    // arena.addEntity(jill);
-    // arena.addEntity(rat);
-    // arena.interact();
-
-
-
     //Testing out my Town things :) Comment out if you need to.
-    Town* testTown = new Town();
-    Quest* currentQuest = testTown->RoamTown();
-    delete testTown;
-    currentQuest->showQuestContent();
-    std::cout << "done displaying content!\n";
-    delete currentQuest;
+    // Town* testTown = new Town();
+    // Quest* currentQuest = testTown->RoamTown();
+    // delete testTown;
+    // currentQuest->showQuestContent();
+    // std::cout << "done displaying content!\n";
+    // delete currentQuest;
     //Town stuff ends here.
 
     // InputReader reader;

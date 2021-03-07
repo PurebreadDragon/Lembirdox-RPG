@@ -21,5 +21,3 @@ void Adventurer::setLevel(int l){
 int Adventurer::getLevel() const {
 	return level;
 }
-
-

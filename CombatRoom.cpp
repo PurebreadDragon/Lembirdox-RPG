@@ -11,8 +11,7 @@ const int MAX_TURN_BAR = 1000;
 
 class CombatRoom : public Room{
 private:
-    std::vector<Entity> entities;
-    std::vector<int> turnBar;
+    std::vector<Enemy*> entities;
 
 public:
     CombatRoom(std::string name, std::string description) : Room(name, description){}
@@ -30,10 +29,6 @@ public:
         // Turn bar display
         printTurnBar();
 
-        // std::cout << "Calculating next turn\n";
-        // updateTurn();
-        // printTurnBar();
-
         // Pseudocode:
         // while (all enemies or players are alive)
             // while (it's not the player's turn)
@@ -45,6 +40,22 @@ public:
             // prompt the player for their action
             // prompt the player for their target
             // execute the action.
+        int i = 0;
+        while (!combatOver() && i < 5){
+            updateTurn();
+            printTurnBar();
+            if (player->getTurnBar() >= MAX_TURN_BAR){
+                std::cout << "player's turn goes here\n";
+                player->setTurnBar(0);
+            }
+            for (auto e : entities){
+                if (e->getTurnBar() >= MAX_TURN_BAR){
+                    e->setTurnBar(0);
+                    e->turn(player);
+                }
+            }
+            ++i;
+        }
     }
 
     /**
@@ -55,24 +66,30 @@ public:
     void printTurnBar(){
         std::cout << "NAME\t\t00%-----25%------50%------75%-----100%\n"
                          "\t\t[        |        |        |        ]\n";
-        for (int i = 0; i < entities.size(); i++){
-            std::cout << entities[i].getName().substr(0, 8) << " (" << turnBar[i] / 10 << "%)\t[";
-            for (int k = 0; k < floor((double)std::min(turnBar[i], MAX_TURN_BAR) / MAX_TURN_BAR * TURN_BAR_LENGTH); ++k) std::cout << "-";
+        
+        // print adventurer info
+        std::cout << player->getName().substr(0, 8) << " (" << player->getTurnBar() / 10 << "%)\t[";
+        for (int k = 0; k < floor((double)std::min(player->getTurnBar(), MAX_TURN_BAR) / MAX_TURN_BAR * TURN_BAR_LENGTH); ++k) std::cout << "-";
+        std::cout << "o";
+        for (int k = 0; k < TURN_BAR_LENGTH - floor((double)std::min(player->getTurnBar(), MAX_TURN_BAR) / MAX_TURN_BAR * TURN_BAR_LENGTH); ++k) std::cout << "-";
+        std::cout << "]\n";
+        // print enemy info
+        for (auto e : entities){
+            std::cout << e->getName().substr(0, 8) << " (" << e->getTurnBar() / 10 << "%)\t[";
+            for (int k = 0; k < floor((double)std::min(e->getTurnBar(), MAX_TURN_BAR) / MAX_TURN_BAR * TURN_BAR_LENGTH); ++k) std::cout << "-";
             std::cout << "o";
-            for (int k = 0; k < TURN_BAR_LENGTH - floor((double)std::min(turnBar[i], MAX_TURN_BAR) / MAX_TURN_BAR * TURN_BAR_LENGTH); ++k) std::cout << "-";
+            for (int k = 0; k < TURN_BAR_LENGTH - floor((double)std::min(e->getTurnBar(), MAX_TURN_BAR) / MAX_TURN_BAR * TURN_BAR_LENGTH); ++k) std::cout << "-";
             std::cout << "]\n";
         }
     }
 
     /**
-     * addEntity: This method adds an entity to the room. Use this to populate a combat room with enemies. 
-     * It pushes back a 0 into the turnBar vector to represent that unit's turn bar. 
+     * addEnemy: This method adds an enemy to the room. Use this to populate a combat room with enemies. 
      * args: e (the enemy to be added)
      * outputs: none
      * */
-    void addEntity(Entity& e){
+    void addEnemy(Enemy* e){
         entities.push_back(e);
-        turnBar.push_back(0);
     }
 
     /**
@@ -83,14 +100,21 @@ public:
      * */
     void updateTurn(){
         // go through and find if someone is above max turn bar. reset them to zero if so
-        for (int i = 0; i < entities.size(); ++i) if (turnBar[i] >= MAX_TURN_BAR) turnBar[i] = 0;
+        for (auto e : entities){
+            if (e->getTurnBar() >= MAX_TURN_BAR) e->setTurnBar(0);
+        }
+
+        if (player->getTurnBar() >= MAX_TURN_BAR) player->setTurnBar(0);
 
         // loop through all entities and update their turn bars until somebody reaches maximum. 
         bool reachedEnd = false;
         while (!reachedEnd){
-            for (int i = 0; i < entities.size(); ++i){
-                turnBar[i] += entities[i].getSpeed();
-                if (turnBar[i] >= MAX_TURN_BAR) reachedEnd = true;
+            player->addTurnBar(player->getSpeed());
+            if (player->getTurnBar() >= MAX_TURN_BAR) reachedEnd = true;
+
+            for (auto e : entities){
+                e->addTurnBar(e->getSpeed());
+                if (e->getTurnBar() >= MAX_TURN_BAR) reachedEnd = true;
             }
         }
     }
@@ -98,15 +122,17 @@ public:
     /**
      * combatOver: checks if combat is done
      * Goes through all entities and checks if their health is higher than zero. 
-     * *** PROBABLY NEEDS MORE IMPLEMENTATION ***
+     * Entities vector should never be empty when calling this method. 
      * args: none
-     * outputs: 
+     * outputs: whether or not combat is over
      * */
     bool combatOver(){
         bool over = true;
 
-        for (auto entity : entities){
-            if (entity.getCurrentHealth() > 0) over = false;
+        if (player->getCurrentHealth() > 0){ // if the player is still alive
+            for (auto e: entities){ // check if each enemy is alive
+                if (e->getCurrentHealth() > 0) over = false;
+            }
         }
 
         return over;

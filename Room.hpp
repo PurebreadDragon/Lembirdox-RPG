@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include "Entity.hpp"
+#include "Adventurer.cpp"
 
 class Room{
 protected:
@@ -12,6 +13,7 @@ protected:
     int weight;
     std::vector<Room*> exits;
     std::vector<std::string> exitLabels;
+    Adventurer* player;
 
 public:
     virtual ~Room() = default;
@@ -37,6 +39,15 @@ public:
     }
 
     /**
+     * linkPlayer: links the player to this room so they can be interacted with
+     * args: pointer to the player's object
+     * outputs: none
+     * */
+    void linkPlayer(Adventurer* player){
+        this->player = player;
+    }
+
+    /**
      * getName: gets the name
      * Usually used when displaying this room as a valid exit
      * args: none
@@ -52,7 +63,7 @@ public:
      * args: none
      * outputs: none
      * */
-    void interact(){
+    virtual void interact(){
         printDescription();
     };
 
