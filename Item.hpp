@@ -75,12 +75,31 @@ class DullBlade : public Item {
         abilityName = "Swift Cut";
         abilityDescription = "A powerful slash using the blade of the sword. Hits more through blunt force than anything. Deals 120% PAtk physical damage.";
 		physAtk = 10;
-        consumable = false;
 	}
 
 	void ability(Entity* user, Entity* target) const {
 		std::cout << "You slash at " << target->getName() << " with the blade, dealing " 
-        << target->dealPDamage(user->getPAtk() * 1.2) << " damage.\n";
+        << target->dealPDamage(user->getPAtk() * 1.2) << " physical damage.\n";
+	}
+};
+
+class WindRazor : public Item {
+    public:
+    WindRazor() {
+        name = "Windrazor";
+        description = "This long, curved katana feels incredibly light in your hands. It hums, giving off an aura of magical power. "
+        "Gripping it, you can feel the winds pick up at your feet, your steps becoming lighter.";
+        abilityName = "Air Rend";
+        abilityDescription = "This magical blade commands the power of air. Swinging it produces blades of wind, delivering devastating "
+        "slashing attacks from range. Deals 120% PAtk + 20% speed physical damage.";
+        physAtk = 10;
+        speed = 10;
+    }
+
+    void ability(Entity* user, Entity* target) const {
+		std::cout << "Channeling its power, you slash at " << target->getName() << " with the " << name << ". "
+        << "The very air splits where you cut it, sending several sharp blades of air towards your target. They deal " 
+        << target->dealPDamage(user->getPAtk() * 1.2 + user->getSpeed() * 0.2) << " physical damage.\n";
 	}
 };
 

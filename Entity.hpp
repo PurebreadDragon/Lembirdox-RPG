@@ -8,6 +8,7 @@ class Entity{
 protected:
     std::string name;
     std::string description;
+    std::string deathMessage = "It dies.";
     int health, maxHealth, physAtk, physDef, magAtk, magDef, speed, turnBar;
 
 public:
@@ -91,6 +92,10 @@ public:
         return name;
     }
 
+    std::string getDeathMessage(){
+        return deathMessage;
+    }
+
     /**Setters for some attributes below.
      * */
     void addTurnBar(int turn){
@@ -99,6 +104,10 @@ public:
 
     void setTurnBar(int turn){
         turnBar = turn;
+    }
+
+    void setDeathMessage(std::string message){
+        deathMessage = message;
     }
 
     /**Methods for dealing damage to this target below.

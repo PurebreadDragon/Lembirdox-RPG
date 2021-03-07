@@ -39,7 +39,7 @@ void Adventurer::turn(std::vector<Enemy*> enemies){
     int selection = 0;
 
     //turn only proceeds when the player chooses to attack or flee. Successfully using an item sets the selection flag to 1 as well
-    while (selection != 1 && selection != 3 selection != 4){ 
+    while (selection != 1 && selection != 3 && selection != 4){ 
         // prompt the user for their input and read it
         std::cout << "It's your turn. Available options:\n"
                 << "1:\tAttack\n"
@@ -104,7 +104,6 @@ void Adventurer::turn(std::vector<Enemy*> enemies){
                 int itemChoices[inventory.size()];
                 int itemIndex = 1;
                 int itemSelection = 0;
-
                 if (inventory.size() > 0){
                     for (auto item : inventory){
                         std::cout << itemIndex << ":\t" << item->getName() << ": " << item->getAbilityName() << "\n";
@@ -135,13 +134,14 @@ void Adventurer::turn(std::vector<Enemy*> enemies){
                     // read the user's target
                     enemySelection = reader.readInputCancel(enemyChoices, enemies.size());
 
+                    // execute the action
                     if (enemySelection != 0) inventory[itemSelection - 1]->ability(this, enemies[enemySelection - 1]);
-                    else selection = 0;
+                    else selection = 0; // if a cancel was selected, set selection to 0 so we don't consume the turn. 
                 } else selection = 0;
             } break;
             /*************************** FLEE ***************************/
             case 4:{ //flee
-                std::cout << "Waste your turn and do nothing\n";
+                std::cout << "Waste your turn and do nothing because this function isn't implemented.\n";
             } break;
         }
     }
