@@ -102,21 +102,20 @@ int main() {
     // arena.addEntity(rat);
     // arena.interact();
 
-    // CombatRoom arena("arena", "You're standing in a large open arena. There's a big fuckin rat");
-    // arena.addEntity(joe);
-    // arena.addEntity(jill);
-    // arena.addEntity(rat);
-    // arena.interact();
-
-
+    CombatRoom arena("arena", "You're standing in a large open arena. There's a skellington");
+    Skeleton* skelly = new Skeleton();
+    Adventurer* joe = new Adventurer("Joe", "You're an average joe.", 200, 50, 30, 5, 30, 100);
+    arena.addEnemy(skelly);
+    arena.linkPlayer(joe);
+    arena.interact();
 
     //Testing out my Town things :) Comment out if you need to.
-    Town* testTown = new Town();
-    Quest* currentQuest = testTown->RoamTown();
-    delete testTown;
-    currentQuest->showQuestContent();
-    std::cout << "done displaying content!\n";
-    delete currentQuest;
+    // Town* testTown = new Town();
+    // Quest* currentQuest = testTown->RoamTown();
+    // delete testTown;
+    // currentQuest->showQuestContent();
+    // std::cout << "done displaying content!\n";
+    // delete currentQuest;
     //Town stuff ends here.
 
     // InputReader reader;
