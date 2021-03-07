@@ -11,7 +11,8 @@ protected:
     int health, maxHealth, physAtk, physDef, magAtk, magDef, speed;
 
 public:
-    Entity(std::string name, std::string description, int maxHealth, int physAtk, int physDef, int magAtk, int magDef, int speed) {
+	//default constructor 
+    Entity(std::string name, std::string description, int maxHealth, int physAtk, int physDef, int magAtk, int magDef, int speed){
         this->name = name;
         this->description = description;
         this->maxHealth = maxHealth;
@@ -30,6 +31,14 @@ public:
         "Magical ATK/DEF: \t" << magAtk << "/" << magDef << "\n"
         "Speed: \t\t\t" << speed << "\n";
     }
+	
+void affectHealth(int damage){
+	health -= damage; 
+}
+
+bool isAlive() const{
+	return getCurrentHealth() > 0; 
+}	
 
     /**
      * Getters for all attributes below.
