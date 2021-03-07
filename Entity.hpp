@@ -110,17 +110,19 @@ public:
     }
 
     /**Methods for dealing damage to this target below.
-     * Requires balancing. Right now damage is only reduced by a flat amount equal to defense. 
+     * Damage formula is equivalent to: Damage * (1 - Defense / (Defense + 100)).
      * Int return value is for displaying feedback e.g. "Enemy deals " << dealPDamage(5) << " damage." 
      * */
-    int dealPDamage(int damage){
-        health -= (damage - physDef);
-        return (damage - physDef);
+    virtual int dealPDamage(int damage){
+        double reduction = 1 - (double) physDef / (physDef + 100);
+        health -= ((double)damage * reduction);
+        return ((double)damage * reduction);
     }
 
-    int dealMDamage(int damage){
-        health -= (damage - magDef);
-        return (damage - magDef);
+    virtual int dealMDamage(int damage){
+        double reduction = 1 - (double) magDef / (magDef + 100);
+        health -= ((double)damage * reduction);
+        return ((double)damage * reduction);
     }
 
     void heal(int value){

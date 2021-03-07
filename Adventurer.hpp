@@ -6,6 +6,7 @@
 #include "Enemy.cpp"
 #include "InputReader.cpp"
 #include <vector>
+#include <math.h>
 
 class Adventurer : public Entity
 {
@@ -20,8 +21,10 @@ class Adventurer : public Entity
 		void addItem(Item*);
 		void turn(std::vector<Enemy*>);
 		void attack(Enemy*);
+		void setHealth(double);
+		void setHealth(int);
 	private:
-		int level, experience; 
+		int level = 1, experience = 0, gold = 0; 
 		int maxHealthBonus = 0, physAtkBonus = 0, physDefBonus = 0, magAtkBonus = 0, magDefBonus = 0, speedBonus = 0;
 		std::vector<Item*> inventory;
 }; 

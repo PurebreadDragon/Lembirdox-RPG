@@ -33,7 +33,7 @@ public:
      * Sets fields to empty strings
      * */
     Room(){
-        name = "";
+        name = "unknown";
         description = "";
         weight = 0;
     }
@@ -128,7 +128,7 @@ public:
     void printExits(){
         std::cout << "Available exits: \n";
         for (int i = 0; i < exits.size(); ++i){
-            std::cout << exitLabels[i] << ": " << exits[i]->getName() << "\n";
+            std::cout << exitLabels[i] << ":\t" << exits[i]->getName() << "\n";
         }
     }
 
@@ -139,6 +139,22 @@ public:
      * */
     std::vector<std::string> getExitLabels(){
         return exitLabels;
+    }
+
+    /**
+     * resize: This method resizes a string to a given length. Use for formatting
+     * args: word (the string to be modified), length (the desired length)
+     * outputs: the modified string
+     * */
+    std::string resize(std::string word, int length){
+        if (word.length() == length) return word;
+        if (word.length() > length) return word.substr(0, length);
+        if (word.length() < length){
+            while (word.length() < length){
+                word += ' ';
+            }
+            return word;
+        }
     }
 };
 

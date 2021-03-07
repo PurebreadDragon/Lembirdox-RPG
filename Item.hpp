@@ -215,4 +215,58 @@ public:
     }
 };
 
+class RedPaw : public Item {
+public:
+    RedPaw() {
+        name = "Mort's Red Paw";
+        description = "It's a... severed cat paw with red fur? Didn't Mort have black fur? What the hell is going on?";
+        abilityName = "Squeak";
+        abilityDescription = "It makes a squeaking noise when you squeeze it.";
+        physAtk = 20;
+        physDef = 10;
+        value = 400;
+    }
+
+    void ability(Entity* user, Entity* target) {
+        std::cout << "You press on the red cat's paw. It squeaks.\n";
+    }
+};
+
+class BluePaw : public Item {
+public:
+    BluePaw() {
+        name = "Mort's Blue Paw";
+        description = "It's a... severed cat paw with blue fur? Didn't Mort have black fur? What the hell is going on?";
+        abilityName = "Squeak";
+        abilityDescription = "It makes a squeaking noise when you squeeze it.";
+        magAtk = 20;
+        magDef = 10;
+        value = 400;
+    }
+
+    void ability(Entity* user, Entity* target) {
+        std::cout << "You press on the blue cat's paw. It squeaks.\n";
+    }
+};
+
+class GoldPaw : public Item {
+public:
+    GoldPaw() {
+        name = "Mort's Gold Paw";
+        description = "It's a severed cat paw with golden fur. Upon closer inspection, it appears to change color when you hold it up to the light.";
+        abilityName = "Smite";
+        abilityDescription = "You can channel energy into the paw to smite a target, healing yourself and damaging it.";
+        speed = 10;
+        magAtk = 5;
+        value = 1000;
+    }
+
+    void ability(Entity* user, Entity* target) {
+        std::cout << "You press on the gold cat's paw. It squeaks. All of a sudden, a golden ray of light blasts out towards "
+                  << target->getName() << ", dealing " << target->dealMDamage(user->getMAtk() * 0.8) << " magic damage. Additionally, "
+                  << "the paw bathes you in warm golden sparkles, curing some of your wounds and restoring " << user->getMaxHealth() * 0.06 << " health.\n";
+        user->heal(user->getMaxHealth() * 0.06);
+    }
+};
+
 #endif
