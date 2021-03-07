@@ -2,6 +2,7 @@
 #include <string>
 #include "Room.hpp"
 #include "InputReader.cpp"
+#include "Item.hpp"
 
 class GoldStatueRoom : public Room{
 
@@ -45,7 +46,112 @@ class DartTrapRoom : public Room{
 };
 
 class CatRoom : public Room{
+public:
+    CatRoom(){
+        name = "strange door";
+        description = "";
+    }
+
     void interact(){
-        std::cout << "Oddly enough, there's a door to this room";
+        InputReader reader;
+        std::cout << "The entrance to this room is blocked by a round wooden door. You push it open, revealing a cozy interior. The floor is padded with a soft "
+                  << "carpet. One side of the room has a cozy brick fireplace, its coals glowing softly. Next to it is a small arrangement of "
+                  << "pillows and blankets. A small black cat sits on it. As you enter the room, it turns to face you with its gleaming yellow eyes.\n"
+                  << "HUMAN, an uncharacteristically deep voice resonates directly within your mind, presumably coming from the cat. \nWHAT BRINGS YOU HERE?\n"
+                  << "1:\t\"You can talk?\"\n";
+        int choices[]{1};
+        int selection = reader.readInput(choices, 1);
+
+        std::cout << "OF COURSE I CAN. DON'T TELL ME YOU'VE NEVER SEEN A TALKING CAT?\n"
+                  << "1:\t\"Uhh...\"\n";
+        int choices2[]{1};
+        selection = reader.readInput(choices2, 1);
+
+        std::cout << "I KNOW, I CAN TELL YOU'RE TAKEN ABACK BY MY GREATNESS. IT'S NOT EVERY DAY THAT I, THE GREAT MORT, LORD OF THE DARK NIGHT, "
+                  << "SLAYER OF THE FOULEST OF VERMIN, WIELDER OF THE ETERNAL BLACK FLAME, DECIDES TO BESTOW HIS PRESENCE UPON MERE MORTALS!\n"
+                  << "1:\t\"Okay... What do you want?\"\n"
+                  << "2:\t\"Get to the point.\"\n"
+                  << "3:\t\"What did you say your name was? *pfft* M-mort?\"\n";
+        int choices3[]{1, 2, 3};
+        selection = reader.readInput(choices3, 3);
+
+        if (selection == 3){
+            std::cout << "If cats could make expressions, Mort would probably be fuming right now. You can feel his embarrassment "
+                      << "through your telepathic link. \nCEASE YOUR YAPPING. I DIDN'T ASK FOR THIS NAME! YOU AGREE, DO YOU NOT? WHAT KIND OF "
+                      << "DARK LORD IS NAMED \"MORT\"? ALL THE TOWNSFOLK COWER IN TERROR WHEN THEY HEAR EVEN WHISPERS OF MY PRESENCE. I AM FEARED BY "
+                      << "EVERY KIND OF BEING ACROSS THE LAND. MY POWER IS LIMITLESS, LIKE THE BLACKEST OF MIDNIGHT. I COULD CRUSH YOUR PUNY HUMAN "
+                      << "BODY IN AN INSTANT. AND YET I AM STUCK WITH THIS "
+                      << "ACCURSED HUMAN LABEL, THAT OF "
+                      << "WHICH I DID NOT ASK FOR. CURSE THAT OLD HAG AND HER AWFUL NAMING SENSE. I WILL GET HER BACK ONE DAY.\n"
+                      << "1:\tTry to hold back your laughter. \"Okay, I'm sorry. What do you want from me?\"\n"
+                      << "2:\tSnicker. \"Mort.\"\n";
+            int choices4[]{1, 2};
+            selection = reader.readInput(choices4, 2);
+
+            if (selection == 2){
+                std::cout << "Mort's hair prickles a bit. \nYOU ARE PLAYING WITH FIRE, HUMAN. ETERNAL BLACK FIRE, TO BE EXACT.\n"
+                          << "1:\t\"Okay, I'm sorry. What do you want from me?\"\n"
+                          << "2:\tUnder your breath, whisper again \"Mort. Can you believe it?\"\n";
+                int choices5[]{1, 2};
+                selection = reader.readInput(choices5, 2);
+            }
+
+            if (selection == 2){
+                std::cout << "LAST WARNING, HUMAN. IT WAS FUNNY EARLIER. NOW IT'S NOT.\n"
+                          << "1:\t\"Okay, I'm sorry. What do you want from me?\"\n"
+                          << "2:\tStop holding it in.\n";
+                int choices6[]{1, 2};
+                selection = reader.readInput(choices6, 2);
+            }
+
+            if (selection == 2){
+                std::cout << "Unable to hold it in any longer, you burst out laughing. It's just too funny. A self-proclaimed dark "
+                          << "lord, wielder of the whatever whatever, but he's stuck with a name as dumb as MORT? It's almost too comedic.\n"
+                          << "Mort gets up from his bed. He stretches his back and a golden aura flares up around him. \nPREPARE YOURSELF, HUMAN.\n"
+                          << "You're almost too busy laughing to ready your weapon.\n";
+                mortCombat();
+            }
+        } else selection = 1;
+        
+        if (selection == 1){
+            std::cout << "Mort straightens up a little. \nI COME BEARING GIFTS, HUMAN. FROM THE OLD HAG HERSELF. STATE YOUR WISH.\n"
+                    << "1\tPower.\n"
+                    << "2\tWealth.\n"
+                    << "3\tWisdom.\n";
+            int choices7[]{1, 2, 3};
+            selection = reader.readInput(choices7, 3);
+
+            std::cout << "CONSIDER IT DONE. The cat gets up, stretches a little, then stares intensely at the spot in front of your feet. ";
+            switch(selection){
+                case 1:{
+                    std::cout << "A flash of light, a bit of smoke, and a red cat's paw materializes in front of you.\n"
+                              << "YOU ARE WELCOME, HUMAN. SQUASH SOME VERMIN FOR ME.\n";
+                    RedPaw *redpaw = new RedPaw();
+                    player->addItem(redpaw);
+                } break;
+                case 2:{
+                    int amount = rand() % 600 + 50;
+                    std::cout << "A flash of light, a bit of smoke, and a pile of gold materializes in front of you.\n"
+                              << "YOU ARE WELCOME, HUMAN. DON'T SPEND IT ALL IN ONE PLACE.\n"
+                              << "You gained " << amount << " gold.\n";
+                    player->addGold(amount);
+                } break;
+                case 3:{
+                    std::cout << "A flash of light, a bit of smoke, and a blue cat's paw materializes in front of you.\n"
+                              << "YOU ARE WELCOME, HUMAN. EXPAND YOUR BRAIN POWER BEYOND THE HORIZONS.\n";
+                    BluePaw *bluepaw = new BluePaw();
+                    player->addItem(bluepaw);
+                } break;
+            }
+        }
+
+        std::cout << "Mort abruptly disappears in a puff of smoke. You can still faintly sense his presence, but it seems like he's "
+                  << "had his fun for the day. Still a bit perplexed, you head towards the exit.\n";
+    }
+
+    void mortCombat(){
+        std::cout << "================================================\n";
+        std::cout << "MORT COMBAT GOES HERE WHEN I'M DONE DESIGNING IT\n";
+        std::cout << "================================================\n";
     }
 };

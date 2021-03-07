@@ -75,7 +75,7 @@ int main() {
     pool->addExit(tree);
     cave->addExit(tree); 
 
-    CombatRoom *arena = new CombatRoom("arena", "You're standing in a large open arena. There's a skellington");
+    CombatRoom *arena = new CombatRoom("arena", "You're standing in a large open arena. There's a skeleton.", "You're standing in a large open arena. It's empty.");
     // Skeleton* skelly = new Skeleton();
     // BigRat* ratticus = new BigRat();
     // GrowSlime* growslime = new GrowSlime();
@@ -92,10 +92,14 @@ int main() {
     goldstatue->linkPlayer(joe);
     DartTrapRoom *darttrap = new DartTrapRoom();
     darttrap->linkPlayer(joe);
+    CatRoom *catroom = new CatRoom();
+    catroom->linkPlayer(joe);
     arena->addExit(goldstatue);
     goldstatue->addExit(cave);
     cave->addExit(darttrap);
     darttrap->addExit(pool);
+    darttrap->addExit(catroom);
+    catroom->addExit(tree);
 
     DullBlade *dullBlade = new DullBlade();
     WindRazor *windRazor = new WindRazor();

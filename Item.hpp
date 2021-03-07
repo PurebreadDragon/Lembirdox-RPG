@@ -215,4 +215,38 @@ public:
     }
 };
 
+class RedPaw : public Item {
+public:
+    RedPaw() {
+        name = "Mort's Red Paw";
+        description = "It's a... severed cat paw with red fur? Didn't Mort have black fur? What the hell is going on?";
+        abilityName = "Squeak";
+        abilityDescription = "It makes a squeaking noise when you squeeze it.";
+        physAtk = 20;
+        physDef = 10;
+        value = 400;
+    }
+
+    void ability(Entity* user, Entity* target) {
+        std::cout << "You press on the red cat's paw. It squeaks.\n";
+    }
+};
+
+class BluePaw : public Item {
+public:
+    BluePaw() {
+        name = "Mort's Blue Paw";
+        description = "It's a... severed cat paw with blue fur? Didn't Mort have black fur? What the hell is going on?";
+        abilityName = "Squeak";
+        abilityDescription = "It makes a squeaking noise when you squeeze it.";
+        magAtk = 20;
+        magDef = 10;
+        value = 400;
+    }
+
+    void ability(Entity* user, Entity* target) {
+        std::cout << "You press on the blue cat's paw. It squeaks.\n";
+    }
+};
+
 #endif

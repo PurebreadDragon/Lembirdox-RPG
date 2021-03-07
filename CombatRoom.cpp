@@ -12,9 +12,13 @@ const int MAX_TURN_BAR = 1000;
 class CombatRoom : public Room{
 private:
     std::vector<Enemy*> entities;
+    bool combatDone = false;
+    std::string combatDoneDescription;
 
 public:
-    CombatRoom(std::string name, std::string description) : Room(name, description){}
+    CombatRoom(std::string name, std::string description, std::string combatDoneDescription) : Room(name, description){
+        this->combatDoneDescription = combatDoneDescription;
+    }
 
     /**
      * interact: Combat method. 
@@ -23,52 +27,56 @@ public:
      * outputs: none
      * */
     void interact(){
-        // Print out the description of the room and begin combat.
-        printDescription();
+        // Run the combat. This only happens once, win or lose. 
+        if (!combatDone){
+            printDescription();
 
-        int goldReward = 0, expReward = 0, turn = 1;
-
-        while (!combatOver()){
-            updateTurn();
-            printTurnBar();
-            
-            // execute player turn, if it is their turn
-            if (player->getTurnBar() >= MAX_TURN_BAR){
-                std::cout << "============================[TURN " << turn << "]===========================\n";
-                player->turn(entities);
-                player->setTurnBar(0);
-                std::cout << "============================[TURN " << turn << "]===========================\n";
-                turn++;
-            }
-
-            // check if anything died, remove them from the vector if so and accumulate gold/xp reward
-            std::vector<Enemy*>::iterator iter;
-            for (iter = entities.begin(); iter != entities.end(); /* nothing */ ) {
-                if (!(*iter)->isAlive()){
-                    std::cout << (*iter)->getDeathMessage() << "\n";
-                    goldReward += (*iter)->getGoldReward();
-                    expReward += (*iter)->getExpReward();
-                    iter = entities.erase(iter);
+            int goldReward = 0, expReward = 0, turn = 1;
+            while (!combatOver()){
+                updateTurn();
+                printTurnBar();
+                
+                // execute player turn, if it is their turn
+                if (player->getTurnBar() >= MAX_TURN_BAR){
+                    std::cout << "============================[TURN " << turn << "]===========================\n";
+                    player->turn(entities);
+                    player->setTurnBar(0);
+                    std::cout << "============================[TURN " << turn << "]===========================\n";
+                    turn++;
                 }
-                else ++iter;
-            }
 
-            // execute any enemy turns
-            for (auto e : entities){
-                if (e->getTurnBar() >= MAX_TURN_BAR){
-                    e->setTurnBar(0);
-                    e->turn(player);
+                // check if anything died, remove them from the vector if so and accumulate gold/xp reward
+                std::vector<Enemy*>::iterator iter;
+                for (iter = entities.begin(); iter != entities.end(); /* nothing */ ) {
+                    if (!(*iter)->isAlive()){
+                        std::cout << (*iter)->getDeathMessage() << "\n";
+                        goldReward += (*iter)->getGoldReward();
+                        expReward += (*iter)->getExpReward();
+                        iter = entities.erase(iter);
+                    }
+                    else ++iter;
+                }
+
+                // execute any enemy turns
+                for (auto e : entities){
+                    if (e->getTurnBar() >= MAX_TURN_BAR){
+                        e->setTurnBar(0);
+                        e->turn(player);
+                    }
                 }
             }
-        }
 
-        // if the player won the combat
-        if (player->isAlive()){
-            std::cout << "You receive " << goldReward << " gold and " << expReward << " experience.\n";
-            player->addGold(goldReward);
-            player->addExp(expReward);
+            // if the player won the combat
+            if (player->isAlive()){
+                std::cout << "You receive " << goldReward << " gold and " << expReward << " experience.\n";
+                player->addGold(goldReward);
+                player->addExp(expReward);
+                combatDone = true;
+            } else {
+                std::cout << "You died.\n";
+            }
         } else {
-            std::cout << "You died.\n";
+            std::cout << combatDoneDescription << "\n";
         }
     }
 
