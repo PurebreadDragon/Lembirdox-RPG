@@ -26,7 +26,7 @@ public:
         // Print out the description of the room and begin combat.
         printDescription();
 
-        int goldReward = 0, expReward = 0;
+        int goldReward = 0, expReward = 0, turn = 1;
 
         while (!combatOver()){
             updateTurn();
@@ -34,8 +34,11 @@ public:
             
             // execute player turn, if it is their turn
             if (player->getTurnBar() >= MAX_TURN_BAR){
+                std::cout << "============================[TURN " << turn << "]===========================\n";
                 player->turn(entities);
                 player->setTurnBar(0);
+                std::cout << "============================[TURN " << turn << "]===========================\n";
+                turn++;
             }
 
             // check if anything died, remove them from the vector if so and accumulate gold/xp reward
