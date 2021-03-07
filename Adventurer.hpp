@@ -21,7 +21,7 @@ class Adventurer : public Entity
 		void turn(std::vector<Enemy*>);
 		void attack(Enemy*);
 	private:
-		int level, experience; 
+		int level = 1, experience = 0, gold = 0; 
 		int maxHealthBonus = 0, physAtkBonus = 0, physDefBonus = 0, magAtkBonus = 0, magDefBonus = 0, speedBonus = 0;
 		std::vector<Item*> inventory;
 }; 

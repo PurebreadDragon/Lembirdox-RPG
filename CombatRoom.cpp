@@ -65,6 +65,8 @@ public:
         // if the player won the combat
         if (player->isAlive()){
             std::cout << "You receive " << goldReward << " gold and " << expReward << " experience.\n";
+            player->addGold(goldReward);
+            player->addExp(expReward);
         } else {
             std::cout << "You died.\n";
         }

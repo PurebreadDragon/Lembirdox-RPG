@@ -33,7 +33,7 @@ public:
      * Sets fields to empty strings
      * */
     Room(){
-        name = "";
+        name = "unknown";
         description = "";
         weight = 0;
     }

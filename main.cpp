@@ -9,6 +9,7 @@
 
 #include "Room.hpp"
 #include "CombatRoom.cpp"
+#include "OddityRoom.cpp"
 #include "Item.hpp"
 #include "Town.hpp"
 #include "InputReader.cpp"
@@ -75,16 +76,26 @@ int main() {
     cave->addExit(tree); 
 
     CombatRoom *arena = new CombatRoom("arena", "You're standing in a large open arena. There's a skellington");
-    Skeleton* skelly = new Skeleton();
-    BigRat* ratticus = new BigRat();
-    GrowSlime* growslime = new GrowSlime();
+    // Skeleton* skelly = new Skeleton();
+    // BigRat* ratticus = new BigRat();
+    // GrowSlime* growslime = new GrowSlime();
+    ShieldSkeleton* shieldSkelly = new ShieldSkeleton();
     Adventurer* joe = new Adventurer("Joe", "You're an average joe.", 200, 30, 10, 30, 10, 100);
-    arena->addEnemy(skelly);
-    arena->addEnemy(ratticus);
-    arena->addEnemy(growslime);
+    // arena->addEnemy(skelly);
+    // arena->addEnemy(ratticus);
+    // arena->addEnemy(growslime);
+    arena->addEnemy(shieldSkelly);
     arena->linkPlayer(joe);
     pool->addExit(arena);
     arena->addExit(tree);
+    GoldStatueRoom *goldstatue = new GoldStatueRoom();
+    goldstatue->linkPlayer(joe);
+    DartTrapRoom *darttrap = new DartTrapRoom();
+    darttrap->linkPlayer(joe);
+    arena->addExit(goldstatue);
+    goldstatue->addExit(cave);
+    cave->addExit(darttrap);
+    darttrap->addExit(pool);
 
     DullBlade *dullBlade = new DullBlade();
     WindRazor *windRazor = new WindRazor();
@@ -102,7 +113,7 @@ int main() {
     currentRoom = tree;
     currentRoom->printExits();
 
-    for (int i = 0; i < 5; ++i){
+    while (true){
         std::cout << "Where would you like to go?\n";
         currentRoom = &(currentRoom->getExit(reader.readInput(currentRoom->getExitLabels())));
         currentRoom->interact();

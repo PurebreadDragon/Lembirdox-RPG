@@ -23,11 +23,21 @@ int Adventurer::getLevel() const {
 void Adventurer::inspect(){
     std::cout << "It's you!\n";
     std::cout << "Health: \t\t" << health << "/" << maxHealth << " (+" << maxHealthBonus << ")\n"
+    "Experience: \t\t" << experience << "\n"
+    "Gold: \t\t\t" << gold << "\n"
     "Physical ATK: \t\t" << physAtk << " (+" << physAtkBonus << ")\n"
     "Physical DEF: \t\t" << physDef << " (+" << physDefBonus << ")\n"
     "Magical ATK: \t\t" << magAtk << " (+" << magAtkBonus << ")\n"
     "Magical DEF: \t\t" << magDef << " (+" << magDefBonus << ")\n"
     "Speed: \t\t\t" << speed << " (+" << speedBonus << ")\n";
+}
+
+void Adventurer::addGold(int gold){
+    this->gold += gold;
+}
+
+void Adventurer::addExp(int experience){
+    this->experience += experience;
 }
 
 /**addItem: adds an item to the player's inventory.
