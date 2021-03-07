@@ -6,7 +6,7 @@
 class Adventurer : public Entity
 {
 	public:
-		Adventurer(std::string name, std::string description, int maxHealth, int physAtk, int physDef, int magAtk, int magDef, int speed);
+		Adventurer(std::string, std::string, int, int, int, int, int, int);
 		void levelUp();
 		void actions();
 		void setLevel(int); 

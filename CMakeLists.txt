@@ -9,6 +9,7 @@ ADD_EXECUTABLE(test
 )
 
 ADD_EXECUTABLE(main
+Adventurer.cpp
 main.cpp
 )
 
