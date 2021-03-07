@@ -110,7 +110,7 @@ public:
     }
 
     /**Methods for dealing damage to this target below.
-     * Requires balancing. Right now damage is only reduced by a flat amount equal to defense. 
+     * Damage formula is equivalent to: Damage * (1 - Defense / (Defense + 100)).
      * Int return value is for displaying feedback e.g. "Enemy deals " << dealPDamage(5) << " damage." 
      * */
     int dealPDamage(int damage){
