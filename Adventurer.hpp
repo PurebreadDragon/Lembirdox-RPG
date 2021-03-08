@@ -21,6 +21,7 @@ class Adventurer : public Entity
 		void addGold(int);
 		void addExp(int);
 		void addItem(Item*);
+		void deathPenalty();
 		void printClass();
 		void turn(std::vector<Enemy*>);
 		void attack(Enemy*);

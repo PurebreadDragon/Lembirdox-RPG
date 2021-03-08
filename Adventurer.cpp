@@ -171,6 +171,17 @@ void Adventurer::addItem(Item* item){
     speedBonus += item->getSpeed();
 }
 
+/**
+ * deathPenalty: applies the penalty for dying to a player.
+ * Currently the player loses half of their gold and EXP.
+ * args: none
+ * outputs: none
+ * */
+void Adventurer::deathPenalty(){
+    gold /= 2;
+    experience /= 2;
+}
+
 /**turn: This method is called when this adventurer takes a turn in combat.
  * args: enemies (vector of valid enemy targets)
  * outputs: none
