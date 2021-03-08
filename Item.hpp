@@ -276,4 +276,29 @@ public:
     }
 };
 
+class DebuffStick : public Item{
+public:
+    DebuffStick(){
+        name = "Debuff Stick";
+        description = "for testing";
+        abilityName = "debufftest";
+        abilityDescription = "debufftest";
+    }
+
+    void ability(Entity* user, Entity* target){
+        std::cout << "Apply all buffs to user and all debuffs to target.\n";
+        user->buff(PHYS_ATK, 2);
+        user->buff(PHYS_DEF, 2);
+        user->buff(MAG_ATK, 2);
+        user->buff(MAG_DEF, 2);
+        user->buff(SPEED, 2);
+
+        target->buff(PHYS_ATK, +2);
+        target->buff(PHYS_DEF, -2);
+        target->buff(MAG_ATK, +2);
+        target->buff(MAG_DEF, -2);
+        target->buff(SPEED, -2);
+    }
+};
+
 #endif

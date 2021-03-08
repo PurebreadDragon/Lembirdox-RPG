@@ -143,11 +143,13 @@ int main() {
     StickWand *stickWand = new StickWand();
     FlareOrb *flareOrb = new FlareOrb();
     BasicPotion *potion = new BasicPotion();
+    DebuffStick *debuffstick = new DebuffStick();
     player->addItem(dullBlade);
     player->addItem(windRazor);
     player->addItem(stickWand);
     player->addItem(potion);
     player->addItem(flareOrb);
+    player->addItem(debuffstick);
     // player->inspect();
 
     // // update the current room

@@ -140,7 +140,7 @@ public:
      *      speed buffs/debuffs: +30%/-30%
      * If a target already has an existing buff and the same buff is applied, the duration is added on.
      * If a target already has an existing buff and a debuff is applied, the duration is subtracted. 
-     *      In this case, if there is underflow (e.g. 2 turn buff + 3 turn debuff) then the target will have 1 turn of the reverse. 
+     *      In this case, if there is underflow then the target will have 1 turn of the reverse, e.g. 2T buff + 3T debuff = 1T debuff. 
      * args: stat (the stat to buff/debuff), duration (the duration of the buff)
      * outputs: none
      * */
@@ -196,6 +196,25 @@ public:
     }
 
     /**
+     * displayBuffs(): prints out a list of buffs.
+     * No newline. Print this after the HP display. 
+     * args: none
+     * outputs: none
+     * */
+    void displayBuffs(){
+        if (pAtkBuff > 0) std::cout << "[+PATK] ";
+        else if (pAtkBuff < 0) std::cout << "[-PATK] ";
+        if (mAtkBuff > 0) std::cout << "[+MATK] ";
+        else if (mAtkBuff < 0) std::cout << "[-MATK] ";
+        if (pDefBuff > 0) std::cout << "[+PDEF] ";
+        else if (pDefBuff < 0) std::cout << "[-PDEF] ";
+        if (mDefBuff > 0) std::cout << "[+MDEF] ";
+        else if (mDefBuff < 0) std::cout << "[-MDEF] ";
+        if (spdBuff > 0) std::cout << "[+SPD] ";
+        else if (spdBuff < 0) std::cout << "[-SPD] ";
+    }
+
+    /**
      * initializeOrigStats(): Saves all original stat values.
      * Call this upon starting every combat.
      * args: none
@@ -210,7 +229,8 @@ public:
     }
 
     /**
-     * updateBuffs: Updates all existing buffs. Reduces their duration by 1 and if the duration hits 0, resets the character's stats. 
+     * updateBuffs: Updates all existing buffs. Reduces their duration by 1.
+     * Sets buffed stats to their buffed values. 
      * Call this method AFTER an entity's turn.
      * args: none
      * outputs: none

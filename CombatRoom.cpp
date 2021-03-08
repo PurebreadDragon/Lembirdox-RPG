@@ -104,16 +104,25 @@ public:
         for (int k = 0; k < floor((double)std::min(player->getTurnBar(), MAX_TURN_BAR) / MAX_TURN_BAR * TURN_BAR_LENGTH); ++k) std::cout << "-";
         std::cout << "o";
         for (int k = 0; k < TURN_BAR_LENGTH - floor((double)std::min(player->getTurnBar(), MAX_TURN_BAR) / MAX_TURN_BAR * TURN_BAR_LENGTH); ++k) std::cout << "-";
-        std::cout << "] (" << player->getCurrentHealth() << "/" << player->getMaxHealth() << ")\n";
+        std::cout << "] (" << player->getCurrentHealth() << "/" << player->getMaxHealth() << ")\t";
+        player->displayBuffs();
+        std::cout << "\n";
 
         // print enemy info
         for (auto e : entities){
+            // print name
             tempName = e->getName();
+            // print turn percentage
             std::cout << resize(tempName, 16) << " (" << e->getTurnBar() / 10 << "%)\t[";
+            // print turn bar
             for (int k = 0; k < floor((double)std::min(e->getTurnBar(), MAX_TURN_BAR) / MAX_TURN_BAR * TURN_BAR_LENGTH); ++k) std::cout << "-";
             std::cout << "o";
             for (int k = 0; k < TURN_BAR_LENGTH - floor((double)std::min(e->getTurnBar(), MAX_TURN_BAR) / MAX_TURN_BAR * TURN_BAR_LENGTH); ++k) std::cout << "-";
-            std::cout << "] (" << e->getCurrentHealth() << "/" << e->getMaxHealth() << ")\n";
+            // print health
+            std::cout << "] (" << e->getCurrentHealth() << "/" << e->getMaxHealth() << ")\t";
+            // print buffs
+            e->displayBuffs();
+            std::cout << "\n";
         }
     }
 
