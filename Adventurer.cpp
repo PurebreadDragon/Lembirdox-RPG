@@ -110,7 +110,7 @@ void Adventurer::inspect(){
     std::cout << "It's you!\n";
     std::cout << "Class: ";
     printClass();
-    std::cout << "Experience: \t\t" << experience << ", " << 75 * pow(1.1, level) << " to level\n"
+    std::cout << "\nExperience: \t\t" << experience << ", " << 75 * pow(1.1, level) << " to level\n"
     "Gold: \t\t\t" << gold << "\n"
     "Health: \t\t" << health << "/" << maxHealth << " (+" << maxHealthBonus << ")\n"
     "Physical ATK: \t\t" << physAtk << " (+" << physAtkBonus << ")\n"
@@ -125,9 +125,9 @@ void Adventurer::inspect(){
  * */
 void Adventurer::printClass(){
     switch(job){
-        case Warrior: std::cout << "Warrior\n"; break;
-        case Wizard: std::cout << "Wizard\n"; break;
-        case Rogue: std::cout << "Rogue\n"; break;
+        case Warrior: std::cout << "Warrior"; break;
+        case Wizard: std::cout << "Wizard"; break;
+        case Rogue: std::cout << "Rogue"; break;
     }
 }
 
