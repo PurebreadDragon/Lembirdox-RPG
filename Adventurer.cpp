@@ -120,6 +120,63 @@ void Adventurer::inspect(){
     "Speed: \t\t\t" << speed << " (+" << speedBonus << ")\n";
 }
 
+/**
+ * checkInventory(): allows the user to check their inventory and use any consumable items
+ * args: none
+ * outputs: none
+ * */
+void Adventurer::checkInventory(){
+    if (inventory.size() <= 0) std::cout << "Your bag is empty!\n";
+    else {
+        InputReader reader;
+
+        std::cout << "0:\tBack\n"
+                  << "1:\tInspect\n"
+                  << "2:\tUse\n";
+        int invChoices[]{0, 1, 2};
+        int invSelect = reader.readInput(invChoices, 3);
+        switch(invSelect){
+            case 0: break; // do nothing
+            case 1: { // inspect
+                std::cout << "Choose an option.\n";
+                
+                // print list of items
+                int index = 1;
+                int itemIndices[inventory.size()];
+                for (auto item : inventory){
+                    std::cout << index << ":\t" << item->getName() <<"\n";
+                    itemIndices[index - 1] = index;
+                    ++index;
+                }
+
+                // prompt user for their choice and inspect it
+                inventory[reader.readInput(itemIndices, inventory.size()) - 1]->inspect();
+            } break;
+            case 2: {
+                std::cout << "Choose an option.\n";
+
+                // print list of items
+                int index = 1;
+                int itemIndices[inventory.size()];
+                for (auto item : inventory){
+                    std::cout << index << ":\t" << item->getName() <<"\n";
+                    itemIndices[index - 1] = index;
+                    ++index;
+                }
+                
+                // prompt user for their choice and use it if it's a consumable
+                int useChoice = reader.readInput(itemIndices, inventory.size());
+                if (inventory[useChoice - 1]->isConsumable()){
+                    inventory[useChoice - 1]->ability(this, NULL);
+                    inventory.erase(inventory.begin() + useChoice - 1);
+                } else {
+                    std::cout << "You can't do that here.\n";
+                }
+            }
+        }
+    }
+}
+
 /**printClass: prints the user's class
  * Saves some typing.
  * */

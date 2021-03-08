@@ -100,7 +100,7 @@ class DullBlade : public Item {
 public:
 	DullBlade() {
 		name = "Dull Blade";
-		description = "An ordinary-looking longsword. Scratches along its surface indicate it's passed through the hands of many a traveler.\n";
+		description = "An ordinary-looking longsword. Scratches along its surface indicate it's passed through the hands of many a traveler.";
         abilityName = "Swift Cut";
         abilityDescription = "A powerful slash using the blade of the sword. Hits more through blunt force than anything. Deals 120% PAtk physical damage.";
 		physAtk = 10;
@@ -196,7 +196,7 @@ class FlareOrb : public Item {
 public:
     FlareOrb() {
         name = "Flare Orb";
-		description = "This smooth red orb is warm to the touch and fits in your palm. You can feel a deep magical energy swirling underneath its surface.\n";
+		description = "This smooth red orb is warm to the touch and fits in your palm. You can feel a deep magical energy swirling underneath its surface.";
         abilityName = "Blast";
         abilityDescription = "Channel the magical energy in the orb to blast the enemy with magical fire. "
         "Randomly deals magical damage equal to somewhere between 200% and 300% of your MAtk. 3 turn cooldown.";

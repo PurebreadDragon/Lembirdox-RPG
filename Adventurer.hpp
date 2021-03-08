@@ -18,6 +18,7 @@ class Adventurer : public Entity
 		void setLevel(int); 
 		int getLevel() const; 
 		void inspect();
+		void checkInventory();
 		void addGold(int);
 		void addExp(int);
 		void addItem(Item*);
