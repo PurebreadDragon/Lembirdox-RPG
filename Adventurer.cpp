@@ -53,10 +53,12 @@ Adventurer::Adventurer(Class job, std::string name, std::string description) {
                 hpLvl = 25;
 
                 physAtk = 40;
+                pAtkLvl = 4;
                 physDef = 15;
                 pDefLvl = 1;
 
                 magAtk = 30;
+                mAtkLvl = 3;
                 magDef = 15;
                 mDefLvl = 1;
 
@@ -68,6 +70,31 @@ Adventurer::Adventurer(Class job, std::string name, std::string description) {
 
 void Adventurer::levelUp(){
     std::cout << "You leveled up!\n";
+    if (hpLvl > 0){
+        maxHealth += hpLvl;
+        health += hpLvl;
+        std::cout << "Health: +" << hpLvl <<"\n";
+    }
+    if (pAtkLvl > 0){
+        physAtk += pAtkLvl; 
+        std::cout << "Physical ATK: +" << pAtkLvl << "\n";
+    }
+    if (pDefLvl > 0){
+        physDef += pDefLvl; 
+        std::cout << "Physical DEF: +" << pDefLvl << "\n";
+    }
+    if (mAtkLvl > 0){
+        magAtk += mAtkLvl; 
+        std::cout << "Magical ATK: +" << mAtkLvl << "\n";
+    }
+    if (mDefLvl > 0){
+        magAtk += mAtkLvl; 
+        std::cout << "Magical DEF: +" << mDefLvl << "\n";
+    }
+    if (spdLvl > 0){
+        speed += spdLvl;
+        std::cout << "Speed: +" << spdLvl << "\n";
+    }
 	++level;	
 }
 
@@ -108,8 +135,12 @@ void Adventurer::addGold(int gold){
     this->gold += gold;
 }
 
-void Adventurer::addExp(int experience){
-    this->experience += experience;
+void Adventurer::addExp(int gain){
+    experience += gain;
+    if (experience > (double)75 * pow(1.1, level)){
+        levelUp();
+        experience = 0;
+    }
 }
 
 /**addItem: adds an item to the player's inventory.
