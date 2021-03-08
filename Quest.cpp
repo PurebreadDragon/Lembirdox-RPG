@@ -24,11 +24,18 @@ public:
         }
     }
 
+    unsigned int getReward() { return reward; }
+    std::string getTask() { return description; }
+    Entity* getBoss() { return boss; }
+
     //testing function just to make sure stuff saved
     void showQuestContent() {
+        std::cout << "Printing description and boss->getName()\n";
         std::cout << "Quest description: " << description << boss->getName() << std::endl;
+        std::cout << "Printing quest boss and boss->inspect()\n";
         std::cout << "Quest boss:" << std::endl;
         boss->inspect(); std::cout << std::endl;
+        std::cout << "Printing reward\n";
         std::cout << "Quest reward: " << reward << " gold" << std::endl;
     }
 };

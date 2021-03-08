@@ -111,12 +111,37 @@ int main() {
 
 
     //Testing out my Town things :) Comment out if you need to.
-    Town* testTown = new Town();
-    Quest* currentQuest = testTown->RoamTown();
-    delete testTown;
-    currentQuest->showQuestContent();
-    std::cout << "done displaying content!\n";
-    delete currentQuest;
+        int testCase = 0;
+        std::cout << "Which test, 1 or 2?\n";
+        std::cin >> testCase;
+        if (testCase == 1) {
+            Town* testTown = new Town();
+            Quest* currentQuest = testTown->RoamTown();
+            delete testTown;
+            if (currentQuest != nullptr) {
+                currentQuest->showQuestContent();
+                delete currentQuest;
+            }
+            else {   
+                exit(0);
+            }
+        }
+        else {
+            Town* loadedTown = LoadGame();
+            Quest* loadedQuest = loadedTown->RoamTown();
+            std::cout << "Finished roaming!\n";
+            delete loadedTown;
+            std::cout << "Deleted loadedTown!\n";
+            if (loadedQuest != nullptr) {
+                loadedQuest->showQuestContent();
+                std::cout << "Finished showing quest!\n";
+                delete loadedQuest;
+            }
+            else {
+                exit(0);
+            }
+        }
+
     //Town stuff ends here.
 
     // InputReader reader;

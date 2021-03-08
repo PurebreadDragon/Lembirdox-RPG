@@ -37,37 +37,15 @@ public:
      * outputs: the value of the desired stat
      * */
 
-    int getCurrentHealth(){
-        return health;
-    }
-
-    int getMaxHealth(){
-        return health;
-    }
-
-    int getPAtk(){
-        return physAtk;
-    }
-
-    int getPDef(){
-        return physDef;
-    }
-
-    int getMAtk(){
-        return magAtk;
-    }
-
-    int getMDef(){
-        return magDef;
-    }
-    
-    int getSpeed(){
-        return speed;
-    }
-
-    std::string getName(){
-        return name;
-    }
+    int getCurrentHealth() { return health; }
+    int getMaxHealth() { return health; }
+    int getPAtk() { return physAtk; }
+    int getPDef() { return physDef; }
+    int getMAtk() { return magAtk; }
+    int getMDef() { return magDef; }
+    int getSpeed() { return speed; }
+    std::string getName() { return name; }
+    std::string getDescription() { return description; }
 
     virtual ~Entity() = default;
 };

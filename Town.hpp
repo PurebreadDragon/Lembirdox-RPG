@@ -6,6 +6,7 @@
 #include "InputReader.cpp"
 
 #include <string>
+#include <fstream>
 
 //FIXME: Whitespace should be cleaned up throughout the entire program whenever we can :)
 
@@ -52,6 +53,7 @@ private:
 
       else { //a quest has already been selected
          std::cout << "\nYou enter the Inn... and remember that you already have a quest!\n";
+         nextQuest->showQuestContent();
       }
    }
 
@@ -172,6 +174,8 @@ public:
       nextQuest = nullptr; //cannot be deleted, quest is needed. Delete quest directly instead
    }
 
+   friend void SaveGame(Town*);
+   friend Town* LoadGame();
 
    //Master quest that manages all of the town. Accepts no arguments and returns the Quest to be started.
    Quest* RoamTown() {
@@ -180,6 +184,10 @@ public:
       int choices[5] = {0,1,2,3,4};
       int select = -1;
 
+      if (nextQuest != nullptr && nextQuest->getBoss() != nullptr) { std::cout << "boss is not null\n"; nextQuest->showQuestContent(); }
+      else if (nextQuest->getBoss() == nullptr) { std::cout << "Boss is null!\n"; }
+      else { std::cout << "Um\n"; }
+
       while (select != 0 && !questStarted) {
          std::cout << std::endl << description << std::endl;
          displayMenu();
@@ -187,7 +195,8 @@ public:
          select = read->readInput(choices,5);
          switch(select) {
             case 0:
-               std::cout << "Save and quit has been called!" << std::endl; //TODO: Add save and exit routine!
+               SaveGame(this);
+               nextQuest = nullptr;
                break;
             case 1: Inn();    break;
             case 2: Store();  break;
@@ -207,7 +216,167 @@ public:
       delete read;
       return nextQuest;
    }
-
 };
+
+
+const char SAVE_FILE[] = ("savefile.dat");
+void SaveGame(Town* t) {
+    remove(SAVE_FILE); //overwrite current file
+    std::cout << "Saving..." << std::endl;
+    std::ofstream writer;
+
+    writer.open(SAVE_FILE);
+    if (!writer.fail()) {
+        if(t->nextQuest == nullptr) { //there has to be a better way to write these... I'll look into it
+            writer << "q:" << t->q1->reward << ";";
+            writer << t->q1->boss->getName() << ",";
+            writer << t->q1->boss->getDescription() << ",";
+            writer << t->q1->boss->getMaxHealth() << ",";
+            writer << t->q1->boss->getPAtk() << ",";
+            writer << t->q1->boss->getPDef() << ",";
+            writer << t->q1->boss->getMAtk() << ",";
+            writer << t->q1->boss->getMDef() << ",";
+            writer << t->q1->boss->getSpeed() << ";";
+            writer << t->q1->task << ";";
+            writer << "\n";
+
+            writer << "q:" << t->q2->reward << ";";
+            writer << t->q2->boss->getName() << ",";
+            writer << t->q2->boss->getDescription() << ",";
+            writer << t->q2->boss->getMaxHealth() << ",";
+            writer << t->q2->boss->getPAtk() << ",";
+            writer << t->q2->boss->getPDef() << ",";
+            writer << t->q2->boss->getMAtk() << ",";
+            writer << t->q2->boss->getMDef() << ",";
+            writer << t->q2->boss->getSpeed() << ";";
+            writer << t->q2->task << ";";
+            writer << "\n";
+        }
+        else {
+            writer << "Q:" << t->nextQuest->getReward() << ";";
+            writer << t->nextQuest->getBoss()->getName() << ",";
+            writer << t->nextQuest->getBoss()->getDescription() << ",";
+            writer << t->nextQuest->getBoss()->getMaxHealth() << ",";
+            writer << t->nextQuest->getBoss()->getPAtk() << ",";
+            writer << t->nextQuest->getBoss()->getPDef() << ",";
+            writer << t->nextQuest->getBoss()->getMAtk() << ",";
+            writer << t->nextQuest->getBoss()->getMDef() << ",";
+            writer << t->nextQuest->getBoss()->getSpeed() << ";";
+            writer << t->nextQuest->getTask() << ";";
+            writer << "\n";
+            delete t->nextQuest;
+        }
+        
+        //TODO: Save the adventuring party
+
+        writer << "#### END SAVE FILE ####";
+        std::cout << "Save successful!" << std::endl;
+    }
+    else {
+        std::cout << "There was an error while saving, the file may be oorrupted." << std::endl;
+    }
+    writer.close();
+}
+
+Town* LoadGame() {
+    std::cout << "Loading..." << std::endl;
+    std::ifstream reader;
+
+    Town* retTown = nullptr;
+    Entity* qBoss = nullptr;
+    QuestStub* loadQuest = nullptr;
+
+    reader.open(SAVE_FILE);
+    if (!reader.fail()) {
+        std::string line;
+        std::string substring = "";
+
+        unsigned int qReward;
+        std::string eName = "";
+        std::string eDesc = "";
+        int eStat[6] = {0,0,0,0,0,0};
+        std::string qTask = "";
+
+        while (!reader.eof() && !reader.fail()) {
+            line = "";
+            std::getline(reader,line);
+            if (line.at(0) == 'Q') {
+                unsigned currVal = 0;
+                unsigned currStat = 0;
+                for (unsigned i = 2; i < line.size(); ++i) {
+                    switch (currVal) {
+                        case 0:
+                            if (line.at(i) != ';') {
+                                substring += line.at(i);
+                            }
+                            else { 
+                                qReward = std::stoi(substring);
+                                substring = "";
+                                ++currVal;
+                            }
+                            break;
+                        case 1:
+                            if (line.at(i) != ',') {
+                                substring += line.at(i);
+                            }
+                            else {
+                                eName = substring;
+                                substring = "";
+                                ++currVal;
+                            }
+                            break;
+                        case 2:
+                            if (line.at(i) != ',') {
+                                substring += line.at(i);
+                            }
+                            else {
+                                eDesc = substring;
+                                substring = "";
+                                ++currVal;
+                            }
+                            break;
+                        case 3:
+                            if (line.at(i) != ',' && line.at(i) != ';') {
+                                substring += line.at(i);
+                            }
+                            else if (line.at(i) == ',') {
+                                eStat[currStat] = std::stoi(substring);
+                                substring = "";
+                                ++currStat;
+                            }
+                            else {
+                                eStat[currStat] = std::stoi(substring);
+                                substring = "";
+                                ++currVal;
+                            }
+                            break;
+                        case 4:
+                            if (line.at(i) != ';') {
+                                substring += line.at(i);
+                            }
+                            else {
+                                qTask = substring;
+                                substring = "";
+                                ++currVal;
+                            }
+                            break;
+                        }
+                    }
+               } 
+            else if (line.at(0) == 'A') {
+                //TODO: add adventurers
+            }
+        }
+
+        //Now that everything is loaded correctly, we can construct the file
+        qBoss = new Entity(eName,eDesc,eStat[0],eStat[1],eStat[2],eStat[3],eStat[4],eStat[5]);
+        loadQuest = new QuestStub(qReward, qBoss, qTask);
+        retTown = new Town();
+        retTown->nextQuest = retTown->generate(loadQuest);
+    }
+    reader.close();
+    std::cout << "Loading successful!" << std::endl;
+    return retTown;
+}
 
 #endif
