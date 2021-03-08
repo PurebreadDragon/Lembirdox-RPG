@@ -77,6 +77,7 @@ public:
                 player->addGold(goldReward);
                 player->addExp(expReward);
                 combatDone = true; //we don't set this to true if the player died. they can return?
+                player->clearBuffs();
             } else {
                 std::cout << "You died.\n";
                 end = true;
