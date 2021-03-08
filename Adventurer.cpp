@@ -10,6 +10,7 @@ Adventurer::Adventurer(Class job, std::string name, std::string description) {
         experience = 0;
         gold = 0;
 
+        // initialize base stats and stat growth based on player selection
         switch(job){
             case Warrior:{
                 maxHealth = 250;
@@ -107,9 +108,8 @@ int Adventurer::getLevel() const {
 }
 
 void Adventurer::inspect(){
-    std::cout << "It's you!\n";
-    std::cout << "Class: ";
-    printClass();
+    std::cout << name << " - Level " << level << " ";
+    printClass(); 
     std::cout << "\nExperience: \t\t" << experience << ", " << 75 * pow(1.1, level) << " to level\n"
     "Gold: \t\t\t" << gold << "\n"
     "Health: \t\t" << health << "/" << maxHealth << " (+" << maxHealthBonus << ")\n"

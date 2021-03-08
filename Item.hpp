@@ -29,6 +29,7 @@ public:
         if (physDef > 0) std::cout << "Physical Defense: +" << physDef << "\n";
         if (magAtk > 0) std::cout << "Magical Attack: +" << magAtk << "\n";
         if (magDef > 0) std::cout << "Magical Defense: +" << magDef << "\n";
+        if (speed > 0) std::cout << "Speed: +" << speed << "\n";
     }
 
 	virtual void ability(Entity* user, Entity* target) = 0;

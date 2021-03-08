@@ -75,6 +75,7 @@ public:
             } else {
                 std::cout << "You died.\n";
                 end = true;
+                player->deathPenalty();
             }
         } else {
             std::cout << combatDoneDescription << "\n";
