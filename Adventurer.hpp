@@ -36,6 +36,7 @@ class Adventurer : public Entity
 		int level = 1, experience = 0, gold = 0; 
 		int maxHealthBonus = 0, physAtkBonus = 0, physDefBonus = 0, magAtkBonus = 0, magDefBonus = 0, speedBonus = 0;
 		int hpLvl = 0, pAtkLvl = 0, pDefLvl = 0, mAtkLvl = 0, mDefLvl = 0, spdLvl = 0;
+		int ability1CD = 0, ability1MaxCD = 0, ability2CD = 0, ability2MaxCD = 0;
 		std::vector<Item*> inventory;
 		Class job;
 }; 

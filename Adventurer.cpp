@@ -379,19 +379,80 @@ void Adventurer::attack(Enemy* target){
     std::cout << "You strike the " << target->getName() << " with your bare fists, dealing " << target->dealPDamage(physAtk) << " physical damage.\n";
 }
 
-/**ability: Abilities that the character gains on level up. Levels 1, 6, 11, etc. unlock new ones.
+/**ability: Abilities that the character gains on level up. Levels 1, 4, 7, etc. unlock new ones.
  * Based on class. 
- * Warrior:
- * 1: Sunder. 80% PAtk physical damage. Applies 3 turn defense debuff.
- * 6: Drain Strike. 4 turn CD. 200% PAtk physical damage. Heals for 30% of damage dealt. 
- * 
- * Wizard:
+ * Warrior: A class focused around tanking and dealing a lot of single-target damage. Boss killer. 
+ * 1: Expose. 0 turn CD. 20% PAtk physical damage. Applies 3 turn defense debuff.
+ * 4: Drain. 4 turn CD. 200% PAtk physical damage. Heals for 30% of damage dealt. 
+ * 7: Sunder. 2 turn CD. 170% PAtk physical damage. Hits twice if self has attack buff. Buffs own attack for 2 turns but debuffs own defense for 1 turn. 
+ * ================================================================
+ * Wizard: A class focused around AoE skills and control. 
  * 1: Chain Lightning. 3 turn CD. 120% MAtk magic damage. Hits all targets. Resets CD if it kills a target. 
- * 6: Frost Storm. 6 turn CD. 70% MAtk magic damage. Hits all targets. Pushes their turn bars back by 30% and applies 2 turn speed debuff. 
+ * 4: Frost Storm. 6 turn CD. 70% MAtk magic damage. Hits all targets. Pushes their turn bars back by 30% and applies 2 turn speed debuff. 
+ * 7: TBD
+ * ================================================================
+ * Samurai: A class focused around speed and turn cycling.
+ * Samurai have a resource called Ki. They gain 20 Ki when performing Iai Slash but lose 10 Ki when taking damage, up to 100. 
+ * Samurai are very fragile, but have high physical attack, speed, physical attack growth and speed growth. 
+ * Basic attack: Replaced with Iai Slash. A lightning fast slash that cannot be seen by the naked eye.
+ *      Deals 50% PAtk damage, but can crit for double damage. Crit chance is equal to the percentage of filled Ki bar. 
+ * 1: Blink Strike: 3 turn CD. Teleport behind an enemy and cut them. Debuff their defense for 1 turn and perform an Iai Slash. Sets own turn bar to 50%. 
+ * 4: Perfect Domain: 8 turn CD. 3 hit duration. Breathe deeply and draw upon the latent power within, sharpening your senses to detect all 
+ * nearby movement. 
+ *      Reset your turn on cast. Cleanse all debuffs. 
+ *      When in your Perfect Domain state, you are immune to all debuffs and each Iai Slash hits twice. You always have speed buff. 
+ *      Kills during Perfect Domain extend the duration by 1 hit. 
+ *      Taking damage during Perfect Domain reduces the duration by 1 hit. 
+ * 7: Bladestorm: 4 turn CD. Shower the enemy in countless slashes. Casts 3 Iai Slashes in quick succession.  
+ * 11: Premonition: 6 turn CD. Focus your mind and predict the enemy's movements. Resets turn. Negate the next instance of damage. 
+ *      Casting premonition multiple times will not stack the damage negation. 
+ * 15: Ultimate Technique - Thunder Flash. 10 turn CD. Draw your blade and strike with the power of thunder and speed of lightning. Grant self 2T PAtk buff. 
+ *      Perform an Iai Slash. This Iai Slash is guaranteed to crit and ignores all defense. Reset your turn. 
+ * ================================================================
+ * Psionic: A class of mage with the ability to transform into a psionic being.
+ * Psionics have a resource called Psi. Using Psi Strike gains Psi, up to 5. They can expend it to fuel their more powerful abilities. 
+ * 1: Psionic Form. 99 turn CD. Transforms into psionic form. Psionic form replaces your basic attack with Psi Strike. 
+ *      Psi Strike: No CD. Deal 50% PAtk physical damage, 50% MAtk magical damage. Gain 1 Psi. 
+ * 4: Mindblast. No CD. Consume 1 Psi. Deal 40% PAtk physical damage, 40% MAtk magical damage. Ignore all defense. 
+ * 7: Psychic Fear. No CD. Consume 3 Psi. Doesn't do damage. Fully resets your own turn. Debuffs a target's speed for 1 turn and sets their turn bar to 0. 
+ * 11: Psi Storm. No CD. Consume 5 Psi. Does 250% PAtk physical and 250% MAtk magic damage to all enemies and debuffs their 
+ *      physical attack and magic attack for 2 turns. 
+ * 15: Recharge. 9 turn CD. Instantly charges 5 Psi. Reset your turn. If this skill is used at 5 Psi, expend all Psi to buff all stats for 2 turns and 
+ *      recover 25% health. 
+ * ================================================================
+ * Elementalist: A class with the ability to channel the power of the elements.
+ * Elementalists can channel the power of 5 different elements: Lightning, Fire, Earth, Water and Wind. They can channel 2 at a time.
+ * Lightning: Destructive element focused around single target damage.
+ * Fire: Destructive element focused around area of effect damage.
+ * Earth: Defensive element focused around reducing damage and slowing enemies.
+ * Water: Defensive element focused around restoring health. 
+ * Wind: Supportive element focused around bolstering your other elements. 
  * 
- * Rogue:
- * 1: Sonic Strike. 3 turn CD. 50% PAtk physical damage. Sets own turn bar to 50%. Buffs own attack and speed for 1 turn. 
- * 6: Hidden Blade. 2 turn CD. 150% PAtk physical damage. Ignores all defense. 
+ * Each element has an energy meter, up to 100. When not active i.e. not using its ability or stored, an element regenerates 15 energy. 
+ * 
+ * Elementalists have no offensive spells of their own. Instead, their elements provide passive effects that activate at the end of every turn. 
+ * They can modify their currently held elements with the following actions:
+ * 1: Switch. Change the selected element with a new one.
+ * 2: Offense. Changes the selected element into offense mode.
+ *      Lightning: 10 energy. Deal 30% MAtk magical damage to a random target. 
+ *      Fire: 20 energy. Deal 20% MAtk magical damage to all targets. 
+ *      Earth: 10 energy. Deal 5% MAtk physical damage to a random target. 50% chance to debuff its physical attack for 1 turn. 
+ *      Water: 10 energy. 25% chance each to apply 1 turn of defense debuff to each enemy. 
+ *      Wind: 40 energy. Grant 1 turn of speed buff to yourself.
+ * 3: Support. Changes the selected element into support mode.
+ *      Lightning: 40 energy. Deal 10% MAtk magical damage to a random target and apply 1 turn of defense debuff. 
+ *      Fire: 10 energy. You start your next turn at +10% turn bar. 
+ *      Earth: 20 energy. 25% chance to grant 1 turn of physical defense buff to youself. 25% chance to grant 1 turn of magic defense buff. 50% to grant both.
+ *      Water: 30 energy. Restore 5% max health. 
+ *      Wind: 10 energy. Your other effect activates an extra time at no energy cost. 
+ * 
+ * When an element lacks the energy to activate its ability, it will regenerate energy at the normal rate. 
+ * 
+ * You start with Lightning and Earth. At level 4, you gain Fire. At level 7, you gain Water. At level 11, you gain Wind. At level 15, you gain Elemental
+ * Hurricane. 
+ * 
+ * 15: Elemental Hurricane. 15 turn CD. Channel the full power of the elements. Fully restore all energy and deal 150% MAtk magical damage 
+ *      4 times and 150% MAtk physical damage one time (for earth) to random enemies. 
  * 
  * args: targets (list of available targets)
  * outputs: none
