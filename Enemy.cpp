@@ -103,6 +103,29 @@ public:
         speed = 75;
     }
 
+    void buff(Stat stat, int duration){
+        switch(stat){
+            case PHYS_ATK:{
+                if (pAtkBuff == 0) pAtkOrig = physAtk;
+                pAtkBuff += duration; 
+            } break;
+            case PHYS_DEF:{
+                if (pDefBuff == 0) pDefOrig = physDef;
+                pDefBuff += duration; 
+            } break;
+            case MAG_ATK:{
+                std::cout << "The grow slime shakes off the debuff.\n";
+            } break;
+            case MAG_DEF:{
+                if (mDefBuff == 0) mDefOrig = magDef;
+                mDefBuff += duration; 
+            } break;
+            case SPEED:{
+                std::cout << "The grow slime shakes off the debuff.\n";
+            } break;
+        }
+    }
+
     void turn(Entity* target){
         std::cout << "The slime gathers its power a little. It lurches back opening a mouth of sorts, exposing its core. ";
         magAtk += 15;

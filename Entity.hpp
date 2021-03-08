@@ -149,34 +149,55 @@ public:
          * 1. go to the block of code for the right stat
          * 2. if the current duration is at 0 (we are at the original value), store the current stat value. 
          * 3. increment the buff duration. negatives cancel out positives and vice versa. 
+         * 4. update stats now that they are buffed. 
          * */
         switch(stat){
             case PHYS_ATK:{
                 if (pAtkBuff == 0) pAtkOrig = physAtk;
                 pAtkBuff += duration; 
+
+                if (pAtkBuff > 0) physAtk = 1.5 * pAtkOrig;
+                else if (pAtkBuff == 0) physAtk = pAtkOrig;
+                else physAtk = 0.5 * pAtkOrig;
             } break;
             case PHYS_DEF:{
                 if (pDefBuff == 0) pDefOrig = physDef;
                 pDefBuff += duration; 
+
+                if (pDefBuff > 0) physDef = 1.5 * pDefOrig;
+                else if (pDefBuff == 0) physDef = pDefOrig;
+                else physDef = 0.5 * pDefOrig;
             } break;
             case MAG_ATK:{
                 if (mAtkBuff == 0) mAtkOrig = magAtk;
                 mAtkBuff += duration; 
+
+                if (mAtkBuff > 0) magAtk = 1.5 * mAtkOrig;
+                else if (mAtkBuff == 0) magAtk = mAtkOrig;
+                else magAtk = 0.5 * mAtkOrig;
             } break;
             case MAG_DEF:{
                 if (mDefBuff == 0) mDefOrig = magDef;
                 mDefBuff += duration; 
+
+                if (mDefBuff > 0) magDef = 1.5 * mDefOrig;
+                else if (mDefBuff == 0) magDef = mDefOrig;
+                else magDef = 0.5 * mDefOrig;
             } break;
             case SPEED:{
                 if (spdBuff == 0) spdOrig = speed;
                 spdBuff += duration; 
+                
+                if (spdBuff > 0) speed = 1.3 * spdOrig;
+                else if (spdBuff == 0) speed = spdOrig;
+                else speed = 0.7 * spdOrig;
             } break;
         }
     }
 
     /**
      * initializeOrigStats(): Saves all original stat values.
-     * Call this upon starting every combat
+     * Call this upon starting every combat.
      * args: none
      * outputs: none
      * */

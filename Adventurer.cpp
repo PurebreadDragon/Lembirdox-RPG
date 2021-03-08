@@ -379,6 +379,24 @@ void Adventurer::attack(Enemy* target){
     std::cout << "You strike the " << target->getName() << " with your bare fists, dealing " << target->dealPDamage(physAtk) << " physical damage.\n";
 }
 
+/**ability: Abilities that the character gains on level up. Levels 1, 6, 11, etc. unlock new ones.
+ * Based on class. 
+ * Warrior:
+ * 1: Sunder. 80% PAtk physical damage. Applies 3 turn defense debuff.
+ * 6: Drain Strike. 4 turn CD. 200% PAtk physical damage. Heals for 30% of damage dealt. 
+ * 
+ * Wizard:
+ * 1: Chain Lightning. 3 turn CD. 120% MAtk magic damage. Hits all targets. Resets CD if it kills a target. 
+ * 6: Frost Storm. 6 turn CD. 70% MAtk magic damage. Hits all targets. Pushes their turn bars back by 30% and applies 2 turn speed debuff. 
+ * 
+ * Rogue:
+ * 1: Sonic Strike. 3 turn CD. 50% PAtk physical damage. Sets own turn bar to 50%. Buffs own attack and speed for 1 turn. 
+ * 6: Hidden Blade. 2 turn CD. 150% PAtk physical damage. Ignores all defense. 
+ * 
+ * args: targets (list of available targets)
+ * outputs: none
+ * */
+
 /**setHealth: used to set the user's health to a certain percentage.
  * Use this for % max health based healing and attacks.
  * args: the percentage to set the user's health to
