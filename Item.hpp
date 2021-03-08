@@ -136,7 +136,7 @@ public:
     void ability(Entity* user, Entity* target) {
 		std::cout << "Channeling its power, you slash at " << target->getName() << " with the " << name << ". "
         << "The very air splits where you cut it, sending several sharp blades of air towards your target. They deal " 
-        << target->dealPDamage(user->getPAtk() * 1.2 + user->getSpeed() * 0.2) << " physical damage.\n";
+        << target->dealPDamage(user->getPAtk() * 1.2 + user->getSpeed() * 0.2) << " physical damage. \n";
 	}
 };
 

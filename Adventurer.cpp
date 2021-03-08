@@ -385,7 +385,7 @@ void Adventurer::attack(Enemy* target){
  * outputs: none
  * */
 void Adventurer::setHealth(double percent){
-    health = std::min(maxHealth, (int)ceil(maxHealth * percent));
+    health = maxHealth * percent;
 }
 
 void Adventurer::setHealth(int value){
