@@ -110,7 +110,7 @@ void Adventurer::inspect(){
     std::cout << "It's you!\n";
     std::cout << "Class: ";
     printClass();
-    std::cout << "Experience: \t\t" << experience << "\n"
+    std::cout << "Experience: \t\t" << experience << ", " << 75 * pow(1.1, level) << " to level\n"
     "Gold: \t\t\t" << gold << "\n"
     "Health: \t\t" << health << "/" << maxHealth << " (+" << maxHealthBonus << ")\n"
     "Physical ATK: \t\t" << physAtk << " (+" << physAtkBonus << ")\n"
@@ -135,9 +135,15 @@ void Adventurer::addGold(int gold){
     this->gold += gold;
 }
 
+
+/**addExp: adds experience from combat victories
+ * Level up the player if they reach a certain amount.
+ * args: gain (exp to gain)
+ * outputs: none
+ * */
 void Adventurer::addExp(int gain){
     experience += gain;
-    if (experience > (double)75 * pow(1.1, level)){
+    if (experience > 75 * pow(1.1, level)){
         levelUp();
         experience = 0;
     }
