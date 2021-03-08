@@ -14,7 +14,7 @@ protected:
     std::vector<Room*> exits;
     std::vector<std::string> exitLabels;
     Adventurer* player;
-    bool isEnd = false;
+    bool end = false;
 
 public:
     virtual ~Room() = default;
@@ -76,7 +76,12 @@ public:
      * outputs: true if the player goes back to town, false otherwise
      * */
     bool isEnd(){
-        return isEnd;
+        return end;
+    }
+
+    /** Setter for the above method. */
+    void setEnd(){
+        end = true;
     }
 
     /**

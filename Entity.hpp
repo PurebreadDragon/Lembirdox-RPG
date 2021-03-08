@@ -108,14 +108,14 @@ public:
      * */
     virtual int dealPDamage(int damage){
         double reduction = 1 - (double) physDef / (physDef + 100);
-        health -= ((double)damage * reduction);
-        return ((double)damage * reduction);
+        health -= (int)((double)damage * reduction + 0.5);
+        return (int)((double)damage * reduction + 0.5);
     }
 
     virtual int dealMDamage(int damage){
         double reduction = 1 - (double) magDef / (magDef + 100);
-        health -= ((double)damage * reduction);
-        return ((double)damage * reduction);
+        health -= (int)((double)damage * reduction + 0.5);
+        return (int)((double)damage * reduction + 0.5);
     }
 
     void heal(int value){
