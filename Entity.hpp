@@ -9,19 +9,12 @@ protected:
     std::string name;
     std::string description;
     std::string deathMessage = "It dies.";
-    int health, maxHealth, physAtk, physDef, magAtk, magDef, speed, turnBar;
+    int health = 0, maxHealth = 0, physAtk = 0, physDef = 0, magAtk = 0, magDef = 0, speed = 0, turnBar;
 
 public:
     Entity(){
         name = "";
         description = "";
-        health = 0;
-        maxHealth = 0;
-        physAtk = 0;
-        physDef = 0;
-        magAtk = 0;
-        magDef = 0;
-        speed = 0;
         turnBar = 0;
     }
 

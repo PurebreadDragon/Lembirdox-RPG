@@ -40,7 +40,7 @@ public:
                 if (player->getTurnBar() >= MAX_TURN_BAR){
                     std::cout << "================================[TURN " << turn << "]===============================\n";
                     player->turn(entities);
-                    player->setTurnBar(0);
+                    player->setTurnBar(player->getTurnBar() - MAX_TURN_BAR);
                     std::cout << "================================[TURN " << turn << "]===============================\n";
                     turn++;
                 }
@@ -60,7 +60,7 @@ public:
                 // execute any enemy turns
                 for (auto e : entities){
                     if (e->getTurnBar() >= MAX_TURN_BAR){
-                        e->setTurnBar(0);
+                        e->setTurnBar(e->getTurnBar() - MAX_TURN_BAR);
                         e->turn(player);
                     }
                 }

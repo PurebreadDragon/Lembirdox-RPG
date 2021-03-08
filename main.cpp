@@ -60,10 +60,10 @@ int main() {
     InputReader reader;
 
     // welome screen. prompt the user for their name and class selection
+    std::string playername;
     int nameSelection = -1;
     while (nameSelection != 1){
         std::cout << "Enter your name. (No spaces)\n";
-        std::string playername;
         std::cin >> playername;
         std::cout << "Is this what you want to be called? " << playername << "\n"
                 << "1:\tYes\n"
@@ -72,14 +72,28 @@ int main() {
         nameSelection = reader.readInput(nameChoice, 2);
     }
 
-    int classSelection = -1;
-    while (classSelection == 10){
+    int classSelection = 2, pickedClass;
+    while (classSelection == 2){
         std::cout << "Choose your class.\n"
                   << "1:\tWarrior\n"
                   << "2:\tWizard\n"
                   << "3:\tRogue\n";
         int classChoice[]{1, 2, 3};
-        classSelection = reader.readInput(classChoice, 3);
+        pickedClass = reader.readInput(classChoice, 3);
+
+        std::cout << "Are you sure? You cannot change your choice later.\n"
+                  << "1:\tYes\n"
+                  << "2:\tNo\n";
+        int nameChoice[]{1, 2};
+        classSelection = reader.readInput(nameChoice, 2);
+    }
+
+    Adventurer *player;
+
+    switch(pickedClass){
+        case 1: player = new Adventurer(Warrior, playername, "It's you!"); break;
+        case 2: player = new Adventurer(Wizard, playername, "It's you!"); break;
+        case 3: player = new Adventurer(Rogue, playername, "It's you!"); break;
     }
 
 
@@ -103,20 +117,19 @@ int main() {
     // BigRat* ratticus = new BigRat();
     GrowSlime* growslime = new GrowSlime();
     ShieldSkeleton* shieldSkelly = new ShieldSkeleton();
-    Adventurer* joe = new Adventurer(Warrior, "Joe", "You're an average joe.", 200, 30, 10, 30, 10, 100);
     // arena->addEnemy(skelly);
     // arena->addEnemy(ratticus);
     arena->addEnemy(growslime);
     arena->addEnemy(shieldSkelly);
-    arena->linkPlayer(joe);
+    arena->linkPlayer(player);
     pool->addExit(arena);
     arena->addExit(tree);
     GoldStatueRoom *goldstatue = new GoldStatueRoom();
-    goldstatue->linkPlayer(joe);
+    goldstatue->linkPlayer(player);
     DartTrapRoom *darttrap = new DartTrapRoom();
-    darttrap->linkPlayer(joe);
+    darttrap->linkPlayer(player);
     CatRoom *catroom = new CatRoom();
-    catroom->linkPlayer(joe);
+    catroom->linkPlayer(player);
     arena->addExit(goldstatue);
     goldstatue->addExit(cave);
     cave->addExit(darttrap);
@@ -129,12 +142,12 @@ int main() {
     StickWand *stickWand = new StickWand();
     FlareOrb *flareOrb = new FlareOrb();
     BasicPotion *potion = new BasicPotion();
-    joe->addItem(dullBlade);
-    joe->addItem(windRazor);
-    joe->addItem(stickWand);
-    joe->addItem(potion);
-    joe->addItem(flareOrb);
-    joe->inspect();
+    player->addItem(dullBlade);
+    player->addItem(windRazor);
+    player->addItem(stickWand);
+    player->addItem(potion);
+    player->addItem(flareOrb);
+    player->inspect();
 
     // update the current room
     currentRoom = tree;

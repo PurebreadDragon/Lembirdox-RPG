@@ -2,15 +2,73 @@
 #include <string>
 #include "Adventurer.hpp" 
 
-Adventurer::Adventurer(Class job, std::string name, std::string description, int maxHealth, int physAtk, int physDef, int magAtk, int magDef, int speed) 
-    : Entity(name, description, maxHealth, physAtk, physDef, magAtk, magDef, speed){ 
+Adventurer::Adventurer(Class job, std::string name, std::string description) {
         this->job = job;
+        this->name = name;
+        this->description = description;
         level = 1;
         experience = 0;
+        gold = 0;
+
+        switch(job){
+            case Warrior:{
+                maxHealth = 250;
+                health = maxHealth;
+                hpLvl = 40;
+
+                physAtk = 50;
+                pAtkLvl = 5;
+                physDef = 30;
+                pDefLvl = 3;
+
+                magAtk = 10;
+                mAtkLvl = 0;
+                magDef = 25;
+                mDefLvl = 2;
+
+                speed = 95;
+                spdLvl = 0;
+            } break;
+            case Wizard:{
+                maxHealth = 200;
+                health = maxHealth;
+                hpLvl = 30;
+
+                physAtk = 10;
+                pAtkLvl = 0;
+                physDef = 10;
+                pDefLvl = 1;
+
+                magAtk = 60;
+                mAtkLvl = 5;
+                magDef = 10;
+                mDefLvl = 3;
+
+                speed = 100;
+                spdLvl = 0;
+            } break;
+            case Rogue:{
+                maxHealth = 150;
+                health = maxHealth;
+                hpLvl = 25;
+
+                physAtk = 40;
+                physDef = 15;
+                pDefLvl = 1;
+
+                magAtk = 30;
+                magDef = 15;
+                mDefLvl = 1;
+
+                speed = 120;
+                spdLvl = 2;
+            } break;
+        }
     }
 
 void Adventurer::levelUp(){
-	setLevel(getLevel()+1); 	
+    std::cout << "You leveled up!\n";
+	++level;	
 }
 
 void Adventurer::setLevel(int l){
@@ -23,14 +81,27 @@ int Adventurer::getLevel() const {
 
 void Adventurer::inspect(){
     std::cout << "It's you!\n";
-    std::cout << "Health: \t\t" << health << "/" << maxHealth << " (+" << maxHealthBonus << ")\n"
-    "Experience: \t\t" << experience << "\n"
+    std::cout << "Class: ";
+    printClass();
+    std::cout << "Experience: \t\t" << experience << "\n"
     "Gold: \t\t\t" << gold << "\n"
+    "Health: \t\t" << health << "/" << maxHealth << " (+" << maxHealthBonus << ")\n"
     "Physical ATK: \t\t" << physAtk << " (+" << physAtkBonus << ")\n"
     "Physical DEF: \t\t" << physDef << " (+" << physDefBonus << ")\n"
     "Magical ATK: \t\t" << magAtk << " (+" << magAtkBonus << ")\n"
     "Magical DEF: \t\t" << magDef << " (+" << magDefBonus << ")\n"
     "Speed: \t\t\t" << speed << " (+" << speedBonus << ")\n";
+}
+
+/**printClass: prints the user's class
+ * Saves some typing.
+ * */
+void Adventurer::printClass(){
+    switch(job){
+        case Warrior: std::cout << "Warrior\n"; break;
+        case Wizard: std::cout << "Wizard\n"; break;
+        case Rogue: std::cout << "Rogue\n"; break;
+    }
 }
 
 void Adventurer::addGold(int gold){
