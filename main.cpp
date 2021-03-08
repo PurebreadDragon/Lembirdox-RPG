@@ -204,7 +204,7 @@ int main() {
         // Quest* currentQuest = testTown->RoamTown();
         Quest* newQuest = testTown->RoamTown();
 
-        // currentRoom = &currentQuest->getBeginning();
+        currentRoom = &currentQuest->getBeginning();
         while (true){
             currentRoom->interact();
             if (currentRoom->isEnd()) break;
