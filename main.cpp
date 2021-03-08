@@ -56,13 +56,50 @@ using namespace std;
 
 int main() {
 // rough draft of final project, feel free to add to it! Add your tests below this section please.
-    
+
+    InputReader reader;
+
+    // welome screen. prompt the user for their name and class selection
+    std::string playername;
+    int nameSelection = -1;
+    while (nameSelection != 1){
+        std::cout << "Enter your name. (No spaces)\n";
+        std::cin >> playername;
+        std::cout << "Is this what you want to be called? " << playername << "\n"
+                << "1:\tYes\n"
+                << "2:\tNo\n";
+        int nameChoice[]{1, 2};
+        nameSelection = reader.readInput(nameChoice, 2);
+    }
+
+    int classSelection = 2, pickedClass;
+    while (classSelection == 2){
+        std::cout << "Choose your class.\n"
+                  << "1:\tWarrior\n"
+                  << "2:\tWizard\n"
+                  << "3:\tRogue\n";
+        int classChoice[]{1, 2, 3};
+        pickedClass = reader.readInput(classChoice, 3);
+
+        std::cout << "Are you sure? You cannot change your choice later.\n"
+                  << "1:\tYes\n"
+                  << "2:\tNo\n";
+        int nameChoice[]{1, 2};
+        classSelection = reader.readInput(nameChoice, 2);
+    }
+
+    Adventurer *player;
+
+    switch(pickedClass){
+        case 1: player = new Adventurer(Warrior, playername, "It's you!"); break;
+        case 2: player = new Adventurer(Wizard, playername, "It's you!"); break;
+        case 3: player = new Adventurer(Rogue, playername, "It's you!"); break;
+    }
 
 
 // ALL PERSONAL TESTING STUFFS SHOULD BE IMPLEMENTED BELOW THIS LINE
 
     Room *currentRoom; // master variable that tracks where we are
-    InputReader reader; // helper class that handles read/write
 
     // build some room objects
     Room *tree = new Room("tree", "This room has a large tree in it. Two openings lie in front of you. One leads to a room with a large pool of water in it. The other leads deeper into the cave.");
@@ -80,20 +117,19 @@ int main() {
     // BigRat* ratticus = new BigRat();
     GrowSlime* growslime = new GrowSlime();
     ShieldSkeleton* shieldSkelly = new ShieldSkeleton();
-    Adventurer* joe = new Adventurer("Joe", "You're an average joe.", 200, 30, 10, 30, 10, 100);
     // arena->addEnemy(skelly);
     // arena->addEnemy(ratticus);
     arena->addEnemy(growslime);
     arena->addEnemy(shieldSkelly);
-    arena->linkPlayer(joe);
+    arena->linkPlayer(player);
     pool->addExit(arena);
     arena->addExit(tree);
     GoldStatueRoom *goldstatue = new GoldStatueRoom();
-    goldstatue->linkPlayer(joe);
+    goldstatue->linkPlayer(player);
     DartTrapRoom *darttrap = new DartTrapRoom();
-    darttrap->linkPlayer(joe);
+    darttrap->linkPlayer(player);
     CatRoom *catroom = new CatRoom();
-    catroom->linkPlayer(joe);
+    catroom->linkPlayer(player);
     arena->addExit(goldstatue);
     goldstatue->addExit(cave);
     cave->addExit(darttrap);
@@ -106,12 +142,12 @@ int main() {
     StickWand *stickWand = new StickWand();
     FlareOrb *flareOrb = new FlareOrb();
     BasicPotion *potion = new BasicPotion();
-    joe->addItem(dullBlade);
-    joe->addItem(windRazor);
-    joe->addItem(stickWand);
-    joe->addItem(potion);
-    joe->addItem(flareOrb);
-    joe->inspect();
+    player->addItem(dullBlade);
+    player->addItem(windRazor);
+    player->addItem(stickWand);
+    player->addItem(potion);
+    player->addItem(flareOrb);
+    player->inspect();
 
     // update the current room
     currentRoom = tree;

@@ -2,14 +2,100 @@
 #include <string>
 #include "Adventurer.hpp" 
 
-Adventurer::Adventurer(std::string name, std::string description, int maxHealth, int physAtk, int physDef, int magAtk, int magDef, int speed) 
-    : Entity(name, description, maxHealth, physAtk, physDef, magAtk, magDef, speed){ 
+Adventurer::Adventurer(Class job, std::string name, std::string description) {
+        this->job = job;
+        this->name = name;
+        this->description = description;
         level = 1;
         experience = 0;
+        gold = 0;
+
+        switch(job){
+            case Warrior:{
+                maxHealth = 250;
+                health = maxHealth;
+                hpLvl = 40;
+
+                physAtk = 50;
+                pAtkLvl = 5;
+                physDef = 30;
+                pDefLvl = 3;
+
+                magAtk = 10;
+                mAtkLvl = 0;
+                magDef = 25;
+                mDefLvl = 2;
+
+                speed = 95;
+                spdLvl = 0;
+            } break;
+            case Wizard:{
+                maxHealth = 200;
+                health = maxHealth;
+                hpLvl = 30;
+
+                physAtk = 10;
+                pAtkLvl = 0;
+                physDef = 10;
+                pDefLvl = 1;
+
+                magAtk = 60;
+                mAtkLvl = 5;
+                magDef = 10;
+                mDefLvl = 3;
+
+                speed = 100;
+                spdLvl = 0;
+            } break;
+            case Rogue:{
+                maxHealth = 150;
+                health = maxHealth;
+                hpLvl = 25;
+
+                physAtk = 40;
+                pAtkLvl = 4;
+                physDef = 15;
+                pDefLvl = 1;
+
+                magAtk = 30;
+                mAtkLvl = 3;
+                magDef = 15;
+                mDefLvl = 1;
+
+                speed = 120;
+                spdLvl = 2;
+            } break;
+        }
     }
 
 void Adventurer::levelUp(){
-	setLevel(getLevel()+1); 	
+    std::cout << "You leveled up!\n";
+    if (hpLvl > 0){
+        maxHealth += hpLvl;
+        health += hpLvl;
+        std::cout << "Health: +" << hpLvl <<"\n";
+    }
+    if (pAtkLvl > 0){
+        physAtk += pAtkLvl; 
+        std::cout << "Physical ATK: +" << pAtkLvl << "\n";
+    }
+    if (pDefLvl > 0){
+        physDef += pDefLvl; 
+        std::cout << "Physical DEF: +" << pDefLvl << "\n";
+    }
+    if (mAtkLvl > 0){
+        magAtk += mAtkLvl; 
+        std::cout << "Magical ATK: +" << mAtkLvl << "\n";
+    }
+    if (mDefLvl > 0){
+        magAtk += mAtkLvl; 
+        std::cout << "Magical DEF: +" << mDefLvl << "\n";
+    }
+    if (spdLvl > 0){
+        speed += spdLvl;
+        std::cout << "Speed: +" << spdLvl << "\n";
+    }
+	++level;	
 }
 
 void Adventurer::setLevel(int l){
@@ -22,9 +108,11 @@ int Adventurer::getLevel() const {
 
 void Adventurer::inspect(){
     std::cout << "It's you!\n";
-    std::cout << "Health: \t\t" << health << "/" << maxHealth << " (+" << maxHealthBonus << ")\n"
-    "Experience: \t\t" << experience << "\n"
+    std::cout << "Class: ";
+    printClass();
+    std::cout << "\nExperience: \t\t" << experience << ", " << 75 * pow(1.1, level) << " to level\n"
     "Gold: \t\t\t" << gold << "\n"
+    "Health: \t\t" << health << "/" << maxHealth << " (+" << maxHealthBonus << ")\n"
     "Physical ATK: \t\t" << physAtk << " (+" << physAtkBonus << ")\n"
     "Physical DEF: \t\t" << physDef << " (+" << physDefBonus << ")\n"
     "Magical ATK: \t\t" << magAtk << " (+" << magAtkBonus << ")\n"
@@ -32,12 +120,33 @@ void Adventurer::inspect(){
     "Speed: \t\t\t" << speed << " (+" << speedBonus << ")\n";
 }
 
+/**printClass: prints the user's class
+ * Saves some typing.
+ * */
+void Adventurer::printClass(){
+    switch(job){
+        case Warrior: std::cout << "Warrior"; break;
+        case Wizard: std::cout << "Wizard"; break;
+        case Rogue: std::cout << "Rogue"; break;
+    }
+}
+
 void Adventurer::addGold(int gold){
     this->gold += gold;
 }
 
-void Adventurer::addExp(int experience){
-    this->experience += experience;
+
+/**addExp: adds experience from combat victories
+ * Level up the player if they reach a certain amount.
+ * args: gain (exp to gain)
+ * outputs: none
+ * */
+void Adventurer::addExp(int gain){
+    experience += gain;
+    if (experience > 75 * pow(1.1, level)){
+        levelUp();
+        experience = 0;
+    }
 }
 
 /**addItem: adds an item to the player's inventory.
@@ -199,7 +308,7 @@ void Adventurer::turn(std::vector<Enemy*> enemies){
  * outputs: none
  * */
 void Adventurer::attack(Enemy* target){
-    std::cout << name << " strikes the " << target->getName() << " with their bare fists, dealing " << target->dealPDamage(physAtk) << " physical damage.\n";
+    std::cout << "You strike the " << target->getName() << " with your bare fists, dealing " << target->dealPDamage(physAtk) << " physical damage.\n";
 }
 
 /**setHealth: used to set the user's health to a certain percentage.
