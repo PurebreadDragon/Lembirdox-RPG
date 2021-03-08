@@ -14,6 +14,7 @@ protected:
     std::vector<Room*> exits;
     std::vector<std::string> exitLabels;
     Adventurer* player;
+    bool end = false;
 
 public:
     virtual ~Room() = default;
@@ -66,6 +67,22 @@ public:
     virtual void interact(){
         printDescription();
     };
+
+    /**
+     * isEnd(): this method is used to get whether or not the player goes back to town after visting this room.
+     * This method returns true if it's the boss room or end of a quest. 
+     * This will also return true if the player died in combat.
+     * args: none
+     * outputs: true if the player goes back to town, false otherwise
+     * */
+    bool isEnd(){
+        return end;
+    }
+
+    /** Setter for the above method. */
+    void setEnd(){
+        end = true;
+    }
 
     /**
      * addExit: this method adds an exit to the room. It automatically assigns it a numerical label based on the 

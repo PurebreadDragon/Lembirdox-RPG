@@ -99,43 +99,44 @@ int main() {
 
 // ALL PERSONAL TESTING STUFFS SHOULD BE IMPLEMENTED BELOW THIS LINE
 
-    Room *currentRoom; // master variable that tracks where we are
+    // Room *currentRoom; // master variable that tracks where we are
 
-    // build some room objects
+    // // build some room objects
     Room *tree = new Room("tree", "This room has a large tree in it. Two openings lie in front of you. One leads to a room with a large pool of water in it. The other leads deeper into the cave.");
-    tree->interact();
+    // tree->interact();
 
-    Room *pool = new Room("pool", "The pool of water is very deep. Placeholder description");
-    tree->addExit(pool);
-    Room *cave = new Room("cave", "You proceed deeper into the cave. Placeholder description");
-    tree->addExit(cave);
-    pool->addExit(tree);
-    cave->addExit(tree); 
+    Room *pool = new Room("pool", "The air in this room is a bit damp. Soft green moss grows underneath your feet. In the center of the room is a large pool.");
+    pool->setEnd();
+    // tree->addExit(pool);
+    Room *cave = new Room("cave", "You proceed deeper into the cave.");
+    // tree->addExit(cave);
+    // pool->addExit(tree);
+    // cave->addExit(tree); 
 
-    CombatRoom *arena = new CombatRoom("arena", "You're standing in a large open arena. There's a skeleton.", "You're standing in a large open arena. It's empty.");
-    // Skeleton* skelly = new Skeleton();
-    // BigRat* ratticus = new BigRat();
-    GrowSlime* growslime = new GrowSlime();
+    CombatRoom *arena = new CombatRoom("arena", "You're standing in a large open arena. Two skeletons stare you down menacingly. You ready your weapon.", "You're standing in a large open arena. It's empty.");
+    Skeleton* skelly = new Skeleton();
+    // // BigRat* ratticus = new BigRat();
+    // GrowSlime* growslime = new GrowSlime();
     ShieldSkeleton* shieldSkelly = new ShieldSkeleton();
-    // arena->addEnemy(skelly);
+    arena->addEnemy(skelly);
     // arena->addEnemy(ratticus);
-    arena->addEnemy(growslime);
+    // arena->addEnemy(growslime);
     arena->addEnemy(shieldSkelly);
     arena->linkPlayer(player);
-    pool->addExit(arena);
-    arena->addExit(tree);
+    // pool->addExit(arena);
+    // arena->addExit(tree);
     GoldStatueRoom *goldstatue = new GoldStatueRoom();
     goldstatue->linkPlayer(player);
     DartTrapRoom *darttrap = new DartTrapRoom();
     darttrap->linkPlayer(player);
     CatRoom *catroom = new CatRoom();
     catroom->linkPlayer(player);
-    arena->addExit(goldstatue);
-    goldstatue->addExit(cave);
-    cave->addExit(darttrap);
-    darttrap->addExit(pool);
-    darttrap->addExit(catroom);
-    catroom->addExit(tree);
+    // arena->addExit(goldstatue);
+    // goldstatue->addExit(cave);
+    // cave->addExit(darttrap);
+    // darttrap->addExit(pool);
+    // darttrap->addExit(catroom);
+    // catroom->addExit(tree);
 
     DullBlade *dullBlade = new DullBlade();
     WindRazor *windRazor = new WindRazor();
@@ -147,18 +148,18 @@ int main() {
     player->addItem(stickWand);
     player->addItem(potion);
     player->addItem(flareOrb);
-    player->inspect();
+    // player->inspect();
 
-    // update the current room
-    currentRoom = tree;
-    currentRoom->printExits();
+    // // update the current room
+    // currentRoom = tree;
+    // currentRoom->printExits();
 
-    while (true){
-        std::cout << "Where would you like to go?\n";
-        currentRoom = &(currentRoom->getExit(reader.readInput(currentRoom->getExitLabels())));
-        currentRoom->interact();
-        currentRoom->printExits();
-    }
+    // while (true){
+    //     std::cout << "Where would you like to go?\n";
+    //     currentRoom = &(currentRoom->getExit(reader.readInput(currentRoom->getExitLabels())));
+    //     currentRoom->interact();
+    //     currentRoom->printExits();
+    // }
 
     // Item stick("large stick", "it's a stick");
     // stick.inspect();
@@ -178,8 +179,61 @@ int main() {
     // arena.interact();
 
     //Testing out my Town things :) Comment out if you need to.
-    // Town* testTown = new Town();
-    // Quest* currentQuest = testTown->RoamTown();
+    Town* testTown = new Town();
+    Room* currentRoom;
+    GrowSlime* growslime = new GrowSlime();
+    Quest* currentQuest = new Quest(500, growslime, "Defeat the evil grow slime");
+    currentQuest->addRoom(tree); //0
+    currentQuest->addRoom(cave); //1
+    currentQuest->addRoom(darttrap); //2
+    currentQuest->addRoom(arena); //3
+    currentQuest->addRoom(catroom); //4
+    currentQuest->addRoom(goldstatue); //5
+    currentQuest->addRoom(pool); //6
+    currentQuest->oneWayLink(0, 1);
+    currentQuest->oneWayLink(1, 2);
+    currentQuest->oneWayLink(2, 3);
+    currentQuest->oneWayLink(3, 4);
+    currentQuest->oneWayLink(3, 5);
+    currentQuest->oneWayLink(4, 5);
+    currentQuest->oneWayLink(5, 6);
+    currentRoom = &currentQuest->getBeginning();
+
+    while (true){
+        // roam the town. get a new quest and start it
+        // Quest* currentQuest = testTown->RoamTown();
+        Quest* newQuest = testTown->RoamTown();
+
+        currentRoom = &currentQuest->getBeginning();
+        while (true){
+            currentRoom->interact();
+            if (currentRoom->isEnd()) break;
+            // ask the user for what they want to do
+            int movementSelection = 0;
+            while (movementSelection != 1){
+                std::cout << "What would you like to do?\n"
+                        << "1:\tContinue forward\n"
+                        << "2:\tDisplay player info\n"
+                        << "3:\tCheck inventory\n";
+                int movementChoices[]{1, 2, 3};
+                movementSelection = reader.readInput(movementChoices, 3);
+
+                switch(movementSelection){
+                    case 1:{ // the player chose to leave
+                        std::cout << "Where would you like to go?\n";
+                        currentRoom->printExits();
+                        currentRoom = &(currentRoom->getExit(reader.readInput(currentRoom->getExitLabels())));
+                    } break;
+                    case 2:{
+                        player->inspect();
+                    } break;
+                    case 3:{
+                        player->checkInventory();
+                    } break;
+                }
+            }
+        }
+    }
     // delete testTown;
     // currentQuest->showQuestContent();
     // std::cout << "done displaying content!\n";

@@ -74,6 +74,7 @@ public:
                 combatDone = true;
             } else {
                 std::cout << "You died.\n";
+                end = true;
             }
         } else {
             std::cout << combatDoneDescription << "\n";
