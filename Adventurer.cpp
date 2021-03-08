@@ -2,8 +2,9 @@
 #include <string>
 #include "Adventurer.hpp" 
 
-Adventurer::Adventurer(std::string name, std::string description, int maxHealth, int physAtk, int physDef, int magAtk, int magDef, int speed) 
+Adventurer::Adventurer(Class job, std::string name, std::string description, int maxHealth, int physAtk, int physDef, int magAtk, int magDef, int speed) 
     : Entity(name, description, maxHealth, physAtk, physDef, magAtk, magDef, speed){ 
+        this->job = job;
         level = 1;
         experience = 0;
     }

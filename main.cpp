@@ -56,13 +56,36 @@ using namespace std;
 
 int main() {
 // rough draft of final project, feel free to add to it! Add your tests below this section please.
-    
+
+    InputReader reader;
+
+    // welome screen. prompt the user for their name and class selection
+    int nameSelection = -1;
+    while (nameSelection != 1){
+        std::cout << "Enter your name. (No spaces)\n";
+        std::string playername;
+        std::cin >> playername;
+        std::cout << "Is this what you want to be called? " << playername << "\n"
+                << "1:\tYes\n"
+                << "2:\tNo\n";
+        int nameChoice[]{1, 2};
+        nameSelection = reader.readInput(nameChoice, 2);
+    }
+
+    int classSelection = -1;
+    while (classSelection == 10){
+        std::cout << "Choose your class.\n"
+                  << "1:\tWarrior\n"
+                  << "2:\tWizard\n"
+                  << "3:\tRogue\n";
+        int classChoice[]{1, 2, 3};
+        classSelection = reader.readInput(classChoice, 3);
+    }
 
 
 // ALL PERSONAL TESTING STUFFS SHOULD BE IMPLEMENTED BELOW THIS LINE
 
     Room *currentRoom; // master variable that tracks where we are
-    InputReader reader; // helper class that handles read/write
 
     // build some room objects
     Room *tree = new Room("tree", "This room has a large tree in it. Two openings lie in front of you. One leads to a room with a large pool of water in it. The other leads deeper into the cave.");
@@ -80,7 +103,7 @@ int main() {
     // BigRat* ratticus = new BigRat();
     GrowSlime* growslime = new GrowSlime();
     ShieldSkeleton* shieldSkelly = new ShieldSkeleton();
-    Adventurer* joe = new Adventurer("Joe", "You're an average joe.", 200, 30, 10, 30, 10, 100);
+    Adventurer* joe = new Adventurer(Warrior, "Joe", "You're an average joe.", 200, 30, 10, 30, 10, 100);
     // arena->addEnemy(skelly);
     // arena->addEnemy(ratticus);
     arena->addEnemy(growslime);
