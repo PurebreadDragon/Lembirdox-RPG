@@ -24,6 +24,11 @@ public:
 
     void inspect(){
         std::cout << name << ": " << description << "\n" << abilityName << ": " << abilityDescription << "\n";
+        if (maxHealth > 0) std::cout << "Max Health: +" << maxHealth << "\n";
+        if (physAtk > 0) std::cout << "Physical Attack: +" << physAtk << "\n";
+        if (physDef > 0) std::cout << "Physical Defense: +" << physDef << "\n";
+        if (magAtk > 0) std::cout << "Magical Attack: +" << magAtk << "\n";
+        if (magDef > 0) std::cout << "Magical Defense: +" << magDef << "\n";
     }
 
 	virtual void ability(Entity* user, Entity* target) = 0;
