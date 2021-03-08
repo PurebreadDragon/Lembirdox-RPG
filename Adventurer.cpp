@@ -271,7 +271,7 @@ void Adventurer::turn(std::vector<Enemy*> enemies){
  * outputs: none
  * */
 void Adventurer::attack(Enemy* target){
-    std::cout << name << " strikes the " << target->getName() << " with their bare fists, dealing " << target->dealPDamage(physAtk) << " physical damage.\n";
+    std::cout << "You strike the " << target->getName() << " with your bare fists, dealing " << target->dealPDamage(physAtk) << " physical damage.\n";
 }
 
 /**setHealth: used to set the user's health to a certain percentage.
