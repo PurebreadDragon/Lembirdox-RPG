@@ -258,11 +258,26 @@ public:
      * outputs: none
      * */
     void cleanse(){
-        if (pAtkBuff < 0) pAtkBuff = 0;
-        if (pDefBuff < 0) pDefBuff = 0;
-        if (mAtkBuff < 0) mAtkBuff = 0;
-        if (mDefBuff < 0) mDefBuff = 0;
-        if (spdBuff < 0) spdBuff = 0;
+        if (pAtkBuff < 0){
+            pAtkBuff = 0;
+            physAtk = pAtkOrig;
+        }
+        if (pDefBuff < 0){
+            pDefBuff = 0;
+            physDef = pDefOrig;
+        }
+        if (mAtkBuff < 0){
+            mAtkBuff = 0;
+            magAtk = mAtkOrig;
+        }
+        if (mDefBuff < 0){
+            mDefBuff = 0;
+            magDef = mDefOrig;
+        }
+        if (spdBuff < 0){
+            spdBuff = 0;
+            speed = spdOrig;
+        }
     }
 
     virtual ~Entity() = default;
