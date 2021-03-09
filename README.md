@@ -19,7 +19,8 @@ We will be using Composite, Factory and Strategy. For the composite pattern:
    * What problem you anticipate encountering when implementing your project that you will solve using the design pattern  
    We want to have a large variety of entity class derived-types but still allow the player to interact with each of them in unique yet consistent ways. 
    * Why the chosen design pattern will lead to a good solution to that problem  
-   Using a composite structure of subclasses derived from one master "entity" class saves time from having to rewrite the same methods each time for every new enemy type. On top of that, this keeps the expected results of common actions consistent with other entities. This design pattern can be extended to the "room" object as well, where one master room object contains some basic functionality such as "observe" or "search" and subclasses such as battle rooms, trapped rooms or loot rooms derive from said master room object.
+   Using a composite structure of subclasses derived from one master "entity" class saves time from having to rewrite the same methods each time for every new enemy type. On top of that, this keeps the expected results of common actions consistent with other entities. This design pattern can be extended to the "room" object as well, where one master room object contains some basic functionality such as "observe" or "search" and subclasses such as battle rooms, trapped rooms or loot rooms derive from said master room object. We can use this to achieve runtime polymorphism by calling the same dealDamage(), interact() etc. methods on those objects. 
+   In this pattern, the Quest class is the component class, which contains an aggregation of Room objects. Room is a composite object from which CombatRoom and OddityRoom are derived from. 
    
 For the factory pattern: 
    * Why you picked this pattern and what feature you will implement with it  
@@ -27,7 +28,7 @@ For the factory pattern:
    * What problem you anticipate encountering when implementing your project that you will solve using the design pattern  
    We need to create many objects with unique definitions in their own files, so a factory pattern is ideal for doing so. 
    * Why the chosen design pattern will lead to a good solution to that problem  
-   We can have a factory class that keeps track of and manages all different types of items, enemies and rooms we will be creating.
+   We can have a factory class that keeps track of and manages all different types of items, enemies and rooms we will be creating. It allows for unique generate() functions that we can use to generate random objects to populate quests with. 
    
 For the strategy pattern:
    * Why you picked this pattern and what feature you will implement with it  
