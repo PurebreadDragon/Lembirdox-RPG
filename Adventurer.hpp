@@ -14,6 +14,7 @@ class Adventurer : public Entity
 {
 	public:
 		Adventurer(Class, std::string, std::string);
+		~Adventurer();
 		// modification methods
 		void levelUp();
 		void setLevel(int); 
