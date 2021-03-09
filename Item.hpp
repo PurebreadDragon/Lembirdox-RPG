@@ -1,6 +1,8 @@
 #ifndef ITEM_H
 #define ITEM_H
 
+#include "InputReader.cpp"
+
 #include <iostream>
 #include <string>
 #include <math.h>
@@ -273,6 +275,67 @@ public:
                   << target->getName() << ", dealing " << target->dealMDamage(user->getMAtk() * 0.8) << " magic damage. Additionally, "
                   << "the paw bathes you in warm golden sparkles, curing some of your wounds and restoring " << (int)round(user->getMaxHealth() * 0.06) << " health.\n";
         user->heal((int)round(user->getMaxHealth() * 0.06));
+    }
+};
+
+class MirrorKnife : public Item {
+private:
+    bool sheathed;
+    unsigned damage;
+public:
+    MirrorKnife() {
+        name = "Mirror's Edge";
+        description = "It's a gorgeous dagger with an elegant sheath. You can see your face in its reflection.\nYou'd... rather not explain to anyone how you got this.";
+        abilityName = "Unsheathe";
+        abilityDescription = "Draw the blade from its scabbard.";
+        magAtk = 22;
+        physAtk = 0;
+        speed = 11;
+        value = 1331;
+        selfUse = false;
+        consumable = false;
+        sheathed = true;
+        damage = 0;
+    }
+
+    void ability(Entity* user, Entity* target) {
+        if (sheathed) {
+            std::cout << "You unsheathe the knife. It makes a sound like resonating crystal.\n";
+            sheathed = false;
+            abilityName = "Wield";
+            abilityDescription = "Throw the blade, or return it to its home.";
+            physAtk = 22;
+            magAtk = 0;
+        }
+        else {
+            InputReader read;
+            int choices[2] = {1, 2};
+            std::cout << "You grip the Mirror's Edge in your hand. It feels ";
+            if (damage == 0) { std::cout << "cold.\n"; }
+            else if (damage <= 100) { std::cout << "warm.\n"; }
+            else { std::cout << "hot.\n"; }
+            std::cout << "1.\tThrow the blade\n"
+                      << "2.\tSheathe the blade\n";
+            int select = read.readInput(choices,2);
+            if (select == 1) {
+                int dmg = target->dealPDamage(user->getPAtk());
+                std::cout << "You twirl the knife in your hand and hurl it at " << target->getName()
+                          << ", dealing " << dmg << " physical damage.\n"
+                          << "You see it hit, and yet the knife stays in your hand.\n";
+                damage += dmg;
+            }
+            else {
+                std::cout << ".latsyrc gnitanoser ekil dnuos a sekam tI .efink eht ehtaehs uoY\n"
+                          << ".dloc sleef niaga edalb ehT\n";
+                user->heal(damage);
+                damage = 0;
+                sheathed = true;
+                magAtk = 22;
+                physAtk = 0;
+                abilityName = "Unsheathe";
+                abilityDescription = "Draw the blade from its scabbard.";
+            }
+        }
     }
 };
 

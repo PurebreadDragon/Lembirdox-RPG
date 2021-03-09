@@ -13,6 +13,7 @@ protected:
     std::string deathMessage = "It dies.";
     // basic stat fields below
     int health = 0, maxHealth = 0, physAtk = 0, physDef = 0, magAtk = 0, magDef = 0, speed = 0, turnBar;
+    unsigned ID = 0;
     // fields for buffs and debuffs below
     // a positive value means the unit is buffed for (value) turns. a negative value means the opposite. 
     int pAtkBuff = 0, pDefBuff = 0, mAtkBuff = 0, mDefBuff = 0, spdBuff = 0;
@@ -334,6 +335,24 @@ public:
     }
 
     virtual ~Entity() = default;
+};
+
+class TEST_DUMMY : public Entity {
+public:
+    TEST_DUMMY() {
+        name = "Test Dummy";
+        description = "This is a test dummy. It is nearly immortal. You should not be attacking it.";
+        deathMessage = "Wait, you actually killed this thing? Wow. Well done. Congratulations, from Lembirdox!";
+        maxHealth = 2147483647; //integer maximum, unexpected behavior if increased at any point in time.
+        health = maxHealth;
+        physAtk = 0;
+        physDef = 0;
+        magAtk = 0;
+        magDef = 0;
+        speed = 1;
+        turnBar = 0;
+        ID = 10000; //THIS ID SHOULD NOT BE USED. This class is used only for testing. ID's start at ##-001.
+    }
 };
 
 #endif
