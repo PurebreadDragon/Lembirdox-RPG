@@ -28,7 +28,7 @@ For the factory pattern:
    * What problem you anticipate encountering when implementing your project that you will solve using the design pattern  
    We need to create many objects with unique definitions in their own files, so a factory pattern is ideal for doing so. 
    * Why the chosen design pattern will lead to a good solution to that problem  
-   We can have a factory class that keeps track of and manages all different types of items, enemies and rooms we will be creating. It allows for unique generate() functions that we can use to generate random objects to populate quests with. 
+   We can have a factory class that keeps track of and manages all different types of items, enemies and rooms we will be creating. It allows for unique generate() functions that we can use to generate a large amount of random objects to populate quests with. 
    
 For the strategy pattern:
    * Why you picked this pattern and what feature you will implement with it  
