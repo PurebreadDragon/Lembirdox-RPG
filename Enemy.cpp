@@ -243,8 +243,8 @@ public:
         expReward = 5000;
         name = "Training Dummy";
         description = "It's a training dummy.";
-        maxHealth = 1000;
-        health = 1000;
+        maxHealth = 2000;
+        health = 2000;
         physDef = 100;
         magDef = 100;
         speed = 100;

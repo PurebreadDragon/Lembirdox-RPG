@@ -118,14 +118,14 @@ int main() {
     CombatRoom *arena = new CombatRoom("arena", "You're standing in a large open arena. Two skeletons stare you down menacingly. You ready your weapon.", "You're standing in a large open arena. It's empty.");
     Skeleton* skelly = new Skeleton();
     // BigRat* ratticus = new BigRat();
-    // GrowSlime* growslime = new GrowSlime();
+    GrowSlime* growslime = new GrowSlime();
+    // TrainingDummy* dummy = new TrainingDummy();
     StrangeFairy* fairy = new StrangeFairy();
     ShieldSkeleton* shieldSkelly = new ShieldSkeleton();
     arena->addEnemy(skelly);
     // arena->addEnemy(ratticus);
     // arena->addEnemy(growslime);
     arena->addEnemy(fairy);
-    GrowSlime* growslime = new GrowSlime();
     arena->addEnemy(shieldSkelly);
     arena->linkPlayer(player);
     GoldStatueRoom *goldstatue = new GoldStatueRoom();

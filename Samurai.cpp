@@ -43,6 +43,9 @@ public:
         levelUp();
         levelUp();
         levelUp();
+        levelUp();
+        levelUp();
+        levelUp();
     }
 
     /**
@@ -109,7 +112,7 @@ public:
             abi4MaxCD = 6;
             std::cout << "You unlocked Premonition.\n";
         }
-        if (level == 14){
+        if (level == 13){
             abi5MaxCD = 10;
             std::cout << "You unlocked Ultimate Technique: Thunderflash.\n";
         }
@@ -141,7 +144,7 @@ public:
         if (abi4MaxCD != -1) std::cout << "Premonition (" << abi4MaxCD << " turn CD): Focus your mind and predict the enemy's movements. Block the "
                                        << "next instance of damage. Reset your turn.\n"
                                        << "\t- Casting Premonition multiple times will not stack the damage negation.\n";              
-        if (abi5MaxCD != -1) std::cout << "Ultimate Technique: Thunder Flash (" << abi5MaxCD << " turn CD): Draw your blade and strike with the power of"
+        if (abi5MaxCD != -1) std::cout << "Ultimate Technique: Thunder Flash (" << abi5MaxCD << " turn CD): Draw your blade and strike with the power of "
                                        << "thunder and speed of lightning.\n"
                                        << "\t- Perform an Iai Slash. This Iai Slash is guaranteed to crit and ignores all defense.\n"
                                        << "\t- Resets your turn on cast.\n"
@@ -326,7 +329,7 @@ public:
         // print ability 3
         if (abi3MaxCD != -1){
             abilityOptions++;
-            std::cout << "3:\tBlade Storm";
+            std::cout << "3:\tBlade Storm ";
             if (abi3CD == 0) std::cout << "(Ready)\n";
             else std::cout << "(Ready in " << abi3CD << " turn(s))\n";
         }
@@ -426,7 +429,40 @@ public:
                     abi4CD = abi4MaxCD;
                     return 2;
                 }
-            }
+            } break;
+            case 5:{
+                if (abi5CD > 0){
+                    std::cout << "That ability isn't ready yet.\n";
+                    return 0; 
+                } else {
+                    int enemySelection = selectTarget(targets);
+                    if (enemySelection == 0) return 0;
+                    else {
+                        std::cout << "You step back and relax your stance. The wind billows around you. Your blade is drawn, but at your side. All is calm.\n"
+                                  << "Suddenly, the air around you explodes, a gash in the air left by your afterimage. In an instant, you close the gap between "
+                                  << "you and the enemy. The razor-sharp edge of your blade flickers with lightning, gleaming brightly. "
+                                  << "You unleash a devastating strike, carving through air and flesh alike. ";
+                        std::cout << "Before the dust cloud from your movement has even started forming, you return to your original position, and sheathe "
+                                  << "your blade with a quiet *click*. ";
+                        if (perfectDomain <= 0){
+                            std::cout << targets[enemySelection - 1]->getName() << " has barely registered what happened before crumpling under the force of your strike. "
+                                      << targets[enemySelection - 1]->getName() << " takes " << targets[enemySelection - 1]->dealPDamage(physAtk, 1) 
+                                      << " physical damage.\n";
+                            if (ki < 100) ki += 20;
+                        } else {
+                            std::cout << targets[enemySelection - 1]->getName() << " has barely registered what happened before crumpling under the force of your two strikes. ";
+                            std::cout << targets[enemySelection - 1]->getName() << " takes " << targets[enemySelection - 1]->dealPDamage(physAtk, 1) 
+                                      << " critical physical damage.\n";
+                            std::cout << targets[enemySelection - 1]->getName() << " takes " << targets[enemySelection - 1]->dealPDamage(physAtk, 1) 
+                                      << " critical physical damage.\n";
+                            if (ki < 100) ki += 20;
+                            if (ki < 100) ki += 20;
+                        }
+                    }
+                    abi5CD = abi5MaxCD;
+                    return 2;
+                }
+            } break;
         }
     }
 };
