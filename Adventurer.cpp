@@ -31,9 +31,9 @@ Adventurer::Adventurer(Class job, std::string name, std::string description) {
                 spdLvl = 0;
 
                 abi1MaxCD = 0;
-                levelUp();
-                levelUp();
-                levelUp();
+                // levelUp();
+                // levelUp();
+                // levelUp();
             } break;
             case Wizard:{
                 maxHealth = 200;
@@ -450,9 +450,9 @@ int Adventurer::selectTarget(std::vector<Enemy*> targets){
  * 7: Sunder. 2 turn CD. 170% PAtk physical damage. Hits twice if self has attack buff. Buffs own attack for 2 turns but debuffs own defense for 1 turn. 
  * ================================================================
  * Wizard: A class focused around AoE skills and control. 
- * 1: Chain Lightning. 3 turn CD. 120% MAtk magic damage. Hits all targets. Resets CD if it kills a target. 
+ * 1: Chain Lightning. 3 turn CD. 120% MAtk magic damage. Hits all targets. 
  * 4: Frost Storm. 6 turn CD. 60% MAtk magic damage. Hits all targets. Pushes their turn bars back by 30% and applies 2 turn speed debuff. 
- * 7: TBD
+ * 7: Mana Tempest. 6 turn CD. 100% MAtk magic damage. Hits all targets. If it kills a target, this ability casts again at no cost. 
  * ================================================================
  * Samurai: A class focused around speed and turn cycling.
  * Samurai have a resource called Ki. They gain 20 Ki when performing Iai Slash but lose 10 Ki when taking damage, up to 100. 

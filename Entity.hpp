@@ -156,7 +156,7 @@ public:
      * args: stat (the stat to buff/debuff), duration (the duration of the buff)
      * outputs: none
      * */
-    void buff(Stat stat, int duration){
+    virtual void buff(Stat stat, int duration){
         /**steps:
          * 1. go to the block of code for the right stat
          * 2. if the current duration is at 0 (we are at the original value), store the current stat value. 
