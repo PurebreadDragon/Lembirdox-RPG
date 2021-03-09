@@ -175,7 +175,7 @@ public:
     }
 
     void attack(Enemy* target){
-        int desc = rand() % 5 + 1;
+        int desc = rand() % 9 + 1;
         switch(desc){
             case 1: std::cout << "In the blink of an eye, you sheathe and unsheathe your blade. " << target->getName() << " doesn't even see your blade "
                               << "before a cut appears on their body. "; break;
@@ -185,6 +185,11 @@ public:
             case 4: std::cout << "You take a deep breath and focus. For a moment, all is still before you suddenly leap at " 
                               << target->getName() << " and thrust your blade, piercing right through their vitals. "; break;
             case 5: std::cout << "You raise your blade above your head and perform a devastating downwards slash at " << target->getName() << ". "; break;
+            case 6: std::cout << "You slice the air, sending a sharp blade of wind towards " << target->getName() << ". "; break;
+            case 7: std::cout << "You javelin toss your blade through " << target->getName() << ", then dash behind them to retrieve it before they can "
+                              << "even react. "; break;
+            case 8: std::cout << "In one fluid motion, you ready your blade, step forward and slice through " << target->getName() << ". "; break;
+            case 9: std::cout << "You slice through " << target->getName() << " so fast that your blade's reflection is barely a flicker. "; break;
         } 
         
         if (ki < 100) ki += 20;
@@ -195,7 +200,7 @@ public:
 
         // double strike if perfect domain active
         if (perfectDomain > 0){
-            int desc = rand() % 5 + 1;
+            int desc = rand() % 9 + 1;
             switch(desc){
                 case 1: std::cout << "In the blink of an eye, you sheathe and unsheathe your blade. " << target->getName() << " doesn't even see your blade "
                                 << "before a cut appears on their body. "; break;
@@ -205,6 +210,11 @@ public:
                 case 4: std::cout << "You take a deep breath and focus. For a moment, all is still before you suddenly leap at " 
                                 << target->getName() << " and thrust your blade, piercing right through their vitals. "; break;
                 case 5: std::cout << "You raise your blade above your head and perform a devastating downwards slash at " << target->getName() << ". "; break;
+                case 6: std::cout << "You slice the air, sending a sharp blade of wind towards " << target->getName() << ". "; break;
+                case 7: std::cout << "You javelin toss your blade through " << target->getName() << ", then dash behind them to retrieve it before they can "
+                                << "even react. "; break;
+                case 8: std::cout << "In one fluid motion, you ready your blade, step forward and slice through " << target->getName() << ". "; break;
+                case 9: std::cout << "You slice through " << target->getName() << " so fast that your blade's reflection is barely a flicker. "; break;
             } 
             
             if (ki < 100) ki += 20;

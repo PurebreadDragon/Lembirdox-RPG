@@ -132,7 +132,9 @@ public:
     void turn(Entity* target){
         std::cout << "The slime gathers its power a little. It lurches back opening a mouth of sorts, exposing its core. ";
         magAtk += 15;
+        mAtkOrig += 15;
         speed += 10;
+        spdOrig += 10;
         if (magAtk < 30) std::cout << "It shoots a little beam of flame at you, dealing " 
                                    << target->dealMDamage(magAtk) << " magic damage. It stings.\n";
         else if (magAtk < 60) std::cout << "It shoots a moderate beam of flame at you, dealing " 
