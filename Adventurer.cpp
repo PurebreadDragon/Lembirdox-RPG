@@ -98,6 +98,11 @@ Adventurer::Adventurer(Class job, std::string name, std::string description) {
         }
     }
 
+Adventurer::~Adventurer(){
+    for (auto i : inventory) delete i;
+    inventory.clear();
+}
+
 /**
  * levelUp(): levels up the player and applies all relevant bonuses.
  * args: none
