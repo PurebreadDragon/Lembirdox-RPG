@@ -138,7 +138,7 @@ void Adventurer::levelUp(){
         case Warrior:{
             if (level == 4){
                 abi2MaxCD = 4;
-                std::cout << "You unlocked Drain Strike.\n";
+                std::cout << "You unlocked Drain.\n";
             }
         } break;
         case Wizard:{
