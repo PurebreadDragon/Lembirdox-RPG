@@ -164,6 +164,10 @@ int Adventurer::getLevel() const {
 	return level;
 }
 
+int Adventurer::getGold() const {
+    return gold;
+}
+
 void Adventurer::inspect(){
     std::cout << name << " - Level " << level << " ";
     printClass(); 

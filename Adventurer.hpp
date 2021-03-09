@@ -25,6 +25,7 @@ class Adventurer : public Entity
 		void setHealth(int);
 		// viewing methods
 		int getLevel() const; 
+                int getGold() const;
 		void inspect();
 		void checkInventory();
 		void printClass();
