@@ -341,7 +341,7 @@ void Adventurer::turn(std::vector<Enemy*> enemies){
                 if (enemySelection != 0) attack(enemies[enemySelection - 1]);
                 else selection = 0;
             } break;
-            /*************************** Ability ***************************/
+            /*************************** ABILITY ***************************/
             case 2:{
                 selection = ability(enemies);
             } break;
@@ -586,7 +586,7 @@ int Adventurer::ability(std::vector<Enemy*> targets){
                 } break;
             }
         }
-        /*************************** Wizard ***************************/
+        /*************************** WIZARD ***************************/
         case Wizard:{
             // prompt for ability choice
             std::cout << "Choose an ability to use.\n"

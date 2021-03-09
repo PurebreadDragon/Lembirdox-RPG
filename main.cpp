@@ -96,49 +96,23 @@ int main() {
         case 3: player = new Adventurer(Rogue, playername, "It's you!"); break;
     }
 
-
-// ALL PERSONAL TESTING STUFFS SHOULD BE IMPLEMENTED BELOW THIS LINE
-
-    // Room *currentRoom; // master variable that tracks where we are
-
-    // // build some room objects
+    // build all room objects
     Room *tree = new Room("tree", "This room has a large tree in it. Two openings lie in front of you. One leads to a room with a large pool of water in it. The other leads deeper into the cave.");
-    // tree->interact();
-
     Room *pool = new Room("pool", "The air in this room is a bit damp. Soft green moss grows underneath your feet. In the center of the room is a large pool.");
-    // tree->addExit(pool);
     Room *cave = new Room("cave", "You proceed deeper into the cave.");
-    // tree->addExit(cave);
-    // pool->addExit(tree);
-    // cave->addExit(tree); 
-
     CombatRoom *arena = new CombatRoom("arena", "You're standing in a large open arena. Two skeletons stare you down menacingly. You ready your weapon.", "You're standing in a large open arena. It's empty.");
     Skeleton* skelly = new Skeleton();
-    // // BigRat* ratticus = new BigRat();
     GrowSlime* growslime = new GrowSlime();
     ShieldSkeleton* shieldSkelly = new ShieldSkeleton();
-    // TrainingDummy* dummy = new TrainingDummy();
     arena->addEnemy(skelly);
-    // arena->addEnemy(ratticus);
-    // arena->addEnemy(growslime);
     arena->addEnemy(shieldSkelly);
-    // arena->addEnemy(dummy);
     arena->linkPlayer(player);
-    // pool->addExit(arena);
-    // arena->addExit(tree);
     GoldStatueRoom *goldstatue = new GoldStatueRoom();
     goldstatue->linkPlayer(player);
     DartTrapRoom *darttrap = new DartTrapRoom();
     darttrap->linkPlayer(player);
     CatRoom *catroom = new CatRoom();
     catroom->linkPlayer(player);
-    // arena->addExit(goldstatue);
-    // goldstatue->addExit(cave);
-    // cave->addExit(darttrap);
-    // darttrap->addExit(pool);
-    // darttrap->addExit(catroom);
-    // catroom->addExit(tree);
-
     CombatRoom *boss = new CombatRoom("boss", "It's the boss room. There's a big slime in it.", "It's the boss room. The boss is dead.");
     boss->addEnemy(growslime);
     boss->linkPlayer(player);
@@ -155,37 +129,7 @@ int main() {
     player->addItem(potion);
     player->addItem(flareOrb);
     player->addItem(debuffstick);
-    // player->inspect();
 
-    // // update the current room
-    // currentRoom = tree;
-    // currentRoom->printExits();
-
-    // while (true){
-    //     std::cout << "Where would you like to go?\n";
-    //     currentRoom = &(currentRoom->getExit(reader.readInput(currentRoom->getExitLabels())));
-    //     currentRoom->interact();
-    //     currentRoom->printExits();
-    // }
-
-    // Item stick("large stick", "it's a stick");
-    // stick.inspect();
-
-    // Entity joe("Joe", "It's an average joe.", 200, 50, 30, 5, 30, 100);
-    // joe.inspect();
-
-    // Entity jill("Jill", "Joe's friend Jill", 150, 5, 5, 50, 50, 80);
-    // jill.inspect();
-
-    // Entity rat("Big rat", "Oh shit a rat", 20, 20, 5, 0, 5, 133);
-
-    // CombatRoom arena("arena", "You're standing in a large open arena. There's a big fuckin rat");
-    // arena.addEntity(joe);
-    // arena.addEntity(jill);
-    // arena.addEntity(rat);
-    // arena.interact();
-
-    //Testing out my Town things :) Comment out if you need to.
     Town* testTown = new Town();
     Room* currentRoom;
     Quest* currentQuest = new Quest(500, growslime, "Defeat the evil grow slime");
@@ -256,6 +200,7 @@ int main() {
     delete skelly;
     delete growslime;
     delete shieldSkelly;
+    delete goldstatue;
     delete darttrap;
     delete catroom;
     delete boss;
