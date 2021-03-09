@@ -444,6 +444,7 @@ public:
                                   << "You unleash a devastating strike, carving through air and flesh alike. ";
                         std::cout << "Before the dust cloud from your movement has even started forming, you return to your original position, and sheathe "
                                   << "your blade with a quiet *click*. ";
+                        buff(PHYS_ATK, 2);
                         if (perfectDomain <= 0){
                             std::cout << targets[enemySelection - 1]->getName() << " has barely registered what happened before crumpling under the force of your strike. "
                                       << targets[enemySelection - 1]->getName() << " takes " << targets[enemySelection - 1]->dealPDamage(physAtk, 1) 
