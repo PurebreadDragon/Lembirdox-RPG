@@ -49,13 +49,13 @@ This diagram shows the structure of our program. The Composite pattern consists 
 Combat:
 ![image](https://user-images.githubusercontent.com/49847628/110477138-a913db80-8097-11eb-90b9-7b081463db1c.png)
 
-Combat 2:
+Combat 2:\
 ![image](https://user-images.githubusercontent.com/49847628/110477390-f2fcc180-8097-11eb-9f74-e1ecbb5694f7.png)
 
 Room traversal and item inspection: 
 ![image](https://user-images.githubusercontent.com/49847628/110477084-98fbfc00-8097-11eb-816a-9de00dfa9cf1.png)
 
-Town roaming and quest board:
+Town roaming and quest board:\
 ![image](https://user-images.githubusercontent.com/49847628/110477197-b9c45180-8097-11eb-856d-c5e2916d9595.png)
 
 Special room interaction and player inspect:
