@@ -204,7 +204,7 @@ int main() {
 
         // this is just for testing
         std::cout << "Thanks for playing!";
-        // delete newQuest;
+        delete newQuest;
         break;
     }
 
@@ -212,17 +212,19 @@ int main() {
     // delete pool;
     // delete cave;
     // delete arena;
-    // delete skelly;
-    // delete growslime;
-    // delete shieldSkelly;
+    delete cave;
+    delete fairy;
+    delete skelly;
+    delete growslime;
+    delete shieldSkelly;
     // delete goldstatue;
     // delete darttrap;
     // delete catroom;
     // delete boss;
     // delete testTown;
-    // delete currentQuest;
-    // delete player;
-    // delete testTown;
+    delete currentQuest;
+    delete player;
+    delete testTown;
     // currentQuest->showQuestContent();
     // std::cout << "done displaying content!\n";
     // delete currentQuest;
