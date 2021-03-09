@@ -67,7 +67,7 @@ public:
 
     void levelUp(){
         // update stats
-        std::cout << "You leveled up! Your strength grows.\n";
+        std::cout << "You leveled up! You can feel your skill with the blade becoming ever sharper.\n";
         if (hpLvl > 0){
             maxHealth += hpLvl;
             health += hpLvl;
@@ -135,8 +135,7 @@ public:
                                        << "heightening your senses and increasing your sword skills to the limit.\n" 
                                        << "\t- Upon casting this ability, enter your Perfect Domain state. Perfect Domain lasts for 3 hits.\n"
                                        << "\t- Reset your turn on cast. Cleanse all debuffs.\n"
-                                       << "\t- When in your Perfect Domain state, each Iai Slash hits twice.\n"
-                                       << "\t- Kills during Perfect Domain extend the duration by 1 hit, up to 5.\n";
+                                       << "\t- When in your Perfect Domain state, each Iai Slash hits twice.\n";
         if (abi3MaxCD != -1) std::cout << "Blade Storm (" << abi3MaxCD << " turn CD): Shower the enemy in countless slashes. Perform 3 Iai Slashes on "
                                        << "the same target. \n";
         if (abi4MaxCD != -1) std::cout << "Premonition (" << abi4MaxCD << " turn CD): Focus your mind and predict the enemy's movements. Block the "
@@ -169,6 +168,7 @@ public:
         std::cout << "    `--'      `--'      `.-'      `--'      `--'      \n";
 
         if (perfectDomain > 0) std::cout << "Perfect Domain active: " << perfectDomain << " hits remaining\n";
+        if (premonition) std::cout << "Premonition active: Blocking the next hit\n";
     }
 
     void attack(Enemy* target){
@@ -209,8 +209,6 @@ public:
             int crit = rand() % 100 + 1;
             if (crit < ki) std::cout << "Your attack critically strikes. It deals " << target->dealPDamage(physAtk) << " physical damage.\n";
             else std::cout << "You deal " << target->dealPDamage(physAtk * 0.5) << " physical damage.\n";
-
-            if (!target->isAlive()) ++perfectDomain;
         }
     }
 
@@ -222,8 +220,6 @@ public:
         int crit = rand() % 100 + 1;
         if (crit < ki) std::cout << "Your attack critically strikes. It deals " << target->dealPDamage(physAtk) << " physical damage.\n";
         else std::cout << "You deal " << target->dealPDamage(physAtk * 0.5) << " physical damage.\n";
-
-        if (!target->isAlive()) ++perfectDomain;
     }
 
     int dealPDamage(int damage){
@@ -382,8 +378,7 @@ public:
                               << "and thousands of hours of training as a Samurai, you heighten your senses and hone your sword ability to the highest level. "
                               << "You remove all debuffs on yourself and ready your blade to strike. \n";
                     cleanse();
-                    perfectDomain += 3;
-                    if (perfectDomain > 5) perfectDomain = 5;
+                    perfectDomain = 3;
                     turnBar += 1000;
                     abi2CD = abi2MaxCD;
                     return 2;
@@ -400,13 +395,13 @@ public:
                         std::cout << "You unleash a multitude of slashes on " << targets[enemySelection - 1]->getName() << ".\n";
                         std::cout << "\"One.\" You whisper under your breath as you step forwards and slice horizontally through your enemy. ";
                         attackNoDescription(targets[enemySelection - 1]);
-                        std::cout << "\"Two.\" You rapidly spin around to face your enemy, making a backhanded slash. ";
+                        std::cout << "\"Two.\" In the same fluid motion, you rapidly spin around to face your enemy, making a backhanded slash. ";
                         attackNoDescription(targets[enemySelection - 1]);
                         std::cout << "\"Three.\" You jump up and kick off of the top of "<< targets[enemySelection - 1]->getName() 
                                 << ", somersaulting over them and cutting them in the process. ";
                         attackNoDescription(targets[enemySelection - 1]);
                         if (perfectDomain > 0){
-                            std::cout << "\"Again.\" You dash forwards and cut through your target. ";
+                            std::cout << "\"Again.\" You turn around midair, landing on the ground facing your enemy. You dash through them, cutting them. ";
                             attackNoDescription(targets[enemySelection - 1]);
                             std::cout << "\"Again!\" You spin around and blink through them even faster, cutting them again. ";
                             attackNoDescription(targets[enemySelection - 1]);
