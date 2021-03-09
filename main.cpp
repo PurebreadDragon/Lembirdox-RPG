@@ -117,7 +117,6 @@ int main() {
     // arena->addEnemy(growslime);
     arena->addEnemy(fairy);
     GrowSlime* growslime = new GrowSlime();
-    arena->addEnemy(skelly);
     arena->addEnemy(shieldSkelly);
     arena->linkPlayer(player);
     GoldStatueRoom *goldstatue = new GoldStatueRoom();
@@ -205,30 +204,24 @@ int main() {
 
         // this is just for testing
         std::cout << "Thanks for playing!";
-        delete newQuest;
+        // delete newQuest;
         break;
     }
 
-    delete tree;
-    delete pool;
-    delete cave;
-    delete arena;
-    delete skelly;
-    delete growslime;
-    delete shieldSkelly;
-    delete goldstatue;
-    delete darttrap;
-    delete catroom;
-    delete boss;
-    delete dullBlade;
-    delete windRazor;
-    delete stickWand;
-    delete flareOrb;
-    delete potion;
-    delete debuffstick;
-    delete testTown;
-    delete currentQuest;
-    delete player;
+    // delete tree;
+    // delete pool;
+    // delete cave;
+    // delete arena;
+    // delete skelly;
+    // delete growslime;
+    // delete shieldSkelly;
+    // delete goldstatue;
+    // delete darttrap;
+    // delete catroom;
+    // delete boss;
+    // delete testTown;
+    // delete currentQuest;
+    // delete player;
     // delete testTown;
     // currentQuest->showQuestContent();
     // std::cout << "done displaying content!\n";
