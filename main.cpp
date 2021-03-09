@@ -86,9 +86,9 @@ int main() {
     int classSelection = 2, pickedClass;
     while (classSelection == 2){
         std::cout << "Choose your class.\n"
-                  << "1:\tWarrior\n"
-                  << "2:\tWizard\n"
-                  << "3:\tSamurai\n";
+                  << "1:\tWarrior: A physical class focused around being able to take a lot of hits and dish out a lot of damage.\n"
+                  << "2:\tWizard: A magical class with powerful area of effect damage and control abilities.\n"
+                  << "3:\tSamurai: A physical class focused around lightning fast speed, rapid strikes and keeping the flow of combat.\n";
         int classChoice[]{1, 2, 3};
         pickedClass = reader.readInput(classChoice, 3);
 
