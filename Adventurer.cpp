@@ -2,100 +2,12 @@
 #include <string>
 #include "Adventurer.hpp" 
 
-Adventurer::Adventurer(Class job, std::string name, std::string description) {
-        this->job = job;
+Adventurer::Adventurer(std::string name, std::string description) {
         this->name = name;
         this->description = description;
         level = 1;
         experience = 0;
         gold = 0;
-
-        // initialize base stats and stat growth based on player selection
-        switch(job){
-            case Warrior:{
-                maxHealth = 250;
-                health = maxHealth;
-                hpLvl = 40;
-
-                physAtk = 50;
-                pAtkLvl = 5;
-                physDef = 30;
-                pDefLvl = 5;
-
-                magAtk = 10;
-                mAtkLvl = 0;
-                magDef = 25;
-                mDefLvl = 5;
-
-                speed = 95;
-                spdLvl = 0;
-
-                abi1MaxCD = 0;
-                // levelUp();
-                // levelUp();
-                // levelUp();
-            } break;
-            case Wizard:{
-                maxHealth = 200;
-                health = maxHealth;
-                hpLvl = 30;
-
-                physAtk = 10;
-                pAtkLvl = 0;
-                physDef = 10;
-                pDefLvl = 2;
-
-                magAtk = 60;
-                mAtkLvl = 5;
-                magDef = 10;
-                mDefLvl = 3;
-
-                speed = 100;
-                spdLvl = 0;
-
-                // start with 1 ability unlocked
-                abi1MaxCD = 3;
-                // levelUp();
-                // levelUp();
-                // levelUp();
-            } break;
-            case Rogue:{
-                maxHealth = 150;
-                health = maxHealth;
-                hpLvl = 25;
-
-                physAtk = 40;
-                pAtkLvl = 4;
-                physDef = 15;
-                pDefLvl = 1;
-
-                magAtk = 30;
-                mAtkLvl = 3;
-                magDef = 15;
-                mDefLvl = 2;
-
-                speed = 120;
-                spdLvl = 2;
-            } break;
-            case Samurai:{
-                maxHealth = 140;
-                health = maxHealth;
-                hpLvl = 20;
-
-                physAtk = 70;
-                pAtkLvl = 5;
-                physDef = 15;
-                pDefLvl = 1;
-
-                magAtk = 0;
-                mAtkLvl = 0;
-                magDef = 15;
-                mDefLvl = 1;
-
-                speed = 125;
-                spdLvl = 4;
-            }
-        }
     }
 
 Adventurer::~Adventurer(){
@@ -137,27 +49,6 @@ void Adventurer::levelUp(){
         std::cout << "Speed: +" << spdLvl << "\n";
     }
 	++level;	
-
-    // update abilities
-    switch(job){
-        case Warrior:{
-            if (level == 4){
-                abi2MaxCD = 4;
-                std::cout << "You unlocked Drain.\n";
-            }
-        } break;
-        case Wizard:{
-            if (level == 4){
-                abi2MaxCD = 6;
-                std::cout << "You unlocked Frost Storm.\n";
-            }
-        } break;
-        default: break; // do nothing
-    }
-}
-
-void Adventurer::setLevel(int l){
-	level = l; 
 }
 	
 int Adventurer::getLevel() const {
@@ -165,8 +56,7 @@ int Adventurer::getLevel() const {
 }
 
 void Adventurer::inspect(){
-    std::cout << name << " - Level " << level << " ";
-    printClass(); 
+    std::cout << name << " - Level " << level << " classgoeshere";
     std::cout << "\nExperience: \t\t" << experience << ", " << 75 * pow(1.1, level) << " to level\n"
     "Gold: \t\t\t" << gold << "\n"
     "Health: \t\t" << health << "/" << maxHealth << " (+" << maxHealthBonus << ")\n"
@@ -177,24 +67,7 @@ void Adventurer::inspect(){
     "Speed: \t\t\t" << speed << " (+" << speedBonus << ")\n";
 
     std::cout << "\nAbilities:\n";
-    switch(job){
-        case Warrior:{
-            if (abi1MaxCD != -1) std::cout << "Expose (no CD): Strike at an enemy and expose their weak points. Deals 60% PAtk physical damage and "
-                                           << "applies a 3 turn PDef debuff.\n";
-            if (abi2MaxCD != -1) std::cout << "Drain (" << abi2MaxCD << " turn CD): Attack an enemy. Deals 200% PAtk physical damage and "
-                                           << "heals yourself for 30% of the damage dealt.\n";
-        } break;
-        case Wizard:{
-            if (abi1MaxCD != -1) std::cout << "Chain Lightning (" << abi1MaxCD << " turn CD): Conjure a blast of lightning that arcs from enemy to enemy. "
-                                           << "Hits all targets for 120% MAtk magic damage.\n";
-            if (abi2MaxCD != -1) std::cout << "Frost Storm (" << abi2MaxCD << " turn CD): Summon a storm of icicles to pierce through your enemies. "
-                                           << "Hits all targets for 60% MAtk magic damage, reduces their turn bars by 30% and debuffs their speed "
-                                           << "for 2 turns.\n";
-        } break;
-        default:{
-            std::cout << "You don't have any abilities unlocked.\n";
-        }
-    }
+    std::cout << "You don't have any abilities unlocked.\n";
 }
 
 /**
@@ -254,16 +127,13 @@ void Adventurer::checkInventory(){
     }
 }
 
-/**printClass: prints the user's class
- * Saves some typing.
+/**printSpecialFeature(): This is for displaying special features like the Samurai's Ki bar.
+ * args: none
+ * outputs: none
  * */
-void Adventurer::printClass(){
-    switch(job){
-        case Warrior: std::cout << "Warrior"; break;
-        case Wizard: std::cout << "Wizard"; break;
-        case Rogue: std::cout << "Rogue"; break;
-    }
-}
+void Adventurer::printSpecialFeature(){
+
+};
 
 void Adventurer::addGold(int gold){
     this->gold += gold;
@@ -526,132 +396,7 @@ int Adventurer::selectTarget(std::vector<Enemy*> targets){
  * outputs: a 0 if an ability was cast. 2 if not
  * */
 int Adventurer::ability(std::vector<Enemy*> targets){
-    InputReader reader;
-    int choice[]{0, 1, 2, 3, 4, 5};
-    int abilityOptions = 1;
-    if (abi1MaxCD != -1) abilityOptions++;
-    if (abi2MaxCD != -1) abilityOptions++;
-    if (abi3MaxCD != -1) abilityOptions++;
-    if (abi4MaxCD != -1) abilityOptions++;
-    if (abi5MaxCD != -1) abilityOptions++;
-            
-    switch(job){
-        /*************************** WARRIOR ***************************/
-        case Warrior:{
-            // prompt for ability choice
-            std::cout << "Choose an ability to use.\n"
-                      << "0:\tCancel\n";
-            
-            // print ability 1
-            if (abi1MaxCD != -1){
-                std::cout << "1:\tExpose ";
-                if (abi1CD == 0) std::cout << "(Ready)\n";
-                else std::cout << "(Ready in " << abi1CD << " turn(s))\n";
-            }
-
-            // print ability 2
-            if (abi2MaxCD != -1){
-                std::cout << "2:\tDrain ";
-                if (abi2CD == 0) std::cout << "(Ready)\n";
-                else std::cout << "(Ready in " << abi2CD << " turn(s))\n";
-            }
-
-            // get user prompt and execute the action
-            int abiChoice = reader.readInput(choice, abilityOptions);
-            switch(abiChoice){
-                case 0: return 0; // cancel selected
-                case 1:{ // expose
-                    int enemySelection = selectTarget(targets);
-                    if (enemySelection == 0) return 0;
-                    else {
-                        std::cout << "You dash towards " << targets[enemySelection - 1]->getName() << " and strike them, throwing them off balance. "
-                                  << "You deal " << targets[enemySelection - 1]->dealPDamage(physAtk * 0.8) << " physical damage and lower their "
-                                  << "physical defense for 3 turns.\n";
-                        targets[enemySelection - 1]->buff(PHYS_DEF, -3);
-                    }
-                    // expose has no CD
-                    return 2;
-                } break;
-                case 2:{ // drain strike
-                    if (abi2CD > 0){
-                        std::cout << "That ability isn't ready yet.\n";
-                        return 0; 
-                    } else {
-                        int enemySelection = selectTarget(targets);
-                        if (enemySelection == 0) return 0;
-                        else {
-                            int damageDealt = targets[enemySelection - 1]->dealPDamage(physAtk * 2);
-                            std::cout << "You deal a heavy strike at " << targets[enemySelection - 1]->getName() << ", dealing "
-                                    << damageDealt << " physical damage and healing yourself for " << damageDealt * 0.3 << " health.\n";
-                                    heal(damageDealt * 0.3);
-                        }
-                        abi2CD = abi2MaxCD;
-                        return 2;
-                    }
-                } break;
-            }
-        }
-        /*************************** WIZARD ***************************/
-        case Wizard:{
-            // prompt for ability choice
-            std::cout << "Choose an ability to use.\n"
-                      << "0:\tCancel\n";
-            
-            // print ability 1
-            if (abi1MaxCD != -1){
-                std::cout << "1:\tChain Lighting ";
-                if (abi1CD == 0) std::cout << "(Ready)\n";
-                else std::cout << "(Ready in " << abi1CD << " turn(s))\n";
-            }
-
-            // print ability 2
-            if (abi2MaxCD != -1){
-                std::cout << "2:\tFrost Storm ";
-                if (abi2CD == 0) std::cout << "(Ready)\n";
-                else std::cout << "(Ready in " << abi2CD << " turn(s))\n";
-            }
-
-            // get user prompt and execute the action
-            int abiChoice = reader.readInput(choice, abilityOptions);
-            switch(abiChoice){
-                case 0: return 0; // cancel selected
-                case 1:{ // chain lighting
-                    if (abi1CD > 0){
-                        std::cout << "That ability isn't ready yet.\n";
-                        return 0; 
-                    } else {
-                        std::cout << "You channel the arcane power flowing around you to unleash a blast of lightning that arcs from enemy to enemy.\n";
-                        for (auto e : targets){
-                            std::cout << e->getName() << " takes " << e->dealMDamage(magAtk * 1.2) << " magic damage.\n";
-                        }
-                        abi1CD = abi1MaxCD;
-                        return 2;
-                    }
-                } break;
-                case 2:{ // frost storm
-                    if (abi2CD > 0){
-                        std::cout << "That ability isn't ready yet.\n";
-                        return 0; 
-                    } else {
-                        std::cout << "You summon countless shards of ice and send them flying at your enemies. The shards slice "
-                                  << "through them, the sheer cold impeding their movement.\n";
-                        for (auto e : targets){
-                            std::cout << e->getName() << " takes " << e->dealMDamage(magAtk * 0.6) << " magic damage.\n";
-                            std::cout << e->getName() << " had their speed reduced and their turn bar reduced by 30%.\n";
-                            e->buff(SPEED, -2);
-                            e->affectTurnBar(-300);
-                        }
-                        abi2CD = abi2MaxCD;
-                        return 2;
-                    }
-                }
-            }
-        } break;
-        default:{
-            std::cout << "You don't have any abilities.\n";
-            return 0;
-        } break;
-    }
+    std::cout << "You don't have any abilities.\n";
     return 0;
 }
 
