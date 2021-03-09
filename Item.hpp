@@ -293,9 +293,9 @@ public:
         user->buff(MAG_DEF, 2);
         user->buff(SPEED, 2);
 
-        target->buff(PHYS_ATK, +2);
+        target->buff(PHYS_ATK, -2);
         target->buff(PHYS_DEF, -2);
-        target->buff(MAG_ATK, +2);
+        target->buff(MAG_ATK, -2);
         target->buff(MAG_DEF, -2);
         target->buff(SPEED, -2);
     }

@@ -47,6 +47,8 @@ Adventurer::Adventurer(Class job, std::string name, std::string description) {
 
                 speed = 100;
                 spdLvl = 0;
+
+                abi1MaxCD = 3;
             } break;
             case Rogue:{
                 maxHealth = 150;
@@ -66,10 +68,34 @@ Adventurer::Adventurer(Class job, std::string name, std::string description) {
                 speed = 120;
                 spdLvl = 2;
             } break;
+            case Samurai:{
+                maxHealth = 150;
+                health = maxHealth;
+                hpLvl = 20;
+
+                physAtk = 70;
+                pAtkLvl = 5;
+                physDef = 15;
+                pDefLvl = 1;
+
+                magAtk = 0;
+                mAtkLvl = 0;
+                magDef = 15;
+                mDefLvl = 1;
+
+                speed = 120;
+                spdLvl = 4;
+            }
         }
     }
 
+/**
+ * levelUp(): levels up the player and applies all relevant bonuses.
+ * args: none
+ * outputs: none
+ * */
 void Adventurer::levelUp(){
+    // update stats
     std::cout << "You leveled up!\n";
     if (hpLvl > 0){
         maxHealth += hpLvl;
@@ -97,6 +123,17 @@ void Adventurer::levelUp(){
         std::cout << "Speed: +" << spdLvl << "\n";
     }
 	++level;	
+
+    // update abilities
+    switch(job){
+        case Wizard:{
+            if (level == 4){
+                abi2MaxCD = 6;
+                std::cout << "You unlocked Frost Storm.\n";
+            }
+        } break;
+        default: break; // do nothing
+    }
 }
 
 void Adventurer::setLevel(int l){
@@ -246,18 +283,19 @@ void Adventurer::deathPenalty(){
 void Adventurer::turn(std::vector<Enemy*> enemies){
     InputReader reader;
 
-    int inputChoices[]{1, 2, 3, 4};
+    int inputChoices[]{1, 2, 3, 4, 5};
     int selection = 0;
 
     //turn is not used up when the selection is equal to 2 (player chooses to inspect).
-    while (selection != 1 && selection != 3 && selection != 4){ 
+    while (selection != 1 && selection != 2 && selection != 3 && selection != 5){ 
         // prompt the user for their input and read it
         std::cout << "It's your turn. Available options:\n"
                 << "1:\tAttack\n"
-                << "2:\tInspect\n"
+                << "2:\tAbility\n"
                 << "3:\tUse Item\n"
-                << "4:\tFlee\n";
-        selection = reader.readInput(inputChoices, 4);
+                << "4:\tInspect\n"
+                << "5:\tFlee\n";
+        selection = reader.readInput(inputChoices, 5);
         
         switch(selection){
             /*************************** ATTACK ***************************/
@@ -283,28 +321,9 @@ void Adventurer::turn(std::vector<Enemy*> enemies){
                 if (enemySelection != 0) attack(enemies[enemySelection - 1]);
                 else selection = 0;
             } break;
-            /*************************** INSPECT ***************************/
-            case 2:{ //inspect
-                // prompt the user for target selection
-                std::cout << "Choose a target.\n"
-                          << "0:\tCancel\n";
-
-                // build enemy selection array
-                int enemyChoices[enemies.size()];
-                int targetIndex = 1;
-                int enemySelection = 0;
-                for (auto e : enemies){
-                    std::cout << targetIndex << ":\t" << e->getName() <<"\n";
-                    enemyChoices[targetIndex - 1] = targetIndex;
-                    ++targetIndex;
-                }
-
-                // read the user's target
-                enemySelection = reader.readInputCancel(enemyChoices, enemies.size());
-
-                // execute the action
-                if (enemySelection != 0) enemies[enemySelection - 1]->inspect();
-                else selection = 0;
+            /*************************** Ability ***************************/
+            case 2:{
+                selection = ability(enemies);
             } break;
             /*************************** ITEM ***************************/
             case 3:{ //use item
@@ -358,8 +377,31 @@ void Adventurer::turn(std::vector<Enemy*> enemies){
                     }
                 } else selection = 0;
             } break;
+            /*************************** INSPECT ***************************/
+            case 4:{ //inspect
+                // prompt the user for target selection
+                std::cout << "Choose a target.\n"
+                          << "0:\tCancel\n";
+
+                // build enemy selection array
+                int enemyChoices[enemies.size()];
+                int targetIndex = 1;
+                int enemySelection = 0;
+                for (auto e : enemies){
+                    std::cout << targetIndex << ":\t" << e->getName() <<"\n";
+                    enemyChoices[targetIndex - 1] = targetIndex;
+                    ++targetIndex;
+                }
+
+                // read the user's target
+                enemySelection = reader.readInputCancel(enemyChoices, enemies.size());
+
+                // execute the action
+                if (enemySelection != 0) enemies[enemySelection - 1]->inspect();
+                else selection = 0;
+            } break;
             /*************************** FLEE ***************************/
-            case 4:{ //flee
+            case 5:{ //flee
                 std::cout << "Waste your turn and do nothing because this function isn't implemented.\n";
             } break;
             default:{
@@ -368,6 +410,9 @@ void Adventurer::turn(std::vector<Enemy*> enemies){
             } break;
         }
     }
+
+    // cycle cooldowns
+    updateCooldowns();
 }
 
 /**attack: Generic attack method. Only the player can use this.
@@ -455,8 +500,59 @@ void Adventurer::attack(Enemy* target){
  *      4 times and 150% MAtk physical damage one time (for earth) to random enemies. 
  * 
  * args: targets (list of available targets)
+ * outputs: a 0 if an ability was cast. 2 if not
+ * */
+int Adventurer::ability(std::vector<Enemy*> targets){
+    InputReader reader;
+    switch(job){
+        /*************************** Wizard ***************************/
+        case Wizard:{
+            // prompt for ability choice
+            std::cout << "Choose an ability to use.\n"
+                      << "0:\tCancel\n";
+            if (abi1MaxCD != -1){
+                std::cout << "1:\tChain Lighting ";
+                if (abi1CD == 0) std::cout << "(Ready)\n";
+                else std::cout << "(Ready in " << abi1CD << " turn(s))\n";
+            }
+
+            int choice[]{0, 1};
+            int abiChoice = reader.readInput(choice, 2);
+            switch(abiChoice){
+                case 0: return 0; // cancel selected
+                case 1:{ // chain lighting
+                    if (abi1CD > 0){
+                        std::cout << "That ability isn't ready yet.\n";
+                        return 0; 
+                    } else {
+                        std::cout << "You channel the arcane power flowing around you to unleash a blast of lightning that arcs from enemy to enemy.\n";
+                        for (auto e : targets){
+                            std::cout << e->getName() << " takes " << e->dealMDamage(magAtk * 1.2) << " magic damage.\n";
+                        }
+                        abi1CD = abi1MaxCD;
+                        return 2;
+                    }
+                } break;
+            }
+        } break;
+        /*************************** WARRIOR ***************************/
+        default:{
+            std::cout << "You don't have any abilities.\n";
+            return 0;
+        } break;
+    }
+    return 0;
+}
+
+/**
+ * updateCooldowns: reduces all cooldowns by 1 (if greater than 1)
+ * Call this at the end of a turn.
+ * args: none
  * outputs: none
  * */
+void Adventurer::updateCooldowns(){
+    if (abi1CD > 0) abi1CD--;
+}
 
 /**setHealth: used to set the user's health to a certain percentage.
  * Use this for % max health based healing and attacks.
