@@ -5,6 +5,7 @@
 #include "gtest/gtest.h"
 
 #include "town_tests.cpp"
+#include "entity_tests.cpp"
 //#include "your_tests_here.cpp"
 
 int main(int argc, char** argv) {
