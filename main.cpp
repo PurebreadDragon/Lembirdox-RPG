@@ -106,7 +106,6 @@ int main() {
     // tree->interact();
 
     Room *pool = new Room("pool", "The air in this room is a bit damp. Soft green moss grows underneath your feet. In the center of the room is a large pool.");
-    pool->setEnd();
     // tree->addExit(pool);
     Room *cave = new Room("cave", "You proceed deeper into the cave.");
     // tree->addExit(cave);
@@ -116,12 +115,14 @@ int main() {
     CombatRoom *arena = new CombatRoom("arena", "You're standing in a large open arena. Two skeletons stare you down menacingly. You ready your weapon.", "You're standing in a large open arena. It's empty.");
     Skeleton* skelly = new Skeleton();
     // // BigRat* ratticus = new BigRat();
-    // GrowSlime* growslime = new GrowSlime();
+    GrowSlime* growslime = new GrowSlime();
     ShieldSkeleton* shieldSkelly = new ShieldSkeleton();
+    // TrainingDummy* dummy = new TrainingDummy();
     arena->addEnemy(skelly);
     // arena->addEnemy(ratticus);
     // arena->addEnemy(growslime);
     arena->addEnemy(shieldSkelly);
+    // arena->addEnemy(dummy);
     arena->linkPlayer(player);
     // pool->addExit(arena);
     // arena->addExit(tree);
@@ -138,16 +139,22 @@ int main() {
     // darttrap->addExit(catroom);
     // catroom->addExit(tree);
 
+    CombatRoom *boss = new CombatRoom("boss", "It's the boss room. There's a big slime in it.", "It's the boss room. The boss is dead.");
+    boss->addEnemy(growslime);
+    boss->linkPlayer(player);
+
     DullBlade *dullBlade = new DullBlade();
     WindRazor *windRazor = new WindRazor();
     StickWand *stickWand = new StickWand();
     FlareOrb *flareOrb = new FlareOrb();
     BasicPotion *potion = new BasicPotion();
+    DebuffStick *debuffstick = new DebuffStick();
     player->addItem(dullBlade);
     player->addItem(windRazor);
     player->addItem(stickWand);
     player->addItem(potion);
     player->addItem(flareOrb);
+    player->addItem(debuffstick);
     // player->inspect();
 
     // // update the current room
@@ -181,7 +188,6 @@ int main() {
     //Testing out my Town things :) Comment out if you need to.
     Town* testTown = new Town();
     Room* currentRoom;
-    GrowSlime* growslime = new GrowSlime();
     Quest* currentQuest = new Quest(500, growslime, "Defeat the evil grow slime");
     currentQuest->addRoom(tree); //0
     currentQuest->addRoom(cave); //1
@@ -190,6 +196,8 @@ int main() {
     currentQuest->addRoom(catroom); //4
     currentQuest->addRoom(goldstatue); //5
     currentQuest->addRoom(pool); //6
+    boss->setEnd();
+    currentQuest->addRoom(boss); //7
     currentQuest->oneWayLink(0, 1);
     currentQuest->oneWayLink(1, 2);
     currentQuest->oneWayLink(2, 3);
@@ -197,6 +205,7 @@ int main() {
     currentQuest->oneWayLink(3, 5);
     currentQuest->oneWayLink(4, 5);
     currentQuest->oneWayLink(5, 6);
+    currentQuest->oneWayLink(6, 7); 
     currentRoom = &currentQuest->getBeginning();
 
     while (true){
