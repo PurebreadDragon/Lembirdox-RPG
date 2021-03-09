@@ -451,19 +451,18 @@ public:
                     else {
                         std::cout << "You step back and relax your stance. The wind billows around you. Your blade is drawn, but at your side. All is calm.\n"
                                   << "Suddenly, the air around you explodes, a gash in the air left by your afterimage. In an instant, you close the gap between "
-                                  << "you and the enemy. The razor-sharp edge of your blade flickers with lightning, gleaming brightly. "
-                                  << "You unleash a devastating strike, carving through air and flesh alike. ";
-                        std::cout << "Before the dust cloud from your movement has even started forming, you return to your original position, and sheathe "
-                                  << "your blade with a quiet *click*. ";
+                                  << "you and the enemy. The razor-sharp edge of your blade flickers with lightning, gleaming brightly. ";
                         buff(PHYS_ATK, 2);
                         if (perfectDomain <= 0){
-                            std::cout << targets[enemySelection - 1]->getName() << " has barely registered what happened before crumpling under the force of your strike, "
+                            std::cout << "You unleash a devastating strike, carving through air and flesh alike. "
+                                      << targets[enemySelection - 1]->getName() << " has barely registered what happened before crumpling under the force of your strike, "
                                       << "lightning coursing through them. "
                                       << targets[enemySelection - 1]->getName() << " takes " << targets[enemySelection - 1]->dealPDamage(physAtk, 1) 
                                       << " physical damage.\n";
                             if (ki < 100) ki += 20;
                         } else {
-                            std::cout << targets[enemySelection - 1]->getName() << " has barely registered what happened before crumpling under the force of your two strikes. "
+                            std::cout << "You unleash two devastating strikes, carving through air and flesh alike. "
+                                      << targets[enemySelection - 1]->getName() << " has barely registered what happened before crumpling under the force of your two strikes. "
                                       << "lightning coursing through them. "
                                       << targets[enemySelection - 1]->getName() << " takes " << targets[enemySelection - 1]->dealPDamage(physAtk, 1) 
                                       << " critical physical damage.\n";
@@ -472,8 +471,9 @@ public:
                             if (ki < 100) ki += 20;
                             if (ki < 100) ki += 20;
                         }
-
-                        std::cout << "A brief moment later, a flash of lightning strikes " << targets[enemySelection - 1]->getName() << ", dealing  an additional " 
+                        std::cout << "Before the dust cloud from your movement has even started forming, you return to your original position, and sheathe "
+                                  << "your blade with a quiet *click*. ";
+                        std::cout << "A brief moment later, a flash of lightning strikes " << targets[enemySelection - 1]->getName() << ", dealing an additional " 
                                   << targets[enemySelection - 1]->dealMDamage(physAtk * 3) << " magic damage.\n";
                     }
                     abi5CD = abi5MaxCD;
