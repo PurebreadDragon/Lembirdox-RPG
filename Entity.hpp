@@ -110,6 +110,10 @@ public:
         deathMessage = message;
     }
 
+    void affectTurnBar(int value){
+        turnBar += value;
+    }
+
     /**Methods for healing and dealing damage to this target below.
      * Damage formula is equivalent to: Damage * (1 - Defense / (Defense + 100)).
      * Int return value is for displaying feedback e.g. "Enemy deals " << dealPDamage(5) << " damage." 

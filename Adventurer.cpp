@@ -48,7 +48,11 @@ Adventurer::Adventurer(Class job, std::string name, std::string description) {
                 speed = 100;
                 spdLvl = 0;
 
+                // start with 1 ability unlocked
                 abi1MaxCD = 3;
+                // levelUp();
+                // levelUp();
+                // levelUp();
             } break;
             case Rogue:{
                 maxHealth = 150;
@@ -69,7 +73,7 @@ Adventurer::Adventurer(Class job, std::string name, std::string description) {
                 spdLvl = 2;
             } break;
             case Samurai:{
-                maxHealth = 150;
+                maxHealth = 140;
                 health = maxHealth;
                 hpLvl = 20;
 
@@ -83,7 +87,7 @@ Adventurer::Adventurer(Class job, std::string name, std::string description) {
                 magDef = 15;
                 mDefLvl = 1;
 
-                speed = 120;
+                speed = 125;
                 spdLvl = 4;
             }
         }
@@ -155,6 +159,20 @@ void Adventurer::inspect(){
     "Magical ATK: \t\t" << magAtk << " (+" << magAtkBonus << ")\n"
     "Magical DEF: \t\t" << magDef << " (+" << magDefBonus << ")\n"
     "Speed: \t\t\t" << speed << " (+" << speedBonus << ")\n";
+
+    std::cout << "\nAbilities:\n";
+    switch(job){
+        case Wizard:{
+            if (abi1MaxCD != -1) std::cout << "Chain Lightning (" << abi1MaxCD << " turn CD): Conjure a blast of lightning that arcs from enemy to enemy. "
+                                           << "Hits all targets for 120% MAtk magic damage.\n";
+            if (abi2MaxCD != -1) std::cout << "Frost Storm (" << abi2MaxCD << " turn CD): Summon a storm of icicles to pierce through your enemies. "
+                                           << "Hits all targets for 60% MAtk magic damage, reduces their turn bars by 30% and debuffs their speed "
+                                           << "for 2 turns.\n";
+        } break;
+        default:{
+            std::cout << "You don't have any abilities unlocked.\n";
+        }
+    }
 }
 
 /**
@@ -237,9 +255,9 @@ void Adventurer::addGold(int gold){
  * */
 void Adventurer::addExp(int gain){
     experience += gain;
-    if (experience > 75 * pow(1.1, level)){
+    while (experience > 75 * pow(1.1, level)){
+        experience -= 75 * pow(1.1, level);
         levelUp();
-        experience = 0;
     }
 }
 
@@ -433,7 +451,7 @@ void Adventurer::attack(Enemy* target){
  * ================================================================
  * Wizard: A class focused around AoE skills and control. 
  * 1: Chain Lightning. 3 turn CD. 120% MAtk magic damage. Hits all targets. Resets CD if it kills a target. 
- * 4: Frost Storm. 6 turn CD. 70% MAtk magic damage. Hits all targets. Pushes their turn bars back by 30% and applies 2 turn speed debuff. 
+ * 4: Frost Storm. 6 turn CD. 60% MAtk magic damage. Hits all targets. Pushes their turn bars back by 30% and applies 2 turn speed debuff. 
  * 7: TBD
  * ================================================================
  * Samurai: A class focused around speed and turn cycling.
@@ -504,20 +522,37 @@ void Adventurer::attack(Enemy* target){
  * */
 int Adventurer::ability(std::vector<Enemy*> targets){
     InputReader reader;
+    int choice[]{0, 1, 2, 3, 4, 5};
+    int abilityOptions = 1;
+    if (abi1MaxCD != -1) abilityOptions++;
+    if (abi2MaxCD != -1) abilityOptions++;
+    if (abi3MaxCD != -1) abilityOptions++;
+    if (abi4MaxCD != -1) abilityOptions++;
+    if (abi5MaxCD != -1) abilityOptions++;
+            
     switch(job){
         /*************************** Wizard ***************************/
         case Wizard:{
             // prompt for ability choice
             std::cout << "Choose an ability to use.\n"
                       << "0:\tCancel\n";
+            
+            // print ability 1
             if (abi1MaxCD != -1){
                 std::cout << "1:\tChain Lighting ";
                 if (abi1CD == 0) std::cout << "(Ready)\n";
                 else std::cout << "(Ready in " << abi1CD << " turn(s))\n";
             }
 
-            int choice[]{0, 1};
-            int abiChoice = reader.readInput(choice, 2);
+            // print ability 2
+            if (abi2MaxCD != -1){
+                std::cout << "2:\tFrost Storm ";
+                if (abi2CD == 0) std::cout << "(Ready)\n";
+                else std::cout << "(Ready in " << abi2CD << " turn(s))\n";
+            }
+
+            // get user prompt and execute the action
+            int abiChoice = reader.readInput(choice, abilityOptions);
             switch(abiChoice){
                 case 0: return 0; // cancel selected
                 case 1:{ // chain lighting
@@ -533,6 +568,23 @@ int Adventurer::ability(std::vector<Enemy*> targets){
                         return 2;
                     }
                 } break;
+                case 2:{ // frost storm
+                    if (abi2CD > 0){
+                        std::cout << "That ability isn't ready yet.\n";
+                        return 0; 
+                    } else {
+                        std::cout << "You summon countless shards of ice and send them flying at your enemies. The sheer cold slices "
+                                  << "through them and impedes their movement.\n";
+                        for (auto e : targets){
+                            std::cout << e->getName() << " takes " << e->dealMDamage(magAtk * 0.6) << " magic damage.\n";
+                            std::cout << e->getName() << " had their speed reduced and their turn bar reduced by 30%.\n";
+                            e->buff(SPEED, -2);
+                            e->affectTurnBar(-300);
+                        }
+                        abi2CD = abi2MaxCD;
+                        return 2;
+                    }
+                }
             }
         } break;
         /*************************** WARRIOR ***************************/
@@ -552,6 +604,7 @@ int Adventurer::ability(std::vector<Enemy*> targets){
  * */
 void Adventurer::updateCooldowns(){
     if (abi1CD > 0) abi1CD--;
+    if (abi2CD > 0) abi2CD--;
 }
 
 /**setHealth: used to set the user's health to a certain percentage.
