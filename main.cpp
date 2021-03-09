@@ -69,7 +69,6 @@ int main() {
     RoomFactory rooms;
 
     // welome screen. prompt the user for their name and class selection
-    int ki = 50;
 
     std::string playername;
     int nameSelection = -1;
@@ -100,12 +99,6 @@ int main() {
     }
 
     Adventurer *player;
-
-    // switch(pickedClass){
-    //     case 1: player = new Adventurer(Warrior, playername, "It's you!"); break;
-    //     case 2: player = new Adventurer(Wizard, playername, "It's you!"); break;
-    //     case 3: player = new Adventurer(Rogue, playername, "It's you!"); break;
-    // }
     switch(pickedClass){
         case 1: player = new Warrior(playername, "It's you!"); break;
         case 2: player = new Wizard(playername, "It's you!"); break;
@@ -213,6 +206,8 @@ int main() {
 
         // this is just for testing
         std::cout << "Thanks for playing!";
+        std::string temp;
+        cin >> temp;
         delete newQuest;
         break;
     }
