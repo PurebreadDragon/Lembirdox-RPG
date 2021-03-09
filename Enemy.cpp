@@ -57,6 +57,7 @@ public:
         magAtk = 2;
         magDef = 30;
         speed = 75;
+        ID = 10001;
     }
 
     void turn(Entity* target){
@@ -79,6 +80,7 @@ public:
         magAtk = 2;
         magDef = 10;
         speed = 125;
+        ID = 10002;
     }
 
     void turn(Entity* target){
@@ -101,6 +103,7 @@ public:
         magAtk = 0;
         magDef = 25;
         speed = 75;
+        ID = 10003;
     }
 
     void buff(Stat stat, int duration){
@@ -160,6 +163,7 @@ public:
         magDef = 0;
         speed = 60;
         shieldUp = false;
+        ID = 10004;
     }
 
     int dealPDamage(int damage){
@@ -192,6 +196,40 @@ public:
             std::cout << "The skeleton charges forward and bashes you with its shield, dealing " 
                       << target->dealPDamage(physAtk) << " physical damage.\n";
         }
+    }
+};
+
+class StrangeFairy : public Enemy {
+public:
+    StrangeFairy() {
+        goldReward = 0;
+        expReward = 0;
+        name = "Strange Fairy";
+        description = "A small, glowing ball with wings. It looks soft and friendly.";
+        deathMessage = "With a flash, the fairy disappears. It blinds you for a moment, leaving you dazed.\n";
+        maxHealth = 2;
+        health = 2;
+        physAtk = 1;
+        physDef = 0;
+        magAtk = 1;
+        magDef = 100;
+        speed = 50;
+        ID = 10005;
+    }
+
+    void turn(Entity* target) {
+        int decision = (rand() % 2);
+        std::cout << "The fairy zips close to you, almost nervously. ";
+        if (decision == 1) {
+            std::cout << "It quickly swirls around you and you feel your wounds close.\n";
+            target->heal(15 + ((rand() % 11) - 5));
+        }
+        else {
+            std::cout << "It seems to panic, and smacks you in the face for " << target->dealPDamage(physAtk) << " physical damage.\n";
+        }
+        target->setTurnBar(0);
+        turnBar = 1000;
+        health = 0;
     }
 };
 

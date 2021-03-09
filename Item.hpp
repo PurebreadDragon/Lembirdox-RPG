@@ -1,6 +1,8 @@
 #ifndef ITEM_H
 #define ITEM_H
 
+#include "InputReader.cpp"
+
 #include <iostream>
 #include <string>
 #include <math.h>
@@ -13,8 +15,8 @@ protected:
     std::string abilityDescription;
 	int maxHealth = 0, physAtk = 0, physDef = 0, magAtk = 0, magDef = 0, speed = 0, cooldown = 0, maxCooldown = 0, value = 0;
     bool consumable = false, selfUse = false; 
-    /* items with the self-use flag set to true should not make use of the second target field in their ability().
- *      items with the consumable flag set to true should never have any stat bonuses. */
+    // items with the self-use flag set to true should not make use of the second target field in their ability().
+    // items with the consumable flag set to true should never have any stat bonuses. 
 
 public:
     Item(){
@@ -29,6 +31,7 @@ public:
         if (physDef > 0) std::cout << "Physical Defense: +" << physDef << "\n";
         if (magAtk > 0) std::cout << "Magical Attack: +" << magAtk << "\n";
         if (magDef > 0) std::cout << "Magical Defense: +" << magDef << "\n";
+        if (speed > 0) std::cout << "Speed: +" << speed << "\n";
     }
 
 	virtual void ability(Entity* user, Entity* target) = 0;
@@ -135,7 +138,7 @@ public:
     void ability(Entity* user, Entity* target) {
 		std::cout << "Channeling its power, you slash at " << target->getName() << " with the " << name << ". "
         << "The very air splits where you cut it, sending several sharp blades of air towards your target. They deal " 
-        << target->dealPDamage(user->getPAtk() * 1.2 + user->getSpeed() * 0.2) << " physical damage.\n";
+        << target->dealPDamage(user->getPAtk() * 1.2 + user->getSpeed() * 0.2) << " physical damage. \n";
 	}
 };
 
@@ -154,24 +157,6 @@ public:
 	void ability(Entity* user, Entity* target) {
 		std::cout << "You wave your " << name << " while summoning the traces of magical energy within, dealing " 
         << target->dealMDamage(user->getMAtk() * 1.2) << " damage.\n";
-	}
-};
-
-class ElderWand : public Item {
-public:
-	ElderWand() {
-		name = "Elder Wand";
-		description = "An elegant wand fashioned from an elder branch. Just by holding it you feel the magical power that resides within.";
-		abilityName = "Eldritch Blast";
-        abilityDescription = "Unleashes a blast of magic, dealing 160% MATK magic damage.";
-		magAtk = 16;
-        consumable = false;
-        value = 300;
-	}
-
-	void ability(Entity* user, Entity* target) {
-		std::cout << "You wave your " << name << " while summoning the traces of magical energy within, dealing " 
-        << target->dealMDamage(user->getMAtk() * 1.6) << " damage.\n";
 	}
 };
 
@@ -281,40 +266,6 @@ public:
 	}
 };
 
-class Stompers : public Item {
-public:
-	Stompers() {
-		name = "Boots of Resistance";
-		description = "A pair of sturdy boots fashioned from fine leather and finished with steelcaps. Anything softer than diamond is bound to have a hard time getting through these.\n";
-        abilityName = "Stomp";
-        abilityDescription = "Stomp, stomp, in the rain puddles, in the pile of leaves. What's stopping you? Deals 60% of your PATK as damage.";
-        consumable = false;
-        value = 450;
-	}
-	
-	void ability(Entity* user, Entity* target) {
-        std::cout << "You STOMP " << target->getName() << " just for fun. "
-                  << "It does " << target->dealPDamage(user->getPAtk() * 0.6) << " damage. Wow!\n";
-	}
-};
-
-class Serenity : public Item {
-public:
-	Serenity() {
-		name = "Boots of Serenity";
-		description = "Mages must not only memorize and cast spells, but also don the latest fashion. These serene-looking shoes are certain to cause heads to turn on the battlefield.\n";
-        abilityName = "Glitter";
-        abilityDescription = "Glitter and sparkles are sure to stun your enemy long enough for you to deal 30% of your magic attack as magic damage!";
-        consumable = false;
-        value = 450;
-	}
-	
-	void ability(Entity* user, Entity* target) {
-        std::cout << "Bling, bling! The sparkles from your footwear DAZZLE " << target->getName() << ", who is stunned and will allow you to get a free hit in. "
-                  << "Your attack does " << target->dealMDamage(user->getMAtk() * 0.3) << " damage. Wow!\n";
-	}
-};
-
 class FlareOrb : public Item {
 public:
     FlareOrb() {
@@ -390,6 +341,92 @@ public:
                   << target->getName() << ", dealing " << target->dealMDamage(user->getMAtk() * 0.8) << " magic damage. Additionally, "
                   << "the paw bathes you in warm golden sparkles, curing some of your wounds and restoring " << (int)round(user->getMaxHealth() * 0.06) << " health.\n";
         user->heal((int)round(user->getMaxHealth() * 0.06));
+    }
+};
+
+class MirrorKnife : public Item {
+private:
+    bool sheathed;
+    unsigned damage;
+public:
+    MirrorKnife() {
+        name = "Mirror's Edge";
+        description = "It's a gorgeous dagger with an elegant sheath. You can see your face in its reflection.\nYou'd... rather not explain to anyone how you got this.";
+        abilityName = "Unsheathe";
+        abilityDescription = "Draw the blade from its scabbard.";
+        magAtk = 22;
+        physAtk = 0;
+        speed = 11;
+        value = 1331;
+        selfUse = false;
+        consumable = false;
+        sheathed = true;
+        damage = 0;
+    }
+
+    void ability(Entity* user, Entity* target) {
+        if (sheathed) {
+            std::cout << "You unsheathe the knife. It makes a sound like resonating crystal.\n";
+            sheathed = false;
+            abilityName = "Wield";
+            abilityDescription = "Throw the blade, or return it to its home.";
+            physAtk = 22;
+            magAtk = 0;
+        }
+        else {
+            InputReader read;
+            int choices[2] = {1, 2};
+            std::cout << "You grip the Mirror's Edge in your hand. It feels ";
+            if (damage == 0) { std::cout << "cold.\n"; }
+            else if (damage <= 100) { std::cout << "warm.\n"; }
+            else { std::cout << "hot.\n"; }
+            std::cout << "1.\tThrow the blade\n"
+                      << "2.\tSheathe the blade\n";
+            int select = read.readInput(choices,2);
+            if (select == 1) {
+                int dmg = target->dealPDamage(user->getPAtk());
+                std::cout << "You twirl the knife in your hand and hurl it at " << target->getName()
+                          << ", dealing " << dmg << " physical damage.\n"
+                          << "You see it hit, and yet the knife stays in your hand.\n";
+                damage += dmg;
+            }
+            else {
+                std::cout << ".latsyrc gnitanoser ekil dnuos a sekam tI .efink eht ehtaehs uoY\n"
+                          << ".dloc sleef niaga edalb ehT\n";
+                user->heal(damage);
+                damage = 0;
+                sheathed = true;
+                magAtk = 22;
+                physAtk = 0;
+                abilityName = "Unsheathe";
+                abilityDescription = "Draw the blade from its scabbard.";
+            }
+        }
+    }
+};
+
+class DebuffStick : public Item{
+public:
+    DebuffStick(){
+        name = "Debuff Stick";
+        description = "for testing";
+        abilityName = "debufftest";
+        abilityDescription = "debufftest";
+    }
+
+    void ability(Entity* user, Entity* target){
+        std::cout << "Apply all buffs to user and all debuffs to target.\n";
+        user->buff(PHYS_ATK, 2);
+        user->buff(PHYS_DEF, 2);
+        user->buff(MAG_ATK, 2);
+        user->buff(MAG_DEF, 2);
+        user->buff(SPEED, 2);
+
+        target->buff(PHYS_ATK, -2);
+        target->buff(PHYS_DEF, -2);
+        target->buff(MAG_ATK, -2);
+        target->buff(MAG_DEF, -2);
+        target->buff(SPEED, -2);
     }
 };
 

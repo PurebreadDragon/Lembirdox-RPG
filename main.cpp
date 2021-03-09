@@ -6,12 +6,15 @@
 
 #include <iostream>
 #include <string>
+#include <cstdlib>
+#include <ctime>
 
 #include "Room.hpp"
 #include "CombatRoom.cpp"
 #include "OddityRoom.cpp"
 #include "Item.hpp"
 #include "Town.hpp"
+#include "Factory.hpp"
 #include "InputReader.cpp"
 
 using namespace std;
@@ -56,8 +59,11 @@ using namespace std;
 
 int main() {
 // rough draft of final project, feel free to add to it! Add your tests below this section please.
-
+    srand(time(0));
     InputReader reader;
+    EnemyFactory enemies; //Use these factories with the generate(id) function.
+    ItemFactory items;
+    RoomFactory rooms;
 
     // welome screen. prompt the user for their name and class selection
     std::string playername;
@@ -102,8 +108,15 @@ int main() {
     Room *cave = new Room("cave", "You proceed deeper into the cave.");
     CombatRoom *arena = new CombatRoom("arena", "You're standing in a large open arena. Two skeletons stare you down menacingly. You ready your weapon.", "You're standing in a large open arena. It's empty.");
     Skeleton* skelly = new Skeleton();
-    GrowSlime* growslime = new GrowSlime();
+    // BigRat* ratticus = new BigRat();
+    // GrowSlime* growslime = new GrowSlime();
+    StrangeFairy* fairy = new StrangeFairy();
     ShieldSkeleton* shieldSkelly = new ShieldSkeleton();
+    arena->addEnemy(skelly);
+    // arena->addEnemy(ratticus);
+    // arena->addEnemy(growslime);
+    arena->addEnemy(fairy);
+    GrowSlime* growslime = new GrowSlime();
     arena->addEnemy(skelly);
     arena->addEnemy(shieldSkelly);
     arena->linkPlayer(player);
@@ -113,6 +126,8 @@ int main() {
     darttrap->linkPlayer(player);
     CatRoom *catroom = new CatRoom();
     catroom->linkPlayer(player);
+    MirrorRoom* mirror = new MirrorRoom();
+    mirror->linkPlayer(player);
     CombatRoom *boss = new CombatRoom("boss", "It's the boss room. There's a big slime in it.", "It's the boss room. The boss is dead.");
     boss->addEnemy(growslime);
     boss->linkPlayer(player);
@@ -134,7 +149,8 @@ int main() {
     Room* currentRoom;
     Quest* currentQuest = new Quest(500, growslime, "Defeat the evil grow slime");
     currentQuest->addRoom(tree); //0
-    currentQuest->addRoom(cave); //1
+    //currentQuest->addRoom(cave); //1
+    currentQuest->addRoom(mirror); //1, but only because I can't link 7 it seems
     currentQuest->addRoom(darttrap); //2
     currentQuest->addRoom(arena); //3
     currentQuest->addRoom(catroom); //4
