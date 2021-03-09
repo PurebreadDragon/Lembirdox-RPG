@@ -242,7 +242,32 @@ int main() {
                 }
             }
         }
+
+        // this is just for testing
+        std::cout << "Thanks for playing!";
+        delete newQuest;
+        break;
     }
+
+    delete tree;
+    delete pool;
+    delete cave;
+    delete arena;
+    delete skelly;
+    delete growslime;
+    delete shieldSkelly;
+    delete darttrap;
+    delete catroom;
+    delete boss;
+    delete dullBlade;
+    delete windRazor;
+    delete stickWand;
+    delete flareOrb;
+    delete potion;
+    delete debuffstick;
+    delete testTown;
+    delete currentQuest;
+    delete player;
     // delete testTown;
     // currentQuest->showQuestContent();
     // std::cout << "done displaying content!\n";
