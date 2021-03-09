@@ -18,10 +18,10 @@ public:
         map.resize(0);
     }
     ~Quest() {
-        delete boss;
-        for (unsigned int i = 0; i < map.size(); ++i) {
-            delete map.at(i);
-        }
+        // delete boss;
+        // for (unsigned int i = 0; i < map.size(); ++i) {
+        //     delete map.at(i);
+        // }
     }
 
     /**
