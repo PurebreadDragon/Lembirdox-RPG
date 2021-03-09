@@ -241,12 +241,12 @@ public:
 	}
 };
 
-class StrongPotion : public Item {
+class MegaPotion : public Item {
 protected: 
 	int healstrength;
 
 public:
-	StrongPotion() {
+	MegaPotion() {
 		name = "Super Mega Healing Potion"";
 		description = "I Hate Getting Hurt, So I Spent All My Gold on Healing Potions!";
 		abilityName = "Chug";
