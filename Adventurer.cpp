@@ -10,6 +10,7 @@ Adventurer::Adventurer(Class job, std::string name, std::string description) {
         experience = 0;
         gold = 0;
 
+        // initialize base stats and stat growth based on player selection
         switch(job){
             case Warrior:{
                 maxHealth = 250;
@@ -19,15 +20,20 @@ Adventurer::Adventurer(Class job, std::string name, std::string description) {
                 physAtk = 50;
                 pAtkLvl = 5;
                 physDef = 30;
-                pDefLvl = 3;
+                pDefLvl = 5;
 
                 magAtk = 10;
                 mAtkLvl = 0;
                 magDef = 25;
-                mDefLvl = 2;
+                mDefLvl = 5;
 
                 speed = 95;
                 spdLvl = 0;
+
+                abi1MaxCD = 0;
+                // levelUp();
+                // levelUp();
+                // levelUp();
             } break;
             case Wizard:{
                 maxHealth = 200;
@@ -37,7 +43,7 @@ Adventurer::Adventurer(Class job, std::string name, std::string description) {
                 physAtk = 10;
                 pAtkLvl = 0;
                 physDef = 10;
-                pDefLvl = 1;
+                pDefLvl = 2;
 
                 magAtk = 60;
                 mAtkLvl = 5;
@@ -46,6 +52,12 @@ Adventurer::Adventurer(Class job, std::string name, std::string description) {
 
                 speed = 100;
                 spdLvl = 0;
+
+                // start with 1 ability unlocked
+                abi1MaxCD = 3;
+                // levelUp();
+                // levelUp();
+                // levelUp();
             } break;
             case Rogue:{
                 maxHealth = 150;
@@ -60,15 +72,44 @@ Adventurer::Adventurer(Class job, std::string name, std::string description) {
                 magAtk = 30;
                 mAtkLvl = 3;
                 magDef = 15;
-                mDefLvl = 1;
+                mDefLvl = 2;
 
                 speed = 120;
                 spdLvl = 2;
             } break;
+            case Samurai:{
+                maxHealth = 140;
+                health = maxHealth;
+                hpLvl = 20;
+
+                physAtk = 70;
+                pAtkLvl = 5;
+                physDef = 15;
+                pDefLvl = 1;
+
+                magAtk = 0;
+                mAtkLvl = 0;
+                magDef = 15;
+                mDefLvl = 1;
+
+                speed = 125;
+                spdLvl = 4;
+            }
         }
     }
 
+Adventurer::~Adventurer(){
+    for (auto i : inventory) delete i;
+    inventory.clear();
+}
+
+/**
+ * levelUp(): levels up the player and applies all relevant bonuses.
+ * args: none
+ * outputs: none
+ * */
 void Adventurer::levelUp(){
+    // update stats
     std::cout << "You leveled up!\n";
     if (hpLvl > 0){
         maxHealth += hpLvl;
@@ -96,6 +137,23 @@ void Adventurer::levelUp(){
         std::cout << "Speed: +" << spdLvl << "\n";
     }
 	++level;	
+
+    // update abilities
+    switch(job){
+        case Warrior:{
+            if (level == 4){
+                abi2MaxCD = 4;
+                std::cout << "You unlocked Drain.\n";
+            }
+        } break;
+        case Wizard:{
+            if (level == 4){
+                abi2MaxCD = 6;
+                std::cout << "You unlocked Frost Storm.\n";
+            }
+        } break;
+        default: break; // do nothing
+    }
 }
 
 void Adventurer::setLevel(int l){
@@ -107,9 +165,8 @@ int Adventurer::getLevel() const {
 }
 
 void Adventurer::inspect(){
-    std::cout << "It's you!\n";
-    std::cout << "Class: ";
-    printClass();
+    std::cout << name << " - Level " << level << " ";
+    printClass(); 
     std::cout << "\nExperience: \t\t" << experience << ", " << 75 * pow(1.1, level) << " to level\n"
     "Gold: \t\t\t" << gold << "\n"
     "Health: \t\t" << health << "/" << maxHealth << " (+" << maxHealthBonus << ")\n"
@@ -118,6 +175,26 @@ void Adventurer::inspect(){
     "Magical ATK: \t\t" << magAtk << " (+" << magAtkBonus << ")\n"
     "Magical DEF: \t\t" << magDef << " (+" << magDefBonus << ")\n"
     "Speed: \t\t\t" << speed << " (+" << speedBonus << ")\n";
+
+    std::cout << "\nAbilities:\n";
+    switch(job){
+        case Warrior:{
+            if (abi1MaxCD != -1) std::cout << "Expose (no CD): Strike at an enemy and expose their weak points. Deals 60% PAtk physical damage and "
+                                           << "applies a 3 turn PDef debuff.\n";
+            if (abi2MaxCD != -1) std::cout << "Drain (" << abi2MaxCD << " turn CD): Attack an enemy. Deals 200% PAtk physical damage and "
+                                           << "heals yourself for 30% of the damage dealt.\n";
+        } break;
+        case Wizard:{
+            if (abi1MaxCD != -1) std::cout << "Chain Lightning (" << abi1MaxCD << " turn CD): Conjure a blast of lightning that arcs from enemy to enemy. "
+                                           << "Hits all targets for 120% MAtk magic damage.\n";
+            if (abi2MaxCD != -1) std::cout << "Frost Storm (" << abi2MaxCD << " turn CD): Summon a storm of icicles to pierce through your enemies. "
+                                           << "Hits all targets for 60% MAtk magic damage, reduces their turn bars by 30% and debuffs their speed "
+                                           << "for 2 turns.\n";
+        } break;
+        default:{
+            std::cout << "You don't have any abilities unlocked.\n";
+        }
+    }
 }
 
 /**
@@ -200,9 +277,9 @@ void Adventurer::addGold(int gold){
  * */
 void Adventurer::addExp(int gain){
     experience += gain;
-    if (experience > 75 * pow(1.1, level)){
+    while (experience > 75 * pow(1.1, level)){
+        experience -= 75 * pow(1.1, level);
         levelUp();
-        experience = 0;
     }
 }
 
@@ -246,65 +323,32 @@ void Adventurer::deathPenalty(){
 void Adventurer::turn(std::vector<Enemy*> enemies){
     InputReader reader;
 
-    int inputChoices[]{1, 2, 3, 4};
+    int inputChoices[]{1, 2, 3, 4, 5};
     int selection = 0;
 
-    //turn is not used up when the selection is equal to 2 (player chooses to inspect).
-    while (selection != 1 && selection != 3 && selection != 4){ 
+    //turn is not used up when the selection is equal to 4 (player chooses to inspect).
+    while (selection != 1 && selection != 2 && selection != 3 && selection != 5){ 
         // prompt the user for their input and read it
         std::cout << "It's your turn. Available options:\n"
                 << "1:\tAttack\n"
-                << "2:\tInspect\n"
+                << "2:\tAbility\n"
                 << "3:\tUse Item\n"
-                << "4:\tFlee\n";
-        selection = reader.readInput(inputChoices, 4);
+                << "4:\tInspect\n"
+                << "5:\tFlee\n";
+        selection = reader.readInput(inputChoices, 5);
         
         switch(selection){
             /*************************** ATTACK ***************************/
             case 1:{ 
-                // prompt the user for target selection
-                std::cout << "Choose a target.\n"
-                          << "0:\tCancel\n";
-
-                // build enemy selection array
-                int enemyChoices[enemies.size()];
-                int targetIndex = 1;
-                int enemySelection = 0;
-                for (auto e : enemies){
-                    std::cout << targetIndex << ":\t" << e->getName() <<"\n";
-                    enemyChoices[targetIndex - 1] = targetIndex;
-                    ++targetIndex;
-                }
-
                 // read the user's target
-                enemySelection = reader.readInputCancel(enemyChoices, enemies.size());
-
+                int enemySelection = selectTarget(enemies);
                 // execute the action
                 if (enemySelection != 0) attack(enemies[enemySelection - 1]);
                 else selection = 0;
             } break;
-            /*************************** INSPECT ***************************/
-            case 2:{ //inspect
-                // prompt the user for target selection
-                std::cout << "Choose a target.\n"
-                          << "0:\tCancel\n";
-
-                // build enemy selection array
-                int enemyChoices[enemies.size()];
-                int targetIndex = 1;
-                int enemySelection = 0;
-                for (auto e : enemies){
-                    std::cout << targetIndex << ":\t" << e->getName() <<"\n";
-                    enemyChoices[targetIndex - 1] = targetIndex;
-                    ++targetIndex;
-                }
-
-                // read the user's target
-                enemySelection = reader.readInputCancel(enemyChoices, enemies.size());
-
-                // execute the action
-                if (enemySelection != 0) enemies[enemySelection - 1]->inspect();
-                else selection = 0;
+            /*************************** ABILITY ***************************/
+            case 2:{
+                selection = ability(enemies);
             } break;
             /*************************** ITEM ***************************/
             case 3:{ //use item
@@ -329,22 +373,8 @@ void Adventurer::turn(std::vector<Enemy*> enemies){
                 if (itemSelection != 0){
                     // if the item is a self usage item, prompt for their target
                     if (!inventory[itemSelection - 1]->isSelfUse()){
-                        // prompt the user for target selection
-                        std::cout << "Choose a target.\n"
-                                << "0:\tCancel\n";
-
-                        // build enemy selection array
-                        int enemyChoices[enemies.size()];
-                        int targetIndex = 1;
-                        int enemySelection = 0;
-                        for (auto e : enemies){
-                            std::cout << targetIndex << ":\t" << e->getName() <<"\n";
-                            enemyChoices[targetIndex - 1] = targetIndex;
-                            ++targetIndex;
-                        }
-
                         // read the user's target
-                        enemySelection = reader.readInputCancel(enemyChoices, enemies.size());
+                        int enemySelection = selectTarget(enemies);
 
                         // execute the action
                         if (enemySelection != 0) inventory[itemSelection - 1]->ability(this, enemies[enemySelection - 1]);
@@ -358,8 +388,17 @@ void Adventurer::turn(std::vector<Enemy*> enemies){
                     }
                 } else selection = 0;
             } break;
+            /*************************** INSPECT ***************************/
+            case 4:{ //inspect
+                // select a target
+                int enemySelection = selectTarget(enemies);
+
+                // execute the action
+                if (enemySelection != 0) enemies[enemySelection - 1]->inspect();
+                else selection = 0;
+            } break;
             /*************************** FLEE ***************************/
-            case 4:{ //flee
+            case 5:{ //flee
                 std::cout << "Waste your turn and do nothing because this function isn't implemented.\n";
             } break;
             default:{
@@ -368,6 +407,9 @@ void Adventurer::turn(std::vector<Enemy*> enemies){
             } break;
         }
     }
+
+    // cycle cooldowns
+    updateCooldowns();
 }
 
 /**attack: Generic attack method. Only the player can use this.
@@ -379,13 +421,261 @@ void Adventurer::attack(Enemy* target){
     std::cout << "You strike the " << target->getName() << " with your bare fists, dealing " << target->dealPDamage(physAtk) << " physical damage.\n";
 }
 
+/**
+ * selectTarget(): Prompts the user to select a target from a list.
+ * Returns 0 if the user cancels. 
+ * args: a std::vector<Enemy*> of valid enemy targets
+ * outputs: an integer with the index of the user's selection in the vector
+ * */
+int Adventurer::selectTarget(std::vector<Enemy*> targets){
+    InputReader reader;
+    // choose a target
+    std::cout << "Choose a target.\n"
+                << "0:\tCancel\n";
+
+    // build enemy selection array
+    int enemyChoices[targets.size()];
+    int targetIndex = 1;
+    int enemySelection = 0;
+    for (auto e : targets){
+        std::cout << targetIndex << ":\t" << e->getName() <<"\n";
+        enemyChoices[targetIndex - 1] = targetIndex;
+        ++targetIndex;
+    }
+
+    // read the user's target
+    return reader.readInputCancel(enemyChoices, targets.size());
+}
+
+/**ability: Abilities that the character gains on level up. Levels 1, 4, 7, etc. unlock new ones.
+ * Based on class. 
+ * Warrior: A class focused around tanking and dealing a lot of single-target damage. Boss killer. 
+ * 1: Expose. 0 turn CD. 20% PAtk physical damage. Applies 3 turn defense debuff.
+ * 4: Drain. 4 turn CD. 200% PAtk physical damage. Heals for 30% of damage dealt. 
+ * 7: Sunder. 2 turn CD. 170% PAtk physical damage. Hits twice if self has attack buff. Buffs own attack for 2 turns but debuffs own defense for 1 turn. 
+ * ================================================================
+ * Wizard: A class focused around AoE skills and control. 
+ * 1: Chain Lightning. 3 turn CD. 120% MAtk magic damage. Hits all targets. 
+ * 4: Frost Storm. 6 turn CD. 60% MAtk magic damage. Hits all targets. Pushes their turn bars back by 30% and applies 2 turn speed debuff. 
+ * 7: Mana Tempest. 6 turn CD. 100% MAtk magic damage. Hits all targets. If it kills a target, this ability casts again at no cost. 
+ * ================================================================
+ * Samurai: A class focused around speed and turn cycling.
+ * Samurai have a resource called Ki. They gain 20 Ki when performing Iai Slash but lose 10 Ki when taking damage, up to 100. 
+ * Samurai are very fragile, but have high physical attack, speed, physical attack growth and speed growth. 
+ * Basic attack: Replaced with Iai Slash. A lightning fast slash that cannot be seen by the naked eye.
+ *      Deals 50% PAtk damage, but can crit for double damage. Crit chance is equal to the percentage of filled Ki bar. 
+ * 1: Blink Strike: 3 turn CD. Teleport behind an enemy and cut them. Debuff their defense for 1 turn and perform an Iai Slash. Sets own turn bar to 50%. 
+ * 4: Perfect Domain: 8 turn CD. 3 hit duration. Breathe deeply and draw upon the latent power within, sharpening your senses to detect all 
+ * nearby movement. 
+ *      Reset your turn on cast. Cleanse all debuffs. 
+ *      When in your Perfect Domain state, you are immune to all debuffs and each Iai Slash hits twice. You always have speed buff. 
+ *      Kills during Perfect Domain extend the duration by 1 hit. 
+ *      Taking damage during Perfect Domain reduces the duration by 1 hit. 
+ * 7: Bladestorm: 4 turn CD. Shower the enemy in countless slashes. Casts 3 Iai Slashes in quick succession.  
+ * 11: Premonition: 6 turn CD. Focus your mind and predict the enemy's movements. Resets turn. Negate the next instance of damage. 
+ *      Casting premonition multiple times will not stack the damage negation. 
+ * 15: Ultimate Technique - Thunder Flash. 10 turn CD. Draw your blade and strike with the power of thunder and speed of lightning. Grant self 2T PAtk buff. 
+ *      Perform an Iai Slash. This Iai Slash is guaranteed to crit and ignores all defense. Reset your turn. 
+ * ================================================================
+ * Psionic: A class of mage with the ability to transform into a psionic being.
+ * Psionics have a resource called Psi. Using Psi Strike gains Psi, up to 5. They can expend it to fuel their more powerful abilities. 
+ * 1: Psionic Form. 99 turn CD. Transforms into psionic form. Psionic form replaces your basic attack with Psi Strike. 
+ *      Psi Strike: No CD. Deal 50% PAtk physical damage, 50% MAtk magical damage. Gain 1 Psi. 
+ * 4: Mindblast. No CD. Consume 1 Psi. Deal 40% PAtk physical damage, 40% MAtk magical damage. Ignore all defense. 
+ * 7: Psychic Fear. No CD. Consume 3 Psi. Doesn't do damage. Fully resets your own turn. Debuffs a target's speed for 1 turn and sets their turn bar to 0. 
+ * 11: Psi Storm. No CD. Consume 5 Psi. Does 250% PAtk physical and 250% MAtk magic damage to all enemies and debuffs their 
+ *      physical attack and magic attack for 2 turns. 
+ * 15: Recharge. 9 turn CD. Instantly charges 5 Psi. Reset your turn. If this skill is used at 5 Psi, expend all Psi to buff all stats for 2 turns and 
+ *      recover 25% health. 
+ * ================================================================
+ * Elementalist: A class with the ability to channel the power of the elements.
+ * Elementalists can channel the power of 5 different elements: Lightning, Fire, Earth, Water and Wind. They can channel 2 at a time.
+ * Lightning: Destructive element focused around single target damage.
+ * Fire: Destructive element focused around area of effect damage.
+ * Earth: Defensive element focused around reducing damage and slowing enemies.
+ * Water: Defensive element focused around restoring health. 
+ * Wind: Supportive element focused around bolstering your other elements. 
+ * 
+ * Each element has an energy meter, up to 100. When not active i.e. not using its ability or stored, an element regenerates 15 energy. 
+ * 
+ * Elementalists have no offensive spells of their own. Instead, their elements provide passive effects that activate at the end of every turn. 
+ * They can modify their currently held elements with the following actions:
+ * 1: Switch. Change the selected element with a new one.
+ * 2: Offense. Changes the selected element into offense mode.
+ *      Lightning: 10 energy. Deal 30% MAtk magical damage to a random target. 
+ *      Fire: 20 energy. Deal 20% MAtk magical damage to all targets. 
+ *      Earth: 10 energy. Deal 5% MAtk physical damage to a random target. 50% chance to debuff its physical attack for 1 turn. 
+ *      Water: 10 energy. 25% chance each to apply 1 turn of defense debuff to each enemy. 
+ *      Wind: 40 energy. Grant 1 turn of speed buff to yourself.
+ * 3: Support. Changes the selected element into support mode.
+ *      Lightning: 40 energy. Deal 10% MAtk magical damage to a random target and apply 1 turn of defense debuff. 
+ *      Fire: 10 energy. You start your next turn at +10% turn bar. 
+ *      Earth: 20 energy. 25% chance to grant 1 turn of physical defense buff to youself. 25% chance to grant 1 turn of magic defense buff. 50% to grant both.
+ *      Water: 30 energy. Restore 5% max health. 
+ *      Wind: 10 energy. Your other effect activates an extra time at no energy cost. 
+ * 
+ * When an element lacks the energy to activate its ability, it will regenerate energy at the normal rate. 
+ * 
+ * You start with Lightning and Earth. At level 4, you gain Fire. At level 7, you gain Water. At level 11, you gain Wind. At level 15, you gain Elemental
+ * Hurricane. 
+ * 
+ * 15: Elemental Hurricane. 15 turn CD. Channel the full power of the elements. Fully restore all energy and deal 150% MAtk magical damage 
+ *      4 times and 150% MAtk physical damage one time (for earth) to random enemies. 
+ * 
+ * args: targets (list of available targets)
+ * outputs: a 0 if an ability was cast. 2 if not
+ * */
+int Adventurer::ability(std::vector<Enemy*> targets){
+    InputReader reader;
+    int choice[]{0, 1, 2, 3, 4, 5};
+    int abilityOptions = 1;
+    if (abi1MaxCD != -1) abilityOptions++;
+    if (abi2MaxCD != -1) abilityOptions++;
+    if (abi3MaxCD != -1) abilityOptions++;
+    if (abi4MaxCD != -1) abilityOptions++;
+    if (abi5MaxCD != -1) abilityOptions++;
+            
+    switch(job){
+        /*************************** WARRIOR ***************************/
+        case Warrior:{
+            // prompt for ability choice
+            std::cout << "Choose an ability to use.\n"
+                      << "0:\tCancel\n";
+            
+            // print ability 1
+            if (abi1MaxCD != -1){
+                std::cout << "1:\tExpose ";
+                if (abi1CD == 0) std::cout << "(Ready)\n";
+                else std::cout << "(Ready in " << abi1CD << " turn(s))\n";
+            }
+
+            // print ability 2
+            if (abi2MaxCD != -1){
+                std::cout << "2:\tDrain ";
+                if (abi2CD == 0) std::cout << "(Ready)\n";
+                else std::cout << "(Ready in " << abi2CD << " turn(s))\n";
+            }
+
+            // get user prompt and execute the action
+            int abiChoice = reader.readInput(choice, abilityOptions);
+            switch(abiChoice){
+                case 0: return 0; // cancel selected
+                case 1:{ // expose
+                    int enemySelection = selectTarget(targets);
+                    if (enemySelection == 0) return 0;
+                    else {
+                        std::cout << "You dash towards " << targets[enemySelection - 1]->getName() << " and strike them, throwing them off balance. "
+                                  << "You deal " << targets[enemySelection - 1]->dealPDamage(physAtk * 0.8) << " physical damage and lower their "
+                                  << "physical defense for 3 turns.\n";
+                        targets[enemySelection - 1]->buff(PHYS_DEF, -3);
+                    }
+                    // expose has no CD
+                    return 2;
+                } break;
+                case 2:{ // drain strike
+                    if (abi2CD > 0){
+                        std::cout << "That ability isn't ready yet.\n";
+                        return 0; 
+                    } else {
+                        int enemySelection = selectTarget(targets);
+                        if (enemySelection == 0) return 0;
+                        else {
+                            int damageDealt = targets[enemySelection - 1]->dealPDamage(physAtk * 2);
+                            std::cout << "You deal a heavy strike at " << targets[enemySelection - 1]->getName() << ", dealing "
+                                    << damageDealt << " physical damage and healing yourself for " << damageDealt * 0.3 << " health.\n";
+                                    heal(damageDealt * 0.3);
+                        }
+                        abi2CD = abi2MaxCD;
+                        return 2;
+                    }
+                } break;
+            }
+        }
+        /*************************** WIZARD ***************************/
+        case Wizard:{
+            // prompt for ability choice
+            std::cout << "Choose an ability to use.\n"
+                      << "0:\tCancel\n";
+            
+            // print ability 1
+            if (abi1MaxCD != -1){
+                std::cout << "1:\tChain Lighting ";
+                if (abi1CD == 0) std::cout << "(Ready)\n";
+                else std::cout << "(Ready in " << abi1CD << " turn(s))\n";
+            }
+
+            // print ability 2
+            if (abi2MaxCD != -1){
+                std::cout << "2:\tFrost Storm ";
+                if (abi2CD == 0) std::cout << "(Ready)\n";
+                else std::cout << "(Ready in " << abi2CD << " turn(s))\n";
+            }
+
+            // get user prompt and execute the action
+            int abiChoice = reader.readInput(choice, abilityOptions);
+            switch(abiChoice){
+                case 0: return 0; // cancel selected
+                case 1:{ // chain lighting
+                    if (abi1CD > 0){
+                        std::cout << "That ability isn't ready yet.\n";
+                        return 0; 
+                    } else {
+                        std::cout << "You channel the arcane power flowing around you to unleash a blast of lightning that arcs from enemy to enemy.\n";
+                        for (auto e : targets){
+                            std::cout << e->getName() << " takes " << e->dealMDamage(magAtk * 1.2) << " magic damage.\n";
+                        }
+                        abi1CD = abi1MaxCD;
+                        return 2;
+                    }
+                } break;
+                case 2:{ // frost storm
+                    if (abi2CD > 0){
+                        std::cout << "That ability isn't ready yet.\n";
+                        return 0; 
+                    } else {
+                        std::cout << "You summon countless shards of ice and send them flying at your enemies. The shards slice "
+                                  << "through them, the sheer cold impeding their movement.\n";
+                        for (auto e : targets){
+                            std::cout << e->getName() << " takes " << e->dealMDamage(magAtk * 0.6) << " magic damage.\n";
+                            std::cout << e->getName() << " had their speed reduced and their turn bar reduced by 30%.\n";
+                            e->buff(SPEED, -2);
+                            e->affectTurnBar(-300);
+                        }
+                        abi2CD = abi2MaxCD;
+                        return 2;
+                    }
+                }
+            }
+        } break;
+        default:{
+            std::cout << "You don't have any abilities.\n";
+            return 0;
+        } break;
+    }
+    return 0;
+}
+
+/**
+ * updateCooldowns: reduces all cooldowns by 1 (if greater than 1)
+ * Call this at the end of a turn.
+ * args: none
+ * outputs: none
+ * */
+void Adventurer::updateCooldowns(){
+    if (abi1CD > 0) abi1CD--;
+    if (abi2CD > 0) abi2CD--;
+    if (abi3CD > 0) abi3CD--;
+    if (abi4CD > 0) abi4CD--;
+    if (abi5CD > 0) abi5CD--;
+}
+
 /**setHealth: used to set the user's health to a certain percentage.
  * Use this for % max health based healing and attacks.
  * args: the percentage to set the user's health to
  * outputs: none
  * */
 void Adventurer::setHealth(double percent){
-    health = std::min(maxHealth, (int)ceil(maxHealth * percent));
+    health = maxHealth * percent;
 }
 
 void Adventurer::setHealth(int value){

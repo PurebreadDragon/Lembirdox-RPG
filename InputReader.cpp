@@ -29,7 +29,7 @@ public:
             
             if (isNumber(input)) {
                 for (int i = 0; i < numChoices; ++i){
-                    if (std::stoi(input) == choices[i]){
+                    if (std::stoi(input.substr(0, 4)) == choices[i]){ // input should never be more than 1 character. concatenate if too long
                         valid = true;
                         break;
                     }

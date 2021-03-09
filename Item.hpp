@@ -31,6 +31,7 @@ public:
         if (physDef > 0) std::cout << "Physical Defense: +" << physDef << "\n";
         if (magAtk > 0) std::cout << "Magical Attack: +" << magAtk << "\n";
         if (magDef > 0) std::cout << "Magical Defense: +" << magDef << "\n";
+        if (speed > 0) std::cout << "Speed: +" << speed << "\n";
     }
 
 	virtual void ability(Entity* user, Entity* target) = 0;
@@ -137,7 +138,7 @@ public:
     void ability(Entity* user, Entity* target) {
 		std::cout << "Channeling its power, you slash at " << target->getName() << " with the " << name << ". "
         << "The very air splits where you cut it, sending several sharp blades of air towards your target. They deal " 
-        << target->dealPDamage(user->getPAtk() * 1.2 + user->getSpeed() * 0.2) << " physical damage.\n";
+        << target->dealPDamage(user->getPAtk() * 1.2 + user->getSpeed() * 0.2) << " physical damage. \n";
 	}
 };
 
@@ -337,4 +338,30 @@ public:
         }
     }
 };
+
+class DebuffStick : public Item{
+public:
+    DebuffStick(){
+        name = "Debuff Stick";
+        description = "for testing";
+        abilityName = "debufftest";
+        abilityDescription = "debufftest";
+    }
+
+    void ability(Entity* user, Entity* target){
+        std::cout << "Apply all buffs to user and all debuffs to target.\n";
+        user->buff(PHYS_ATK, 2);
+        user->buff(PHYS_DEF, 2);
+        user->buff(MAG_ATK, 2);
+        user->buff(MAG_DEF, 2);
+        user->buff(SPEED, 2);
+
+        target->buff(PHYS_ATK, -2);
+        target->buff(PHYS_DEF, -2);
+        target->buff(MAG_ATK, -2);
+        target->buff(MAG_DEF, -2);
+        target->buff(SPEED, -2);
+    }
+};
+
 #endif

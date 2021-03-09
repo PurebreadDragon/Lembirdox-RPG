@@ -31,6 +31,9 @@ public:
         if (!combatDone){
             printDescription();
 
+            player->initializeOrigStats();
+            for (auto e : entities) e->initializeOrigStats();
+
             int goldReward = 0, expReward = 0, turn = 1;
             while (!combatOver()){
                 updateTurn();
@@ -40,6 +43,7 @@ public:
                 if (player->getTurnBar() >= MAX_TURN_BAR){
                     std::cout << "================================[TURN " << turn << "]===============================\n";
                     player->turn(entities);
+                    player->updateBuffs();
                     player->setTurnBar(player->getTurnBar() - MAX_TURN_BAR);
                     std::cout << "================================[TURN " << turn << "]===============================\n";
                     turn++;
@@ -60,8 +64,9 @@ public:
                 // execute any enemy turns
                 for (auto e : entities){
                     if (e->getTurnBar() >= MAX_TURN_BAR){
-                        e->setTurnBar(e->getTurnBar() - MAX_TURN_BAR);
                         e->turn(player);
+                        e->updateBuffs();
+                        e->setTurnBar(e->getTurnBar() - MAX_TURN_BAR);
                     }
                 }
             }
@@ -71,10 +76,12 @@ public:
                 std::cout << "You receive " << goldReward << " gold and " << expReward << " experience.\n";
                 player->addGold(goldReward);
                 player->addExp(expReward);
-                combatDone = true;
+                combatDone = true; //we don't set this to true if the player died. they can return?
+                player->clearBuffs();
             } else {
                 std::cout << "You died.\n";
                 end = true;
+                player->deathPenalty();
             }
         } else {
             std::cout << combatDoneDescription << "\n";
@@ -97,16 +104,25 @@ public:
         for (int k = 0; k < floor((double)std::min(player->getTurnBar(), MAX_TURN_BAR) / MAX_TURN_BAR * TURN_BAR_LENGTH); ++k) std::cout << "-";
         std::cout << "o";
         for (int k = 0; k < TURN_BAR_LENGTH - floor((double)std::min(player->getTurnBar(), MAX_TURN_BAR) / MAX_TURN_BAR * TURN_BAR_LENGTH); ++k) std::cout << "-";
-        std::cout << "] (" << player->getCurrentHealth() << "/" << player->getMaxHealth() << ")\n";
+        std::cout << "] (" << player->getCurrentHealth() << "/" << player->getMaxHealth() << ")\t";
+        player->displayBuffs();
+        std::cout << "\n";
 
         // print enemy info
         for (auto e : entities){
+            // print name
             tempName = e->getName();
+            // print turn percentage
             std::cout << resize(tempName, 16) << " (" << e->getTurnBar() / 10 << "%)\t[";
+            // print turn bar
             for (int k = 0; k < floor((double)std::min(e->getTurnBar(), MAX_TURN_BAR) / MAX_TURN_BAR * TURN_BAR_LENGTH); ++k) std::cout << "-";
             std::cout << "o";
             for (int k = 0; k < TURN_BAR_LENGTH - floor((double)std::min(e->getTurnBar(), MAX_TURN_BAR) / MAX_TURN_BAR * TURN_BAR_LENGTH); ++k) std::cout << "-";
-            std::cout << "] (" << e->getCurrentHealth() << "/" << e->getMaxHealth() << ")\n";
+            // print health
+            std::cout << "] (" << e->getCurrentHealth() << "/" << e->getMaxHealth() << ")\t";
+            // print buffs
+            e->displayBuffs();
+            std::cout << "\n";
         }
     }
 
@@ -127,11 +143,11 @@ public:
      * */
     void updateTurn(){
         // go through and find if someone is above max turn bar. reset them to zero if so
-        for (auto e : entities){
-            if (e->getTurnBar() >= MAX_TURN_BAR) e->setTurnBar(0);
-        }
+        // for (auto e : entities){
+        //     if (e->getTurnBar() >= MAX_TURN_BAR) e->setTurnBar(0);
+        // }
 
-        if (player->getTurnBar() >= MAX_TURN_BAR) player->setTurnBar(0);
+        // if (player->getTurnBar() >= MAX_TURN_BAR) player->setTurnBar(0);
 
         // loop through all entities and update their turn bars until somebody reaches maximum. 
         bool reachedEnd = false;
