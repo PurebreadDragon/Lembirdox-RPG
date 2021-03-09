@@ -189,7 +189,7 @@ public:
                 int choices2[]{1};
                 selection = reader.readInput(choices, 1);
 
-                std::cout << "JUST KIDDING, BOZO. YOU THOUGHT YOU WERE SAFE?\n"
+                std::cout << "WHERE DO YOU THINK YOU'RE GOING?\n"
                           << "A tendril made of golden light wraps around you and forcibly drags you back into the room, where you find a very "
                           << "angry-looking Mort standing over you.\n";
             } break;

@@ -16,6 +16,9 @@
 #include "Town.hpp"
 #include "Factory.hpp"
 #include "InputReader.cpp"
+#include "Warrior.cpp"
+#include "Wizard.cpp"
+#include "Samurai.cpp"
 
 using namespace std;
 
@@ -66,6 +69,8 @@ int main() {
     RoomFactory rooms;
 
     // welome screen. prompt the user for their name and class selection
+    int ki = 50;
+
     std::string playername;
     int nameSelection = -1;
     while (nameSelection != 1){
@@ -81,9 +86,9 @@ int main() {
     int classSelection = 2, pickedClass;
     while (classSelection == 2){
         std::cout << "Choose your class.\n"
-                  << "1:\tWarrior\n"
-                  << "2:\tWizard\n"
-                  << "3:\tRogue\n";
+                  << "1:\tWarrior: A physical class focused around being able to take a lot of hits and dish out a lot of damage.\n"
+                  << "2:\tWizard: A magical class with powerful area of effect damage and control abilities.\n"
+                  << "3:\tSamurai: A physical class focused around lightning fast speed, rapid strikes and keeping the flow of combat.\n";
         int classChoice[]{1, 2, 3};
         pickedClass = reader.readInput(classChoice, 3);
 
@@ -96,27 +101,31 @@ int main() {
 
     Adventurer *player;
 
+    // switch(pickedClass){
+    //     case 1: player = new Adventurer(Warrior, playername, "It's you!"); break;
+    //     case 2: player = new Adventurer(Wizard, playername, "It's you!"); break;
+    //     case 3: player = new Adventurer(Rogue, playername, "It's you!"); break;
+    // }
     switch(pickedClass){
-        case 1: player = new Adventurer(Warrior, playername, "It's you!"); break;
-        case 2: player = new Adventurer(Wizard, playername, "It's you!"); break;
-        case 3: player = new Adventurer(Rogue, playername, "It's you!"); break;
+        case 1: player = new Warrior(playername, "It's you!"); break;
+        case 2: player = new Wizard(playername, "It's you!"); break;
+        case 3: player = new Samurai(playername, "It's you!"); break;
     }
 
     // build all room objects
     Room *tree = new Room("tree", "This room has a large tree in it. Two openings lie in front of you. One leads to a room with a large pool of water in it. The other leads deeper into the cave.");
     Room *pool = new Room("pool", "The air in this room is a bit damp. Soft green moss grows underneath your feet. In the center of the room is a large pool.");
-    Room *cave = new Room("cave", "You proceed deeper into the cave.");
     CombatRoom *arena = new CombatRoom("arena", "You're standing in a large open arena. Two skeletons stare you down menacingly. You ready your weapon.", "You're standing in a large open arena. It's empty.");
     Skeleton* skelly = new Skeleton();
     // BigRat* ratticus = new BigRat();
-    // GrowSlime* growslime = new GrowSlime();
+    GrowSlime* growslime = new GrowSlime();
+    // TrainingDummy* dummy = new TrainingDummy();
     StrangeFairy* fairy = new StrangeFairy();
     ShieldSkeleton* shieldSkelly = new ShieldSkeleton();
     arena->addEnemy(skelly);
     // arena->addEnemy(ratticus);
     // arena->addEnemy(growslime);
     arena->addEnemy(fairy);
-    GrowSlime* growslime = new GrowSlime();
     arena->addEnemy(shieldSkelly);
     arena->linkPlayer(player);
     GoldStatueRoom *goldstatue = new GoldStatueRoom();
@@ -208,34 +217,8 @@ int main() {
         break;
     }
 
-    // delete tree;
-    // delete pool;
-    // delete cave;
-    // delete arena;
-    delete cave;
-    delete fairy;
-    delete skelly;
-    delete growslime;
-    delete shieldSkelly;
-    // delete goldstatue;
-    // delete darttrap;
-    // delete catroom;
-    // delete boss;
-    // delete testTown;
     delete currentQuest;
     delete player;
     delete testTown;
-    // currentQuest->showQuestContent();
-    // std::cout << "done displaying content!\n";
-    // delete currentQuest;
-    //Town stuff ends here.
-
-    // InputReader reader;
-    // std::cout << "You have 3 choices:\n"
-    // "1: choice 1\n"
-    // "2: choice 2\n"
-    // "3: choice 3\n";
-    // int choices[]{1, 2, 3};
-    // std::cout << "User picked choice " << reader.readInput(choices, 3);
     return 0;
 }
