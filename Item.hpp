@@ -247,7 +247,7 @@ protected:
 
 public:
 	MegaPotion() {
-		name = "Super Mega Healing Potion"";
+		name = "Super Mega Healing Potion";
 		description = "I Hate Getting Hurt, So I Spent All My Gold on Healing Potions!";
 		abilityName = "Chug";
         abilityDescription = "Why don't you just go ham on everything? There's no way this thing can't save you.";
