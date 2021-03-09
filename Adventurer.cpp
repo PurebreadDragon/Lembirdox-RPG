@@ -20,15 +20,17 @@ Adventurer::Adventurer(Class job, std::string name, std::string description) {
                 physAtk = 50;
                 pAtkLvl = 5;
                 physDef = 30;
-                pDefLvl = 3;
+                pDefLvl = 5;
 
                 magAtk = 10;
                 mAtkLvl = 0;
                 magDef = 25;
-                mDefLvl = 2;
+                mDefLvl = 5;
 
                 speed = 95;
                 spdLvl = 0;
+
+                abi1MaxCD = 0;
             } break;
             case Wizard:{
                 maxHealth = 200;
@@ -38,7 +40,7 @@ Adventurer::Adventurer(Class job, std::string name, std::string description) {
                 physAtk = 10;
                 pAtkLvl = 0;
                 physDef = 10;
-                pDefLvl = 1;
+                pDefLvl = 2;
 
                 magAtk = 60;
                 mAtkLvl = 5;
@@ -50,9 +52,9 @@ Adventurer::Adventurer(Class job, std::string name, std::string description) {
 
                 // start with 1 ability unlocked
                 abi1MaxCD = 3;
-                // levelUp();
-                // levelUp();
-                // levelUp();
+                levelUp();
+                levelUp();
+                levelUp();
             } break;
             case Rogue:{
                 maxHealth = 150;
@@ -67,7 +69,7 @@ Adventurer::Adventurer(Class job, std::string name, std::string description) {
                 magAtk = 30;
                 mAtkLvl = 3;
                 magDef = 15;
-                mDefLvl = 1;
+                mDefLvl = 2;
 
                 speed = 120;
                 spdLvl = 2;
@@ -130,6 +132,12 @@ void Adventurer::levelUp(){
 
     // update abilities
     switch(job){
+        case Warrior:{
+            if (level == 4){
+                abi2MaxCD = 4;
+                std::cout << "You unlocked Drain Strike.\n";
+            }
+        } break;
         case Wizard:{
             if (level == 4){
                 abi2MaxCD = 6;
@@ -162,6 +170,12 @@ void Adventurer::inspect(){
 
     std::cout << "\nAbilities:\n";
     switch(job){
+        case Warrior:{
+            if (abi1MaxCD != -1) std::cout << "Expose (no CD): Strike at an enemy and expose their weak points. Deals 60% PAtk physical damage and "
+                                           << "applies a 3 turn PDef debuff.\n";
+            if (abi2MaxCD != -1) std::cout << "Drain Strike (" << abi2MaxCD << " turn CD): Attack an enemy. Deals 200% PAtk physical damage and "
+                                           << "heals yourself for 30% of the damage dealt.\n";
+        } break;
         case Wizard:{
             if (abi1MaxCD != -1) std::cout << "Chain Lightning (" << abi1MaxCD << " turn CD): Conjure a blast of lightning that arcs from enemy to enemy. "
                                            << "Hits all targets for 120% MAtk magic damage.\n";
@@ -304,7 +318,7 @@ void Adventurer::turn(std::vector<Enemy*> enemies){
     int inputChoices[]{1, 2, 3, 4, 5};
     int selection = 0;
 
-    //turn is not used up when the selection is equal to 2 (player chooses to inspect).
+    //turn is not used up when the selection is equal to 4 (player chooses to inspect).
     while (selection != 1 && selection != 2 && selection != 3 && selection != 5){ 
         // prompt the user for their input and read it
         std::cout << "It's your turn. Available options:\n"
@@ -318,23 +332,8 @@ void Adventurer::turn(std::vector<Enemy*> enemies){
         switch(selection){
             /*************************** ATTACK ***************************/
             case 1:{ 
-                // prompt the user for target selection
-                std::cout << "Choose a target.\n"
-                          << "0:\tCancel\n";
-
-                // build enemy selection array
-                int enemyChoices[enemies.size()];
-                int targetIndex = 1;
-                int enemySelection = 0;
-                for (auto e : enemies){
-                    std::cout << targetIndex << ":\t" << e->getName() <<"\n";
-                    enemyChoices[targetIndex - 1] = targetIndex;
-                    ++targetIndex;
-                }
-
                 // read the user's target
-                enemySelection = reader.readInputCancel(enemyChoices, enemies.size());
-
+                int enemySelection = selectTarget(enemies);
                 // execute the action
                 if (enemySelection != 0) attack(enemies[enemySelection - 1]);
                 else selection = 0;
@@ -366,22 +365,8 @@ void Adventurer::turn(std::vector<Enemy*> enemies){
                 if (itemSelection != 0){
                     // if the item is a self usage item, prompt for their target
                     if (!inventory[itemSelection - 1]->isSelfUse()){
-                        // prompt the user for target selection
-                        std::cout << "Choose a target.\n"
-                                << "0:\tCancel\n";
-
-                        // build enemy selection array
-                        int enemyChoices[enemies.size()];
-                        int targetIndex = 1;
-                        int enemySelection = 0;
-                        for (auto e : enemies){
-                            std::cout << targetIndex << ":\t" << e->getName() <<"\n";
-                            enemyChoices[targetIndex - 1] = targetIndex;
-                            ++targetIndex;
-                        }
-
                         // read the user's target
-                        enemySelection = reader.readInputCancel(enemyChoices, enemies.size());
+                        int enemySelection = selectTarget(enemies);
 
                         // execute the action
                         if (enemySelection != 0) inventory[itemSelection - 1]->ability(this, enemies[enemySelection - 1]);
@@ -397,22 +382,8 @@ void Adventurer::turn(std::vector<Enemy*> enemies){
             } break;
             /*************************** INSPECT ***************************/
             case 4:{ //inspect
-                // prompt the user for target selection
-                std::cout << "Choose a target.\n"
-                          << "0:\tCancel\n";
-
-                // build enemy selection array
-                int enemyChoices[enemies.size()];
-                int targetIndex = 1;
-                int enemySelection = 0;
-                for (auto e : enemies){
-                    std::cout << targetIndex << ":\t" << e->getName() <<"\n";
-                    enemyChoices[targetIndex - 1] = targetIndex;
-                    ++targetIndex;
-                }
-
-                // read the user's target
-                enemySelection = reader.readInputCancel(enemyChoices, enemies.size());
+                // select a target
+                int enemySelection = selectTarget(enemies);
 
                 // execute the action
                 if (enemySelection != 0) enemies[enemySelection - 1]->inspect();
@@ -440,6 +411,32 @@ void Adventurer::turn(std::vector<Enemy*> enemies){
  * */
 void Adventurer::attack(Enemy* target){
     std::cout << "You strike the " << target->getName() << " with your bare fists, dealing " << target->dealPDamage(physAtk) << " physical damage.\n";
+}
+
+/**
+ * selectTarget(): Prompts the user to select a target from a list.
+ * Returns 0 if the user cancels. 
+ * args: a std::vector<Enemy*> of valid enemy targets
+ * outputs: an integer with the index of the user's selection in the vector
+ * */
+int Adventurer::selectTarget(std::vector<Enemy*> targets){
+    InputReader reader;
+    // choose a target
+    std::cout << "Choose a target.\n"
+                << "0:\tCancel\n";
+
+    // build enemy selection array
+    int enemyChoices[targets.size()];
+    int targetIndex = 1;
+    int enemySelection = 0;
+    for (auto e : targets){
+        std::cout << targetIndex << ":\t" << e->getName() <<"\n";
+        enemyChoices[targetIndex - 1] = targetIndex;
+        ++targetIndex;
+    }
+
+    // read the user's target
+    return reader.readInputCancel(enemyChoices, targets.size());
 }
 
 /**ability: Abilities that the character gains on level up. Levels 1, 4, 7, etc. unlock new ones.
@@ -531,6 +528,56 @@ int Adventurer::ability(std::vector<Enemy*> targets){
     if (abi5MaxCD != -1) abilityOptions++;
             
     switch(job){
+        /*************************** WARRIOR ***************************/
+        case Warrior:{
+            // prompt for ability choice
+            std::cout << "Choose an ability to use.\n"
+                      << "0:\tCancel\n";
+            
+            // print ability 1
+            if (abi1MaxCD != -1){
+                std::cout << "1:\tExpose ";
+                if (abi1CD == 0) std::cout << "(Ready)\n";
+                else std::cout << "(Ready in " << abi1CD << " turn(s))\n";
+            }
+
+            // print ability 2
+            if (abi2MaxCD != -1){
+                std::cout << "2:\tDrain ";
+                if (abi2CD == 0) std::cout << "(Ready)\n";
+                else std::cout << "(Ready in " << abi2CD << " turn(s))\n";
+            }
+
+            // get user prompt and execute the action
+            int abiChoice = reader.readInput(choice, abilityOptions);
+            switch(abiChoice){
+                case 0: return 0; // cancel selected
+                case 1:{ // expose
+                    int enemySelection = selectTarget(targets);
+                    if (enemySelection == 0) return 0;
+                    else {
+                        std::cout << "You dash towards " << targets[enemySelection - 1]->getName() << " and strike them, throwing them off balance. "
+                                  << "You deal " << targets[enemySelection - 1]->dealPDamage(physAtk * 0.8) << " physical damage and lower their "
+                                  << "physical defense for 3 turns.\n";
+                        targets[enemySelection - 1]->buff(PHYS_DEF, -3);
+                    }
+                    // expose has no CD
+                    return 2;
+                } break;
+                case 2:{ // drain strike
+                    int enemySelection = selectTarget(targets);
+                    if (enemySelection == 0) return 0;
+                    else {
+                        int damageDealt = targets[enemySelection - 1]->dealPDamage(physAtk * 2);
+                        std::cout << "You deal a heavy strike at " << targets[enemySelection - 1]->getName() << ", dealing "
+                                  << damageDealt << " physical damage and healing yourself for " << damageDealt * 0.3 << " health.\n";
+                                  heal(damageDealt * 0.3);
+                    }
+                    abi2CD = abi2MaxCD;
+                    return 2;
+                } break;
+            }
+        }
         /*************************** Wizard ***************************/
         case Wizard:{
             // prompt for ability choice
@@ -573,8 +620,8 @@ int Adventurer::ability(std::vector<Enemy*> targets){
                         std::cout << "That ability isn't ready yet.\n";
                         return 0; 
                     } else {
-                        std::cout << "You summon countless shards of ice and send them flying at your enemies. The sheer cold slices "
-                                  << "through them and impedes their movement.\n";
+                        std::cout << "You summon countless shards of ice and send them flying at your enemies. The shards slice "
+                                  << "through them, the sheer cold impeding their movement.\n";
                         for (auto e : targets){
                             std::cout << e->getName() << " takes " << e->dealMDamage(magAtk * 0.6) << " magic damage.\n";
                             std::cout << e->getName() << " had their speed reduced and their turn bar reduced by 30%.\n";
@@ -587,7 +634,6 @@ int Adventurer::ability(std::vector<Enemy*> targets){
                 }
             }
         } break;
-        /*************************** WARRIOR ***************************/
         default:{
             std::cout << "You don't have any abilities.\n";
             return 0;
@@ -605,6 +651,9 @@ int Adventurer::ability(std::vector<Enemy*> targets){
 void Adventurer::updateCooldowns(){
     if (abi1CD > 0) abi1CD--;
     if (abi2CD > 0) abi2CD--;
+    if (abi3CD > 0) abi3CD--;
+    if (abi4CD > 0) abi4CD--;
+    if (abi5CD > 0) abi5CD--;
 }
 
 /**setHealth: used to set the user's health to a certain percentage.

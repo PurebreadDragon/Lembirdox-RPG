@@ -110,8 +110,16 @@ public:
         deathMessage = message;
     }
 
+    /**
+     * affectTurnBAR(): affect turn bar by an integer value
+     * Hard coded value of 1000 as max turn bar.
+     * args: value (the value to affect by)
+     * outputs: none
+     * */
     void affectTurnBar(int value){
         turnBar += value;
+        if (turnBar > 1000) turnBar = 1000;
+        if (turnBar < 0) turnBar = 0;
     }
 
     /**Methods for healing and dealing damage to this target below.

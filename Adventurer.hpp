@@ -31,6 +31,7 @@ class Adventurer : public Entity
 		void deathPenalty();
 		void turn(std::vector<Enemy*>);
 		void attack(Enemy*);
+		int selectTarget(std::vector<Enemy*>);
 		int ability(std::vector<Enemy*>);
 		void updateCooldowns();
 	private:

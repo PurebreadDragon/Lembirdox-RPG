@@ -194,3 +194,28 @@ public:
         }
     }
 };
+
+class TrainingDummy : public Enemy{
+private:
+    int turnsPassed;
+
+public:
+    TrainingDummy(){
+        goldReward = 5000;
+        expReward = 5000;
+        name = "Training Dummy";
+        description = "It's a training dummy.";
+        maxHealth = 1000;
+        health = 1000;
+        physDef = 100;
+        magDef = 100;
+        speed = 100;
+        turnsPassed = 0;
+    }
+
+    void turn(Entity* target){
+        turnsPassed++;
+        std::cout << "Turns passed: " << turnsPassed << "\n"
+                  << "Total damage: " << maxHealth - health << "\n";
+    }
+};

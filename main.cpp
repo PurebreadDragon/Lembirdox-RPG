@@ -118,10 +118,12 @@ int main() {
     // // BigRat* ratticus = new BigRat();
     // GrowSlime* growslime = new GrowSlime();
     ShieldSkeleton* shieldSkelly = new ShieldSkeleton();
-    arena->addEnemy(skelly);
+    TrainingDummy* dummy = new TrainingDummy();
+    // arena->addEnemy(skelly);
     // arena->addEnemy(ratticus);
     // arena->addEnemy(growslime);
-    arena->addEnemy(shieldSkelly);
+    // arena->addEnemy(shieldSkelly);
+    arena->addEnemy(dummy);
     arena->linkPlayer(player);
     // pool->addExit(arena);
     // arena->addExit(tree);
