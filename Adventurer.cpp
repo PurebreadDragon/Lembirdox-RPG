@@ -31,6 +31,9 @@ Adventurer::Adventurer(Class job, std::string name, std::string description) {
                 spdLvl = 0;
 
                 abi1MaxCD = 0;
+                levelUp();
+                levelUp();
+                levelUp();
             } break;
             case Wizard:{
                 maxHealth = 200;
@@ -52,9 +55,9 @@ Adventurer::Adventurer(Class job, std::string name, std::string description) {
 
                 // start with 1 ability unlocked
                 abi1MaxCD = 3;
-                levelUp();
-                levelUp();
-                levelUp();
+                // levelUp();
+                // levelUp();
+                // levelUp();
             } break;
             case Rogue:{
                 maxHealth = 150;
@@ -173,7 +176,7 @@ void Adventurer::inspect(){
         case Warrior:{
             if (abi1MaxCD != -1) std::cout << "Expose (no CD): Strike at an enemy and expose their weak points. Deals 60% PAtk physical damage and "
                                            << "applies a 3 turn PDef debuff.\n";
-            if (abi2MaxCD != -1) std::cout << "Drain Strike (" << abi2MaxCD << " turn CD): Attack an enemy. Deals 200% PAtk physical damage and "
+            if (abi2MaxCD != -1) std::cout << "Drain (" << abi2MaxCD << " turn CD): Attack an enemy. Deals 200% PAtk physical damage and "
                                            << "heals yourself for 30% of the damage dealt.\n";
         } break;
         case Wizard:{
@@ -565,16 +568,21 @@ int Adventurer::ability(std::vector<Enemy*> targets){
                     return 2;
                 } break;
                 case 2:{ // drain strike
-                    int enemySelection = selectTarget(targets);
-                    if (enemySelection == 0) return 0;
-                    else {
-                        int damageDealt = targets[enemySelection - 1]->dealPDamage(physAtk * 2);
-                        std::cout << "You deal a heavy strike at " << targets[enemySelection - 1]->getName() << ", dealing "
-                                  << damageDealt << " physical damage and healing yourself for " << damageDealt * 0.3 << " health.\n";
-                                  heal(damageDealt * 0.3);
+                    if (abi2CD > 0){
+                        std::cout << "That ability isn't ready yet.\n";
+                        return 0; 
+                    } else {
+                        int enemySelection = selectTarget(targets);
+                        if (enemySelection == 0) return 0;
+                        else {
+                            int damageDealt = targets[enemySelection - 1]->dealPDamage(physAtk * 2);
+                            std::cout << "You deal a heavy strike at " << targets[enemySelection - 1]->getName() << ", dealing "
+                                    << damageDealt << " physical damage and healing yourself for " << damageDealt * 0.3 << " health.\n";
+                                    heal(damageDealt * 0.3);
+                        }
+                        abi2CD = abi2MaxCD;
+                        return 2;
                     }
-                    abi2CD = abi2MaxCD;
-                    return 2;
                 } break;
             }
         }
