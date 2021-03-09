@@ -45,6 +45,7 @@ TEST(EnemySuite, AllEnemiesPerish) {
         EXPECT_EQ (test->getCurrentHealth(), test->getMaxHealth());
         test->dealMDamage(99999999); //WE SMITE THEE
         EXPECT_TRUE (!test->isAlive());
+        delete test;
     }
 }
 //----- EnemySuite tests complete -----
