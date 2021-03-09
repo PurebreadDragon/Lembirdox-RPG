@@ -434,7 +434,7 @@ public:
                     return 0; 
                 } else {
                     std::cout << "You focus your mind and predict the enemy's movements. You preemptively block the next instance of damage and "
-                            << "immediately prepare to strike again. ";
+                            << "immediately prepare to strike again. \n";
                     premonition = true;
                     turnBar += 1000;
                     abi4CD = abi4MaxCD;
@@ -454,15 +454,15 @@ public:
                                   << "you and the enemy. The razor-sharp edge of your blade flickers with lightning, gleaming brightly. ";
                         buff(PHYS_ATK, 2);
                         if (perfectDomain <= 0){
-                            std::cout << "You unleash a devastating strike, carving through air and flesh alike. "
+                            std::cout << "You unleash a blindingly fast strike, carving through air and flesh alike. "
                                       << targets[enemySelection - 1]->getName() << " has barely registered what happened before crumpling under the force of your strike, "
                                       << "lightning coursing through them. "
                                       << targets[enemySelection - 1]->getName() << " takes " << targets[enemySelection - 1]->dealPDamage(physAtk, 1) 
                                       << " physical damage.\n";
                             if (ki < 100) ki += 20;
                         } else {
-                            std::cout << "You unleash two devastating strikes, carving through air and flesh alike. "
-                                      << targets[enemySelection - 1]->getName() << " has barely registered what happened before crumpling under the force of your two strikes. "
+                            std::cout << "You unleash two blindingly fast strikes, carving through air and flesh alike. "
+                                      << targets[enemySelection - 1]->getName() << " has barely registered what happened before crumpling under the force of your two strikes, "
                                       << "lightning coursing through them. "
                                       << targets[enemySelection - 1]->getName() << " takes " << targets[enemySelection - 1]->dealPDamage(physAtk, 1) 
                                       << " critical physical damage.\n";
@@ -473,7 +473,7 @@ public:
                         }
                         std::cout << "Before the dust cloud from your movement has even started forming, you return to your original position, and sheathe "
                                   << "your blade with a quiet *click*. ";
-                        std::cout << "A brief moment later, a flash of lightning strikes " << targets[enemySelection - 1]->getName() << ", dealing an additional " 
+                        std::cout << "A brief moment later, a flash of lightning strikes " << targets[enemySelection - 1]->getName() << ", and incinerates them, dealing an additional " 
                                   << targets[enemySelection - 1]->dealMDamage(physAtk * 3) << " magic damage.\n";
                     }
                     abi5CD = abi5MaxCD;

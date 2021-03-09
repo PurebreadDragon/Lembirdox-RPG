@@ -80,7 +80,7 @@ void Adventurer::checkInventory(){
     else {
         InputReader reader;
 
-        std::cout << "0:\tBack\n"
+        std::cout << "0:\tCancel\n"
                   << "1:\tInspect\n"
                   << "2:\tUse\n";
         int invChoices[]{0, 1, 2};
@@ -88,7 +88,8 @@ void Adventurer::checkInventory(){
         switch(invSelect){
             case 0: break; // do nothing
             case 1: { // inspect
-                std::cout << "Choose an option.\n";
+                std::cout << "Choose an option.\n"
+                          << "0:\tCancel\n";
                 
                 // print list of items
                 int index = 1;
@@ -100,10 +101,13 @@ void Adventurer::checkInventory(){
                 }
 
                 // prompt user for their choice and inspect it
-                inventory[reader.readInput(itemIndices, inventory.size()) - 1]->inspect();
+                invSelect = reader.readInputCancel(itemIndices, inventory.size());
+                if (invSelect == 0) break;
+                inventory[invSelect]->inspect();
             } break;
             case 2: {
-                std::cout << "Choose an option.\n";
+                std::cout << "Choose an option.\n"
+                          << "0:\tCancel\n";
 
                 // print list of items
                 int index = 1;
@@ -115,7 +119,8 @@ void Adventurer::checkInventory(){
                 }
                 
                 // prompt user for their choice and use it if it's a consumable
-                int useChoice = reader.readInput(itemIndices, inventory.size());
+                int useChoice = reader.readInputCancel(itemIndices, inventory.size());
+                if (useChoice == 0) break;
                 if (inventory[useChoice - 1]->isConsumable()){
                     inventory[useChoice - 1]->ability(this, NULL);
                     inventory.erase(inventory.begin() + useChoice - 1);
