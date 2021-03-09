@@ -13,8 +13,8 @@ protected:
     std::string abilityDescription;
 	int maxHealth = 0, physAtk = 0, physDef = 0, magAtk = 0, magDef = 0, speed = 0, cooldown = 0, maxCooldown = 0, value = 0;
     bool consumable = false, selfUse = false; 
-    // items with the self-use flag set to true should not make use of the second target field in their ability().
-    // items with the consumable flag set to true should never have any stat bonuses. 
+    /* items with the self-use flag set to true should not make use of the second target field in their ability().
+ *      items with the consumable flag set to true should never have any stat bonuses. */
 
 public:
     Item(){
@@ -29,7 +29,6 @@ public:
         if (physDef > 0) std::cout << "Physical Defense: +" << physDef << "\n";
         if (magAtk > 0) std::cout << "Magical Attack: +" << magAtk << "\n";
         if (magDef > 0) std::cout << "Magical Defense: +" << magDef << "\n";
-        if (speed > 0) std::cout << "Speed: +" << speed << "\n";
     }
 
 	virtual void ability(Entity* user, Entity* target) = 0;
@@ -136,7 +135,7 @@ public:
     void ability(Entity* user, Entity* target) {
 		std::cout << "Channeling its power, you slash at " << target->getName() << " with the " << name << ". "
         << "The very air splits where you cut it, sending several sharp blades of air towards your target. They deal " 
-        << target->dealPDamage(user->getPAtk() * 1.2 + user->getSpeed() * 0.2) << " physical damage. \n";
+        << target->dealPDamage(user->getPAtk() * 1.2 + user->getSpeed() * 0.2) << " physical damage.\n";
 	}
 };
 
@@ -155,6 +154,24 @@ public:
 	void ability(Entity* user, Entity* target) {
 		std::cout << "You wave your " << name << " while summoning the traces of magical energy within, dealing " 
         << target->dealMDamage(user->getMAtk() * 1.2) << " damage.\n";
+	}
+};
+
+class ElderWand : public Item {
+public:
+	ElderWand() {
+		name = "Elder Wand";
+		description = "An elegant wand fashioned from an elder branch. Just by holding it you feel the magical power that resides within.";
+		abilityName = "Eldritch Blast";
+        abilityDescription = "Unleashes a blast of magic, dealing 160% MATK magic damage.";
+		magAtk = 16;
+        consumable = false;
+        value = 300;
+	}
+
+	void ability(Entity* user, Entity* target) {
+		std::cout << "You wave your " << name << " while summoning the traces of magical energy within, dealing " 
+        << target->dealMDamage(user->getMAtk() * 1.6) << " damage.\n";
 	}
 };
 
@@ -180,6 +197,72 @@ public:
 	}
 };
 
+class MediumPotion : public Item {
+protected: 
+	int healstrength;
+
+public:
+	MediumPotion() {
+		name = "Healing Potion Grade 2";
+		description = "A concoction of herbs and magical essence. It carries the reassuring scent of medicinal plants, somewhat stronger than that of a standard healing potion. With this, you are confident that you can afford to take on even stronger foes.";
+		abilityName = "Drink";
+        abilityDescription = "Drink the potion to heal yourself a decent amount.";
+        healstrength = 100;
+        consumable = true;
+        selfUse = true;
+        value = 60;
+	}
+
+	void ability(Entity* user, Entity* target) {
+		std::cout << "You pop off the cap and down the potion, restoring " << healstrength << " health. It tastes of cherries and mint.\n";
+        user->heal(healstrength);
+	}
+};
+
+class StrongPotion : public Item {
+protected: 
+	int healstrength;
+
+public:
+	StrongPotion() {
+		name = "Healing Potion Grade 3";
+		description = "A concoction of herbs and magical essence. The smell of herbs, mint, and cherries is quite hard to ignore. You're quite convinced that this bottle can grow you back a limb or two.";
+		abilityName = "Drink";
+        abilityDescription = "Drink the potion to heal yourself.";
+        healstrength = 170;
+        consumable = true;
+        selfUse = true;
+        value = 120;
+	}
+
+	void ability(Entity* user, Entity* target) {
+		std::cout << "You pop off the cap and down the potion, restoring " << healstrength << " health. It tastes of strong mint mixed with cherries.\n";
+        user->heal(healstrength);
+	}
+};
+
+class MegaPotion : public Item {
+protected: 
+	int healstrength;
+
+public:
+	MegaPotion() {
+		name = "Super Mega Healing Potion"";
+		description = "I Hate Getting Hurt, So I Spent All My Gold on Healing Potions!";
+		abilityName = "Chug";
+        abilityDescription = "Why don't you just go ham on everything? There's no way this thing can't save you.";
+        healstrength = 500;
+        consumable = true;
+        selfUse = true;
+        value = 400;
+	}
+
+	void ability(Entity* user, Entity* target) {
+		std::cout << "You pop off the cap and down the potion, restoring " << healstrength << " health. Healer who??? I only know the Super Mega Healing Potion!\n";
+        user->heal(healstrength);
+	}
+};
+
 class Swifties : public Item {
 public:
 	Swifties() {
@@ -195,6 +278,40 @@ public:
 	void ability(Entity* user, Entity* target) {
         std::cout << "You pull the shoes off your feet and slap " << target->getName() << ". "
                   << "It does " << target->dealPDamage(user->getPAtk() * 0.5) << " damage.\n";
+	}
+};
+
+class Stompers : public Item {
+public:
+	Stompers() {
+		name = "Boots of Resistance";
+		description = "A pair of sturdy boots fashioned from fine leather and finished with steelcaps. Anything softer than diamond is bound to have a hard time getting through these.\n";
+        abilityName = "Stomp";
+        abilityDescription = "Stomp, stomp, in the rain puddles, in the pile of leaves. What's stopping you? Deals 60% of your PATK as damage.";
+        consumable = false;
+        value = 450;
+	}
+	
+	void ability(Entity* user, Entity* target) {
+        std::cout << "You STOMP " << target->getName() << " just for fun. "
+                  << "It does " << target->dealPDamage(user->getPAtk() * 0.6) << " damage. Wow!\n";
+	}
+};
+
+class Serenity : public Item {
+public:
+	Serenity() {
+		name = "Boots of Serenity";
+		description = "Mages must not only memorize and cast spells, but also don the latest fashion. These serene-looking shoes are certain to cause heads to turn on the battlefield.\n";
+        abilityName = "Glitter";
+        abilityDescription = "Glitter and sparkles are sure to stun your enemy long enough for you to deal 30% of your magic attack as magic damage!";
+        consumable = false;
+        value = 450;
+	}
+	
+	void ability(Entity* user, Entity* target) {
+        std::cout << "Bling, bling! The sparkles from your footwear DAZZLE " << target->getName() << ", who is stunned and will allow you to get a free hit in. "
+                  << "Your attack does " << target->dealMDamage(user->getMAtk() * 0.3) << " damage. Wow!\n";
 	}
 };
 
@@ -273,31 +390,6 @@ public:
                   << target->getName() << ", dealing " << target->dealMDamage(user->getMAtk() * 0.8) << " magic damage. Additionally, "
                   << "the paw bathes you in warm golden sparkles, curing some of your wounds and restoring " << (int)round(user->getMaxHealth() * 0.06) << " health.\n";
         user->heal((int)round(user->getMaxHealth() * 0.06));
-    }
-};
-
-class DebuffStick : public Item{
-public:
-    DebuffStick(){
-        name = "Debuff Stick";
-        description = "for testing";
-        abilityName = "debufftest";
-        abilityDescription = "debufftest";
-    }
-
-    void ability(Entity* user, Entity* target){
-        std::cout << "Apply all buffs to user and all debuffs to target.\n";
-        user->buff(PHYS_ATK, 2);
-        user->buff(PHYS_DEF, 2);
-        user->buff(MAG_ATK, 2);
-        user->buff(MAG_DEF, 2);
-        user->buff(SPEED, 2);
-
-        target->buff(PHYS_ATK, -2);
-        target->buff(PHYS_DEF, -2);
-        target->buff(MAG_ATK, -2);
-        target->buff(MAG_DEF, -2);
-        target->buff(SPEED, -2);
     }
 };
 
