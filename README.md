@@ -40,20 +40,30 @@ For the strategy pattern:
 
 ## Design Documents
 
-Class diagram: [[link]](https://i.imgur.com/qC7CEW5.png)
+Class diagram: 
+![image](https://user-images.githubusercontent.com/49847628/110477489-13c51700-8098-11eb-9f17-63cb3b7ee28d.png)
 
-This diagram shows the structure of our program. The Composite pattern consists of Quest (the component class), Room (the composite class), CombatRoom and OddityRoom (leaf classes that are derived from the Room class). The Factory pattern consists of Generator, which generates the three types of objects - Entities (enemies), Rooms and Items. The Strategy pattern is implemented in Adventurer, where the client interacts during runtime with the class to choose a strategy during combat.
+This diagram shows the structure of our program. The Composite pattern consists of Quest (the component class), Room (the composite class), CombatRoom and OddityRoom (leaf classes that are derived from the Room class). Quest is the handler for the various rooms while the room types manage the different kinds of encounters the player can come across. The Factory pattern consists of a Generator, which generates the three types of objects - Entities (enemies), Rooms and Items, for usage in Quest. The Strategy pattern is implemented in Adventurer, where the client interacts during runtime with the class to choose a strategy during combat, when roaming the town and when traversing between rooms. 
 
- > ## Final deliverable
- > All group members will give a demo to the TA during lab time. The TA will check the demo and the project GitHub repository and ask a few questions to all the team members. 
- > Before the demo, you should do the following:
- > * Complete the sections below (i.e. Screenshots, Installation/Usage, Testing)
- > * Plan one more sprint (that you will not necessarily complete before the end of the quarter). Your In-progress and In-testing columns should be empty (you are not doing more work currently) but your TODO column should have a full sprint plan in it as you have done before. This should include any known bugs (there should be some) or new features you would like to add. These should appear as issues/cards on your Kanban board. 
- 
  ## Screenshots
- > Screenshots of the input/output after running your application
+Combat:
+![image](https://user-images.githubusercontent.com/49847628/110477138-a913db80-8097-11eb-90b9-7b081463db1c.png)
+
+Combat 2:
+![image](https://user-images.githubusercontent.com/49847628/110477390-f2fcc180-8097-11eb-9f74-e1ecbb5694f7.png)
+
+Room traversal and item inspection: 
+![image](https://user-images.githubusercontent.com/49847628/110477084-98fbfc00-8097-11eb-816a-9de00dfa9cf1.png)
+
+Town roaming and quest board:
+![image](https://user-images.githubusercontent.com/49847628/110477197-b9c45180-8097-11eb-856d-c5e2916d9595.png)
+
+Special room interaction and player inspect:
+![image](https://user-images.githubusercontent.com/49847628/110477217-c183f600-8097-11eb-89fb-935a0a58e501.png)
+ 
  ## Installation/Usage
- > Instructions on installing and running your application
+ Simply clone the repository and run `cmake3 .` and `make`. If that doesn't work, you can alternatively compile with the command `g++ main.cpp Adventurer.cpp -std=c++11` instead. 
+ 
  ## Testing
- > How was your project tested/validated? If you used CI, you should have a "build passing" badge in this README.
+ We created unit tests for the various methods in the program and also extensively tested the functionality of all items, abilities, enemies and rooms within main. 
  
