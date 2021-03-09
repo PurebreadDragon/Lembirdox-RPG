@@ -182,6 +182,72 @@ public:
 	}
 };
 
+class MediumPotion : public Item {
+protected: 
+	int healstrength;
+
+public:
+	MediumPotion() {
+		name = "Healing Potion Grade 2";
+		description = "A concoction of herbs and magical essence. It carries the reassuring scent of medicinal plants, somewhat stronger than that of a standard healing potion. With this, you are confident that you can afford to take on even stronger foes.";
+		abilityName = "Drink";
+        abilityDescription = "Drink the potion to heal yourself a decent amount.";
+        healstrength = 100;
+        consumable = true;
+        selfUse = true;
+        value = 60;
+	}
+
+	void ability(Entity* user, Entity* target) {
+		std::cout << "You pop off the cap and down the potion, restoring " << healstrength << " health. It tastes of cherries and mint.\n";
+        user->heal(healstrength);
+	}
+};
+
+class StrongPotion : public Item {
+protected: 
+	int healstrength;
+
+public:
+	StrongPotion() {
+		name = "Healing Potion Grade 3";
+		description = "A concoction of herbs and magical essence. The smell of herbs, mint, and cherries is quite hard to ignore. You're quite convinced that this bottle can grow you back a limb or two.";
+		abilityName = "Drink";
+        abilityDescription = "Drink the potion to heal yourself.";
+        healstrength = 170;
+        consumable = true;
+        selfUse = true;
+        value = 120;
+	}
+
+	void ability(Entity* user, Entity* target) {
+		std::cout << "You pop off the cap and down the potion, restoring " << healstrength << " health. It tastes of strong mint mixed with cherries.\n";
+        user->heal(healstrength);
+	}
+};
+
+class MegaPotion : public Item {
+protected: 
+	int healstrength;
+
+public:
+	MegaPotion() {
+		name = "Super Mega Healing Potion";
+		description = "I Hate Getting Hurt, So I Spent All My Gold on Healing Potions!";
+		abilityName = "Chug";
+        abilityDescription = "Why don't you just go ham on everything? There's no way this thing can't save you.";
+        healstrength = 500;
+        consumable = true;
+        selfUse = true;
+        value = 400;
+	}
+
+	void ability(Entity* user, Entity* target) {
+		std::cout << "You pop off the cap and down the potion, restoring " << healstrength << " health. Healer who??? I only know the Super Mega Healing Potion!\n";
+        user->heal(healstrength);
+	}
+};
+
 class Swifties : public Item {
 public:
 	Swifties() {
