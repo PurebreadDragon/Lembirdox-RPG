@@ -1,4 +1,7 @@
-#include "Adventurer.hpp"
+#ifndef __SAMURAI__
+#define __SAMURAI__
+
+#include "./../headers/Adventurer.hpp"
 #pragma once
 
 class Samurai : public Adventurer{
@@ -473,3 +476,5 @@ public:
         }
     }
 };
+
+#endif

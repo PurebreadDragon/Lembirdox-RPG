@@ -9,16 +9,16 @@
 #include <cstdlib>
 #include <ctime>
 
-#include "Room.hpp"
-#include "CombatRoom.cpp"
-#include "OddityRoom.cpp"
-#include "Item.hpp"
-#include "Town.hpp"
-#include "Factory.hpp"
-#include "InputReader.cpp"
-#include "Warrior.cpp"
-#include "Wizard.cpp"
-#include "Samurai.cpp"
+#include "./../headers/Room.hpp"
+#include "./CombatRoom.cpp"
+#include "./OddityRoom.cpp"
+#include "./../headers/Item.hpp"
+#include "./../headers/Town.hpp"
+#include "./../headers/Factory.hpp"
+#include "./InputReader.cpp"
+#include "./Warrior.cpp"
+#include "./Wizard.cpp"
+#include "./Samurai.cpp"
 
 using namespace std;
 

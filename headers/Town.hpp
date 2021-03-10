@@ -1,11 +1,11 @@
 #ifndef __TOWN_H__
 #define __TOWN_H__
 
-#include "Quest.cpp"
-#include "Entity.hpp"
-#include "InputReader.cpp"
-#include "CombatRoom.cpp"
-#include "Factory.hpp"
+#include "./../source/Quest.cpp"
+#include "./Entity.hpp"
+#include "./../source/InputReader.cpp"
+#include "./../source/CombatRoom.cpp"
+#include "./Factory.hpp"
 
 #include <string>
 #include <vector>

@@ -1,4 +1,7 @@
-#include "Adventurer.hpp"
+#ifndef __WIZARD__
+#define __WIZARD__
+
+#include "./../headers/Adventurer.hpp"
 #pragma once
 
 class Wizard : public Adventurer{
@@ -157,3 +160,5 @@ public:
         return 0;
     }
 };
+
+#endif

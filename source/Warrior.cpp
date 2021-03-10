@@ -1,4 +1,7 @@
-#include "Adventurer.hpp"
+#ifndef __WARRIOR__
+#define __WARRIOR__
+
+#include "./../headers/Adventurer.hpp"
 #pragma once
 
 class Warrior : public Adventurer{
@@ -227,3 +230,5 @@ public:
         }
     }
 };
+
+#endif

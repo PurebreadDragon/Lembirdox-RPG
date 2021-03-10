@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "Adventurer.hpp" 
+#include "./../headers/Adventurer.hpp" 
 
 Adventurer::Adventurer(std::string name, std::string description) {
         this->name = name;
