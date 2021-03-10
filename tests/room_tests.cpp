@@ -1,9 +1,9 @@
 #ifndef __ROOM_TESTS__
 #define __ROOM_TESTS__
 
-#include "./../Room.hpp"
-#include "./../Factory.hpp"
-#include "./../Warrior.cpp"
+#include "./../headers/Room.hpp"
+#include "./../headers/Factory.hpp"
+#include "./../source/Warrior.cpp"
 
 #include "gtest/gtest.h"
 

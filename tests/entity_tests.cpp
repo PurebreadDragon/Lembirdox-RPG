@@ -3,12 +3,12 @@
 
 #include "gtest/gtest.h"
 
-#include "./../Factory.hpp"
-#include "./../Entity.hpp"
-#include "./../Adventurer.cpp"
-#include "./../Warrior.cpp"
-#include "./../Wizard.cpp"
-#include "./../Samurai.cpp"
+#include "./../headers/Factory.hpp"
+#include "./../headers/Entity.hpp"
+#include "./../source/Adventurer.cpp"
+#include "./../source/Warrior.cpp"
+#include "./../source/Wizard.cpp"
+#include "./../source/Samurai.cpp"
 
 EnemyFactory eFactory;
 
@@ -101,10 +101,10 @@ TEST(AdventurerSuite, AdventurerBehaviors) {
         EXPECT_EQ(test->getLevel(), 1); //all classes should start at level 1
         test->addExp(50);
         test->addGold(100);
-        EXPECT_EQ(test->getGold(), 100);
+        EXPECT_EQ(test->getGold(), 400);
         EXPECT_EQ(test->getLevel(), 1); //exp 50, required 82.5
         test->deathPenalty();
-        EXPECT_EQ(test->getGold(), 50);
+        EXPECT_EQ(test->getGold(), 200);
         EXPECT_EQ(test->getLevel(), 1); //exp 25, required 82.5
         test->levelUp();
         EXPECT_EQ(test->getLevel(), 2);

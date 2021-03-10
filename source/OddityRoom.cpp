@@ -3,9 +3,9 @@
 
 #include <iostream>
 #include <string>
-#include "Room.hpp"
-#include "InputReader.cpp"
-#include "Item.hpp"
+#include "./../headers/Room.hpp"
+#include "./InputReader.cpp"
+#include "./../headers/Item.hpp"
 
 //ID 30001
 class GoldStatueRoom : public Room{

@@ -5,9 +5,9 @@
 #include <string>
 #include <vector>
 #include <cstdlib>
-#include "Room.hpp"
-#include "Factory.hpp"
-#include "CombatRoom.cpp"
+#include "./../headers/Room.hpp"
+#include "./../headers/Factory.hpp"
+#include "./CombatRoom.cpp"
 
 class Quest{
 private:

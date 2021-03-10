@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "Entity.hpp"
+#include "./../headers/Entity.hpp"
 #pragma once
 
 class Enemy : public Entity{

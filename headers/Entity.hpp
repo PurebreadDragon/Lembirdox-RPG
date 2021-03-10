@@ -1,5 +1,5 @@
-#ifndef ENTITY_H
-#define ENTITY_H
+#ifndef __ENTITY_H__
+#define __ENTITY_H__
 
 #include <iostream>
 #include <string>

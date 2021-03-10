@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Entity.hpp"
-#include "Item.hpp"
-#include "Enemy.cpp"
-#include "InputReader.cpp"
+#include "./Entity.hpp"
+#include "./Item.hpp"
+#include "./../source/Enemy.cpp"
+#include "./../source/InputReader.cpp"
 #include <vector>
 #include <math.h>
 

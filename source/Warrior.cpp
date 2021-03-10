@@ -1,4 +1,4 @@
-#include "Adventurer.hpp"
+#include "./../headers/Adventurer.hpp"
 #pragma once
 
 class Warrior : public Adventurer{

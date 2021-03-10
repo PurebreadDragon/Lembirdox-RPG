@@ -1,10 +1,10 @@
-#ifndef ROOM_H
-#define ROOM_H
+#ifndef __ROOM_H__
+#define __ROOM_H__
 
 #include <iostream>
 #include <vector>
-#include "Entity.hpp"
-#include "Adventurer.hpp"
+#include "./Entity.hpp"
+#include "./Adventurer.hpp"
 
 class Room{
 protected:

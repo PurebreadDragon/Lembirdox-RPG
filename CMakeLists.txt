@@ -9,8 +9,8 @@ ADD_EXECUTABLE(test
 )
 
 ADD_EXECUTABLE(main
-Adventurer.cpp
-main.cpp
+./source/Adventurer.cpp
+./source/main.cpp
 )
 
 TARGET_LINK_LIBRARIES(test gtest)

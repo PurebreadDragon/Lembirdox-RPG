@@ -1,9 +1,9 @@
 #ifndef __TOWN_TESTS__
 #define __TOWN_TESTS__
 
-#include "./../Town.hpp"
-#include "./../Quest.cpp"
-#include "./../Warrior.cpp"
+#include "./../headers/Town.hpp"
+#include "./../source/Quest.cpp"
+#include "./../source/Warrior.cpp"
 
 /* Since RoamTown() relies on player input, any number of combinations could be possible.
  * Remember that both functions return nullptr if final input is 0 and a Quest pointer if final input is 4.
