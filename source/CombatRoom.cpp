@@ -5,9 +5,9 @@
 #include <string>
 #include <vector>
 #include <math.h>
-#include "Room.hpp"
-#include "Entity.hpp"
-#include "Enemy.cpp"
+#include "./../headers/Room.hpp"
+#include "./../headers/Entity.hpp"
+#include "./Enemy.cpp"
 
 const int TURN_BAR_LENGTH = 34;
 const int MAX_TURN_BAR = 1000;

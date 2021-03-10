@@ -1,9 +1,9 @@
 #ifndef __FACTORY_HPP__
 #define __FACTORY_HPP__
 
-#include "Enemy.cpp"
-#include "Item.hpp"
-#include "OddityRoom.cpp"
+#include "./../source/Enemy.cpp"
+#include "./Item.hpp"
+#include "./../source/OddityRoom.cpp"
 
 /*		   ENEMY    ITEM    O.ROOM    ROOM
  *	   ID   : 10-### , 20-### , 30-### , 35-###

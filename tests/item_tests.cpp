@@ -1,10 +1,10 @@
 #ifndef __ITEM_TESTS__
 #define __ITEM_TESTS__
 
-#include "./../Item.hpp"
-#include "./../Factory.hpp"
-#include "./../Entity.hpp"
-#include "./../Warrior.cpp"
+#include "./../headers/Item.hpp"
+#include "./../headers/Factory.hpp"
+#include "./../headers/Entity.hpp"
+#include "./../source/Warrior.cpp"
 
 #include "gtest/gtest.h"
 

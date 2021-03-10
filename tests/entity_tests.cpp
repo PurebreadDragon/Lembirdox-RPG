@@ -3,12 +3,12 @@
 
 #include "gtest/gtest.h"
 
-#include "./../Factory.hpp"
-#include "./../Entity.hpp"
-#include "./../Adventurer.cpp"
-#include "./../Warrior.cpp"
-#include "./../Wizard.cpp"
-#include "./../Samurai.cpp"
+#include "./../headers/Factory.hpp"
+#include "./../headers/Entity.hpp"
+#include "./../source/Adventurer.cpp"
+#include "./../source/Warrior.cpp"
+#include "./../source/Wizard.cpp"
+#include "./../source/Samurai.cpp"
 
 EnemyFactory eFactory;
 

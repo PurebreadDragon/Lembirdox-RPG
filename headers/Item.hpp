@@ -1,7 +1,7 @@
-#ifndef ITEM_H
-#define ITEM_H
+#ifndef __ITEM_H__
+#define __ITEM_H__
 
-#include "InputReader.cpp"
+#include "./../source/InputReader.cpp"
 
 #include <iostream>
 #include <string>
