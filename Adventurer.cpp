@@ -103,7 +103,7 @@ void Adventurer::checkInventory(){
                 // prompt user for their choice and inspect it
                 invSelect = reader.readInputCancel(itemIndices, inventory.size());
                 if (invSelect == 0) break;
-                inventory[invSelect]->inspect();
+                inventory[invSelect - 1]->inspect();
             } break;
             case 2: {
                 std::cout << "Choose an option.\n"

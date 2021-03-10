@@ -7,6 +7,17 @@
 #include <string>
 #include <math.h>
 
+enum Rarity{Common, Uncommon, Rare, Epic, Legendary, Unique};
+/**Rarity legend:
+ * Common: A typical item that you could find in any store or any household. Usually has no magic power.
+ * Uncommon: A more refined unenchanted item or a weak enchanted item. You could still find this in most trading towns. 
+ * Rare: An item with noticeable enchanted power. You'd have to search many cities to find an item of this power. 
+ * Epic: An item with incredible power. These items are hidden away by people of power or great evils. Wars are waged using these. 
+ * Legendary: An item of legends. Wielded by great heroes or enchanted by legendary forgemasters and wizards, these items are 
+ *      incredibly difficult to get their hands on. Only the strongest can wield items of such power. 
+ * Unique: A one-of-a-kind item. Reserve this rarity for quest items and special items. 
+ * */
+
 class Item{
 protected:
     std::string name;

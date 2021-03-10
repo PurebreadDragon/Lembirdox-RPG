@@ -2,6 +2,9 @@
 #pragma once
 
 class Warrior : public Adventurer{
+private:
+    int revenge;
+
 public:
     Warrior(std::string name, std::string description) : Adventurer(name, description) {
         level = 1;
@@ -22,10 +25,15 @@ public:
         magDef = 25;
         mDefLvl = 5;
 
-        speed = 95;
+        speed = 90;
         spdLvl = 0;
 
         abi1MaxCD = 0;
+        revenge = 0;
+
+        description = "Warriors are slow, heavy hitters with the ability to tank a lot of damage and dish it back. The warrior's defining "
+        "feature is Revenge. When taking damage, the Warrior gains a stack of Revenge, up to 4. For each stack of Revenge, the warrior takes less damage "
+        "and deals additional damage on their next attack. Revenge stacks are consumed upon attack.";
         // levelUp();
         // levelUp();
         // levelUp();
@@ -128,7 +136,7 @@ public:
                 if (enemySelection == 0) return 0;
                 else {
                     std::cout << "You dash towards " << targets[enemySelection - 1]->getName() << " and strike them, throwing them off balance. "
-                                << "You deal " << targets[enemySelection - 1]->dealPDamage(physAtk * 0.8) << " physical damage and lower their "
+                                << "You deal " << targets[enemySelection - 1]->dealPDamage(physAtk * 0.6) << " physical damage and lower their "
                                 << "physical defense for 3 turns.\n";
                     targets[enemySelection - 1]->buff(PHYS_DEF, -3);
                 }

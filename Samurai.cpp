@@ -456,24 +456,24 @@ public:
                         if (perfectDomain <= 0){
                             std::cout << "You unleash a blindingly fast strike, carving through air and flesh alike. "
                                       << targets[enemySelection - 1]->getName() << " has barely registered what happened before crumpling under the force of your strike, "
-                                      << "lightning coursing through them. "
+                                      << "lightning coursing through them.\n"
                                       << targets[enemySelection - 1]->getName() << " takes " << targets[enemySelection - 1]->dealPDamage(physAtk, 1) 
                                       << " physical damage.\n";
                             if (ki < 100) ki += 20;
                         } else {
                             std::cout << "You unleash two blindingly fast strikes, carving through air and flesh alike. "
                                       << targets[enemySelection - 1]->getName() << " has barely registered what happened before crumpling under the force of your two strikes, "
-                                      << "lightning coursing through them. "
+                                      << "lightning coursing through them.\n"
                                       << targets[enemySelection - 1]->getName() << " takes " << targets[enemySelection - 1]->dealPDamage(physAtk, 1) 
                                       << " critical physical damage.\n";
-                            std::cout << targets[enemySelection - 1]->getName() << " takes " << targets[enemySelection - 1]->dealPDamage(physAtk, 1) 
+                            std::cout << targets[enemySelection - 1]->getName() << " takes an additional " << targets[enemySelection - 1]->dealPDamage(physAtk, 1) 
                                       << " critical physical damage.\n";
                             if (ki < 100) ki += 20;
                             if (ki < 100) ki += 20;
                         }
                         std::cout << "Before the dust cloud from your movement has even started forming, you return to your original position, and sheathe "
                                   << "your blade with a quiet *click*. ";
-                        std::cout << "A brief moment later, a flash of lightning strikes " << targets[enemySelection - 1]->getName() << ", and incinerates them, dealing an additional " 
+                        std::cout << "A brief moment later, a flash of lightning strikes " << targets[enemySelection - 1]->getName() << " and incinerates them, dealing an additional " 
                                   << targets[enemySelection - 1]->dealMDamage(physAtk * 3) << " magic damage.\n";
                     }
                     abi5CD = abi5MaxCD;
