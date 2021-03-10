@@ -69,7 +69,6 @@ int main() {
     RoomFactory rooms;
 
     // welome screen. prompt the user for their name and class selection
-    int ki = 50;
 
     std::string playername;
     int nameSelection = -1;
@@ -100,12 +99,6 @@ int main() {
     }
 
     Adventurer *player;
-
-    // switch(pickedClass){
-    //     case 1: player = new Adventurer(Warrior, playername, "It's you!"); break;
-    //     case 2: player = new Adventurer(Wizard, playername, "It's you!"); break;
-    //     case 3: player = new Adventurer(Rogue, playername, "It's you!"); break;
-    // }
     switch(pickedClass){
         case 1: player = new Warrior(playername, "It's you!"); break;
         case 2: player = new Wizard(playername, "It's you!"); break;
@@ -113,7 +106,7 @@ int main() {
     }
 
     // build all room objects
-    Room *tree = new Room("tree", "This room has a large tree in it. Two openings lie in front of you. One leads to a room with a large pool of water in it. The other leads deeper into the cave.");
+    Room *tree = new Room("tree", "This is the entrance to the dungeon. This room has a large dead tree in it. The dry leaves underneath make a satisfying *crunch* as you walk over them.");
     Room *pool = new Room("pool", "The air in this room is a bit damp. Soft green moss grows underneath your feet. In the center of the room is a large pool.");
     CombatRoom *arena = new CombatRoom("arena", "You're standing in a large open arena. Two skeletons stare you down menacingly. You ready your weapon.", "You're standing in a large open arena. It's empty.");
     Skeleton* skelly = new Skeleton();

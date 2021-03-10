@@ -34,18 +34,12 @@ public:
         ki = 0;
         perfectDomain = 0;
         premonition = false;
-        levelUp();
-        levelUp();
-        levelUp();
-        levelUp();
-        levelUp();
-        levelUp();
-        levelUp();
-        levelUp();
-        levelUp();
-        levelUp();
-        levelUp();
-        levelUp();
+
+        description = "Samurai are masters of the blade, with skills as sharp as the honed edge of their katana. The Samurai, unlike other classes, lacks "
+        "damaging abilities. Instead, their basic attack is replaced with an Iai Slash, a sword strike that has a chance to critically strike, dealing "
+        "double damage. Their critical strike chance is dependant upon their Ki, a resource which fills when performing a successful Iai Slash, but lowers "
+        "when taking damage. To augment this, the Samurai has various abilities that increase the amount of times their Iai Slashes hit or can block "
+        "incoming damage. Striking fast and often is critical to maintaining high Ki and damage output.";
     }
 
     /**
@@ -132,13 +126,13 @@ public:
         printSpecialFeature();
 
         std::cout << "\nAbilities:\n";
-        if (abi1MaxCD != -1) std::cout << "Blink Strike (" << abi1MaxCD << " turn CD): Blink through an enemy, cutting them. Perform an Iai "
-                                       << "Slash and debuff the target's defense.\n";
+        if (abi1MaxCD != -1) std::cout << "Blink Strike (" << abi1MaxCD << " turn CD): Blink through an enemy, cutting them. Debuff the target's "
+                                       << "defense and perform an Iai Slash.\n";
         if (abi2MaxCD != -1) std::cout << "Perfect Domain (" << abi2MaxCD << " turn CD): Breathe deeply and draw upon the latent power within, "
                                        << "heightening your senses and increasing your sword skills to the limit.\n" 
-                                       << "\t- Upon casting this ability, enter your Perfect Domain state. Perfect Domain lasts for 3 hits.\n"
+                                       << "\t- Upon casting this ability, enter your Perfect Domain state. Perfect Domain lasts until you take damage 3 times.\n"
                                        << "\t- Reset your turn on cast. Cleanse all debuffs.\n"
-                                       << "\t- When in your Perfect Domain state, each Iai Slash hits twice.\n";
+                                       << "\t- When in your Perfect Domain state, each Iai Slash hits twice. You are immune to all debuffs.\n";
         if (abi3MaxCD != -1) std::cout << "Blade Storm (" << abi3MaxCD << " turn CD): Shower the enemy in countless slashes. Perform 3 Iai Slashes on "
                                        << "the same target. \n";
         if (abi4MaxCD != -1) std::cout << "Premonition (" << abi4MaxCD << " turn CD): Focus your mind and predict the enemy's movements. Block the "
@@ -146,9 +140,10 @@ public:
                                        << "\t- Casting Premonition multiple times will not stack the damage negation.\n";              
         if (abi5MaxCD != -1) std::cout << "Ultimate Technique: Thunder Flash (" << abi5MaxCD << " turn CD): Draw your blade and strike with the power of "
                                        << "thunder and speed of lightning.\n"
+                                       << "\t- Grant yourself 2 turns of physical attack buff.\n"
                                        << "\t- Perform an Iai Slash. This Iai Slash is guaranteed to crit and ignores all defense.\n"
-                                       << "\t- Resets your turn on cast.\n"
-                                       << "\t- Grant yourself 2 turns of physical attack buff.\n";                 
+                                       << "\t- Additionally, deal an extra 300% PAtk magic damage.\n"
+                                       << "\t- Resets your turn on cast.\n";                 
     }
 
     /**Prints the Ki bar.*/
@@ -433,7 +428,7 @@ public:
                     return 0; 
                 } else {
                     std::cout << "You focus your mind and predict the enemy's movements. You preemptively block the next instance of damage and "
-                            << "immediately prepare to strike again. ";
+                            << "immediately prepare to strike again. \n";
                     premonition = true;
                     turnBar += 1000;
                     abi4CD = abi4MaxCD;
@@ -450,25 +445,30 @@ public:
                     else {
                         std::cout << "You step back and relax your stance. The wind billows around you. Your blade is drawn, but at your side. All is calm.\n"
                                   << "Suddenly, the air around you explodes, a gash in the air left by your afterimage. In an instant, you close the gap between "
-                                  << "you and the enemy. The razor-sharp edge of your blade flickers with lightning, gleaming brightly. "
-                                  << "You unleash a devastating strike, carving through air and flesh alike. ";
-                        std::cout << "Before the dust cloud from your movement has even started forming, you return to your original position, and sheathe "
-                                  << "your blade with a quiet *click*. ";
+                                  << "you and the enemy. The razor-sharp edge of your blade flickers with lightning, gleaming brightly. ";
                         buff(PHYS_ATK, 2);
                         if (perfectDomain <= 0){
-                            std::cout << targets[enemySelection - 1]->getName() << " has barely registered what happened before crumpling under the force of your strike. "
+                            std::cout << "You unleash a blindingly fast strike, carving through air and flesh alike. "
+                                      << targets[enemySelection - 1]->getName() << " has barely registered what happened before crumpling under the force of your strike, "
+                                      << "lightning coursing through them.\n"
                                       << targets[enemySelection - 1]->getName() << " takes " << targets[enemySelection - 1]->dealPDamage(physAtk, 1) 
                                       << " physical damage.\n";
                             if (ki < 100) ki += 20;
                         } else {
-                            std::cout << targets[enemySelection - 1]->getName() << " has barely registered what happened before crumpling under the force of your two strikes. ";
-                            std::cout << targets[enemySelection - 1]->getName() << " takes " << targets[enemySelection - 1]->dealPDamage(physAtk, 1) 
+                            std::cout << "You unleash two blindingly fast strikes, carving through air and flesh alike. "
+                                      << targets[enemySelection - 1]->getName() << " has barely registered what happened before crumpling under the force of your two strikes, "
+                                      << "lightning coursing through them.\n"
+                                      << targets[enemySelection - 1]->getName() << " takes " << targets[enemySelection - 1]->dealPDamage(physAtk, 1) 
                                       << " critical physical damage.\n";
-                            std::cout << targets[enemySelection - 1]->getName() << " takes " << targets[enemySelection - 1]->dealPDamage(physAtk, 1) 
+                            std::cout << targets[enemySelection - 1]->getName() << " takes an additional " << targets[enemySelection - 1]->dealPDamage(physAtk, 1) 
                                       << " critical physical damage.\n";
                             if (ki < 100) ki += 20;
                             if (ki < 100) ki += 20;
                         }
+                        std::cout << "Before the dust cloud from your movement has even started forming, you return to your original position, and sheathe "
+                                  << "your blade with a quiet *click*. ";
+                        std::cout << "A brief moment later, a flash of lightning strikes " << targets[enemySelection - 1]->getName() << " and incinerates them, dealing an additional " 
+                                  << targets[enemySelection - 1]->dealMDamage(physAtk * 3) << " magic damage.\n";
                     }
                     abi5CD = abi5MaxCD;
                     return 2;

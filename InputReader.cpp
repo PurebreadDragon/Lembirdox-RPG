@@ -7,6 +7,7 @@
 #include <vector>
 
 const std::string INVALID_MSG = "Invalid input, please try again.\n";
+const std::string INVALID_MSG_NUMBER = "Invalid input, please enter a valid number.\n";
 
 class InputReader{
 private:
@@ -36,7 +37,7 @@ public:
                 }
             }
 
-            if (!valid) std::cout << message;
+            if (!valid) std::cout << INVALID_MSG_NUMBER;
         }
 
         return std::stoi(input);
@@ -84,7 +85,7 @@ public:
                 }
             }
 
-            if (!valid) std::cout << message;
+            if (!valid) std::cout << INVALID_MSG_NUMBER;
         }
 
         return std::stoi(input);
