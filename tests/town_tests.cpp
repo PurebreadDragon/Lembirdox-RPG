@@ -20,7 +20,7 @@ TEST(TownSuite, ConstructDestructTown) {
 }
 
 //No expects are possible, needs player input.
-TEST(TownSuite, DISABLED_TownInputs) {
+TEST(TownSuite, /*DISABLED_*/TownInputs) {
     Adventurer* testPlayer = new Warrior("Test Warrior","Just a test warrior");
     testPlayer->setHealth(50);
     testPlayer->addGold(10000);

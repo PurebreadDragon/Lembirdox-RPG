@@ -224,7 +224,7 @@ public:
 
     void interact() {
         InputReader read;
-        int select;
+        int select = -1;
 
         std::cout << "\nYou step into a hallway full of mirrors.\n"
                   << "Many of them are cracked; some are broken entirely, piles of shards in their frames.\n"
@@ -274,7 +274,7 @@ public:
         unsigned matches = 0;
         InputReader read;
         int choices[4] = {0, 1, 2, 3};
-        int select;
+        int select = -1;
         std::string choice;
         while (matches < 13 && select != 0) {
             choice = "";
@@ -297,7 +297,7 @@ public:
                       << "With an ashamed chuckle at your own stupidity, you turn away and carry on.\n";
         }
         else if (matches == 13) {
-            std::string r;
+            std::string r = "";
             
             if (choice == "Rock") { r = "Scissors"; }
             else if (choice == "Paper") { r = "Rock"; }
