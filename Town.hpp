@@ -179,6 +179,8 @@ private:
                 << "\n2.\tBrowse the town Store"
                 << "\n3.\tGo to the Clinic"
                 << "\n4.\tHead out on a Quest"
+                << "\n5.\tCheck player info"
+                << "\n6.\tCheck your inventory"
                 << "\n0.\tSave and Quit" << std::endl;
    }
 
@@ -214,14 +216,14 @@ public:
    Quest* RoamTown(Adventurer* player) {
       bool questStarted = false;
       InputReader* read = new InputReader();
-      int choices[5] = {0,1,2,3,4};
+      int choices[] = {0,1,2,3,4,5,6};
       int select = -1;
 
       while (select != 0 && !questStarted) {
          std::cout << std::endl << description << std::endl;
          displayMenu();
          
-         select = read->readInput(choices,5);
+         select = read->readInput(choices,7);
          switch(select) {
             case 0:
                if (nextQuest != nullptr) { delete nextQuest; }
@@ -240,6 +242,8 @@ public:
                   questStarted = true; 
                }
                break;
+            case 5: player->inspect(); break;
+            case 6: player->checkInventory(); break;
          }
       }
       delete read;
