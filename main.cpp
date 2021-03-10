@@ -217,6 +217,10 @@ int main() {
         break;
     }
 
+    delete fairy;
+    delete shieldSkelly;
+    delete skelly;
+    delete growslime;
     delete currentQuest;
     delete player;
     delete testTown;
