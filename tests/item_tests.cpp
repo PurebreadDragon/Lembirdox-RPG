@@ -46,7 +46,7 @@ TEST(ItemSuite, AllItemsAbility) {
             EXPECT_TRUE(test->getName() != "");
         }
         else if (i == 13) { //Mirror's Edge needs special treatment.
-            std::cout << "Press 1, then 2.\n";
+            std::cout << "\nTESTING: PRESS 1, THEN 2.\n";
             test->ability(user, target);
             EXPECT_NE(targetHealth, target->getCurrentHealth());
             test->ability(user, target);
