@@ -36,13 +36,15 @@
  *
  *	014	: , DebuffStick, , 
  *
- *	015	: , , , 
+ *	015	: , FakePotion, 
+ *
+ *	016	: , FobWatch,
  */
 
 unsigned NUM_CLASSES = 3;
 unsigned NUM_ENEMIES = 5;
-unsigned NUM_ITEMS = 14;
-unsigned NUM_CONSUMABLES = 4;
+unsigned NUM_ITEMS = 16;
+unsigned NUM_CONSUMABLES = 4; //Leave this be for now please!
 unsigned NUM_ODDITY_ROOMS = 4;
 unsigned NUM_AMBIENT_ROOMS = 11;
 
@@ -78,6 +80,8 @@ public:
             case 20012: return new GoldPaw();
             case 20013: return new MirrorKnife();
             case 20014: return new DebuffStick();
+	          case 20015: return new FakePotion();
+	          case 20016: return new FobWatch(); 
             default: std::cout << "There was an error in generating item. Is the ID correct?\n"; exit(1);
         }
     }

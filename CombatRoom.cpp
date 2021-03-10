@@ -65,6 +65,7 @@ public:
                         std::cout << (*iter)->getDeathMessage() << "\n";
                         goldReward += (*iter)->getGoldReward();
                         expReward += (*iter)->getExpReward();
+                        delete (*iter);
                         iter = entities.erase(iter);
                     }
                     else ++iter;

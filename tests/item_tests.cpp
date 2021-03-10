@@ -50,9 +50,18 @@ TEST(ItemSuite, AllItemsAbility) {
             test->ability(user, target);
             EXPECT_NE(userHealth, user->getCurrentHealth());
         }
+	
         else if (i == 14) { //DebuffStick needs special treatment.
             EXPECT_TRUE(test->getName() != "");
         }
+	
+	else if (i == 15) { //FakePotion needs special treatment. 
+		EXPECT_TRUE(test->getName() != "");
+	}
+	else if (i == 16) { //FobWatch needs special treatment.
+		EXPECT_TRUE(test->getName() != ""); 
+	}
+ 	 
         else {
             EXPECT_NE(targetHealth, target->getCurrentHealth());
         }

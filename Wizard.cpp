@@ -27,6 +27,9 @@ public:
 
         // start with 1 ability unlocked
         abi1MaxCD = 3;
+
+        description = "Wizards are masters of the arcane arts, commanding power over the elements to channel them and unleash devastating "
+        "area of effect abilities on multiple targets.";
         // levelUp();
         // levelUp();
         // levelUp();

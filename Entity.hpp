@@ -242,6 +242,7 @@ public:
     /**
      * initializeOrigStats(): Saves all original stat values.
      * Call this upon starting every combat.
+     * Don't modify these values unless you know what you're doing!
      * args: none
      * outputs: none
      * */
@@ -311,11 +312,26 @@ public:
      * outputs: none 
      * */
     void clearBuffs(){
-        pAtkBuff = 0;
-        pDefBuff = 0;
-        mAtkBuff = 0;
-        mDefBuff = 0;
-        spdBuff = 0;
+        if (pAtkBuff != 0){
+            pAtkBuff = 0;
+            physAtk = pAtkOrig;
+        }
+        if (pDefBuff != 0){
+            pDefBuff = 0;
+            physDef = pDefOrig;
+        }
+        if (mAtkBuff != 0){
+            mAtkBuff = 0;
+            magAtk = mAtkOrig;
+        }
+        if (mDefBuff != 0){
+            mDefBuff = 0;
+            magDef = mDefOrig;
+        }
+        if (spdBuff != 0){
+            spdBuff = 0;
+            speed = spdOrig;
+        }
     }
 
     /**

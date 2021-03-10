@@ -88,7 +88,7 @@ void Adventurer::checkInventory(){
     else {
         InputReader reader;
 
-        std::cout << "0:\tBack\n"
+        std::cout << "0:\tCancel\n"
                   << "1:\tInspect\n"
                   << "2:\tUse\n";
         int invChoices[]{0, 1, 2};
@@ -96,7 +96,8 @@ void Adventurer::checkInventory(){
         switch(invSelect){
             case 0: break; // do nothing
             case 1: { // inspect
-                std::cout << "Choose an option.\n";
+                std::cout << "Choose an option.\n"
+                          << "0:\tCancel\n";
                 
                 // print list of items
                 int index = 1;
@@ -108,10 +109,13 @@ void Adventurer::checkInventory(){
                 }
 
                 // prompt user for their choice and inspect it
-                inventory[reader.readInput(itemIndices, inventory.size()) - 1]->inspect();
+                invSelect = reader.readInputCancel(itemIndices, inventory.size());
+                if (invSelect == 0) break;
+                inventory[invSelect - 1]->inspect();
             } break;
             case 2: {
-                std::cout << "Choose an option.\n";
+                std::cout << "Choose an option.\n"
+                          << "0:\tCancel\n";
 
                 // print list of items
                 int index = 1;
@@ -123,7 +127,8 @@ void Adventurer::checkInventory(){
                 }
                 
                 // prompt user for their choice and use it if it's a consumable
-                int useChoice = reader.readInput(itemIndices, inventory.size());
+                int useChoice = reader.readInputCancel(itemIndices, inventory.size());
+                if (useChoice == 0) break;
                 if (inventory[useChoice - 1]->isConsumable()){
                     inventory[useChoice - 1]->ability(this, NULL);
                     inventory.erase(inventory.begin() + useChoice - 1);
@@ -331,11 +336,12 @@ int Adventurer::selectTarget(std::vector<Enemy*> targets){
  * 1: Expose. 0 turn CD. 20% PAtk physical damage. Applies 3 turn defense debuff.
  * 4: Drain. 4 turn CD. 200% PAtk physical damage. Heals for 30% of damage dealt. 
  * 7: Sunder. 2 turn CD. 170% PAtk physical damage. Hits twice if self has attack buff. Buffs own attack for 2 turns but debuffs own defense for 1 turn. 
+ * 10: Revenge. Passive skill. Taking damage increases the damage of your next attack by 25%. Stacks infinitely. 
  * ================================================================
  * Wizard: A class focused around AoE skills and control. 
  * 1: Chain Lightning. 3 turn CD. 120% MAtk magic damage. Hits all targets. 
  * 4: Frost Storm. 6 turn CD. 60% MAtk magic damage. Hits all targets. Pushes their turn bars back by 30% and applies 2 turn speed debuff. 
- * 7: Mana Tempest. 6 turn CD. 100% MAtk magic damage. Hits all targets. If it kills a target, this ability casts again at no cost. 
+ * 7: Mana Tempest. 6 turn CD. 100% MAtk magic damage. Hits all targets. If it kills a target, this ability casts a second time at no cost. 
  * ================================================================
  * Samurai: A class focused around speed and turn cycling.
  * Samurai have a resource called Ki. They gain 20 Ki when performing Iai Slash but lose 10 Ki when taking damage, up to 100. 
@@ -350,9 +356,9 @@ int Adventurer::selectTarget(std::vector<Enemy*> targets){
  *      Kills during Perfect Domain extend the duration by 1 hit. 
  *      Taking damage during Perfect Domain reduces the duration by 1 hit. 
  * 7: Bladestorm: 4 turn CD. Shower the enemy in countless slashes. Casts 3 Iai Slashes in quick succession.  
- * 11: Premonition: 6 turn CD. Focus your mind and predict the enemy's movements. Resets turn. Negate the next instance of damage. 
+ * 10: Premonition: 6 turn CD. Focus your mind and predict the enemy's movements. Resets turn. Negate the next instance of damage. 
  *      Casting premonition multiple times will not stack the damage negation. 
- * 15: Ultimate Technique - Thunder Flash. 10 turn CD. Draw your blade and strike with the power of thunder and speed of lightning. Grant self 2T PAtk buff. 
+ * 14: Ultimate Technique - Thunder Flash. 10 turn CD. Draw your blade and strike with the power of thunder and speed of lightning. Grant self 2T PAtk buff. 
  *      Perform an Iai Slash. This Iai Slash is guaranteed to crit and ignores all defense. Reset your turn. 
  * ================================================================
  * Psionic: A class of mage with the ability to transform into a psionic being.
@@ -361,9 +367,9 @@ int Adventurer::selectTarget(std::vector<Enemy*> targets){
  *      Psi Strike: No CD. Deal 50% PAtk physical damage, 50% MAtk magical damage. Gain 1 Psi. 
  * 4: Mindblast. No CD. Consume 1 Psi. Deal 40% PAtk physical damage, 40% MAtk magical damage. Ignore all defense. 
  * 7: Psychic Fear. No CD. Consume 3 Psi. Doesn't do damage. Fully resets your own turn. Debuffs a target's speed for 1 turn and sets their turn bar to 0. 
- * 11: Psi Storm. No CD. Consume 5 Psi. Does 250% PAtk physical and 250% MAtk magic damage to all enemies and debuffs their 
+ * 10: Psi Storm. No CD. Consume 5 Psi. Does 250% PAtk physical and 250% MAtk magic damage to all enemies and debuffs their 
  *      physical attack and magic attack for 2 turns. 
- * 15: Recharge. 9 turn CD. Instantly charges 5 Psi. Reset your turn. If this skill is used at 5 Psi, expend all Psi to buff all stats for 2 turns and 
+ * 14: Recharge. 9 turn CD. Instantly charges 5 Psi. Reset your turn. If this skill is used at 5 Psi, expend all Psi to buff all stats for 2 turns and 
  *      recover 25% health. 
  * ================================================================
  * Elementalist: A class with the ability to channel the power of the elements.

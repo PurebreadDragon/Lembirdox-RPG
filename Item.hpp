@@ -7,6 +7,17 @@
 #include <string>
 #include <math.h>
 
+enum Rarity{Common, Uncommon, Rare, Epic, Legendary, Unique};
+/**Rarity legend:
+ * Common: A typical item that you could find in any store or any household. Usually has no magic power.
+ * Uncommon: A more refined unenchanted item or a weak enchanted item. You could still find this in most trading towns. 
+ * Rare: An item with noticeable enchanted power. You'd have to search many cities to find an item of this power. 
+ * Epic: An item with incredible power. These items are hidden away by people of power or great evils. Wars are waged using these. 
+ * Legendary: An item of legends. Wielded by great heroes or enchanted by legendary forgemasters and wizards, these items are 
+ *      incredibly difficult to get one's hands on. Only the strongest can wield items of such power. 
+ * Unique: A one-of-a-kind item. Reserve this rarity for quest items and special items. 
+ * */
+
 class Item{
 protected:
     std::string name;
@@ -452,5 +463,51 @@ public:
         target->buff(SPEED, -2);
     }
 };
+
+class FakePotion : public Item{
+protected:
+        int damageStrength;
+        int healStrength;
+public:
+        FakePotion(){
+                name = "Healing Potion";
+                description = "A mysterious concoction of herbs and dark magical essence. It carries the soothing scent of medicinal plants but there is an underlying hint of something new and strange.  Surely, this would be more than able to heal a couple of scratches. Well, you hope it will...";
+                abilityName = "Drink";
+        abilityDescription = "Drink the potion to possibly heal yourself a little.";
+        damageStrength = 90;
+        healStrength = 50;
+        consumable = true;
+        selfUse = true;
+        value = 30;
+        ID = 20015;
+        }
+
+        void ability(Entity* user, Entity* target){
+                std::cout << "As you hold up the bottle, the alluring smell of something sweet yet musty fills your senses. Quickly, you pop off the cap and are hit with the sickening smell of roses. You peer into the bottle and notice droplets of....is that blood?. Somehow, you can't resist anymore despite your slight disgust and you down the potion quickly, feeling a bit of a burning sensation. You feel good and gain " << healStrength << " health, but then you start to cough violently and you end up losing " << damageStrength << " health. Darn, you're worse for wear now. Never trust mysterious items again.\n";
+        user->heal(healStrength);
+        user->dealPDamage(damageStrength);
+        }
+};
+
+class FobWatch : public Item {
+protected: 
+	int healStrength;  
+public:
+	FobWatch() {
+		name = "Fob Watch aka a Pocket Watch"; 
+		description = "";
+		abilityName = "Energy"; 
+		abilityDescription = "Rumored to hold a mysterious golden energy that has regenerative abilities for the user but can also destroy others if the user so wills it."; 
+		magAtk = 50; 
+		value = 1000;
+		healStrength = 50; 
+		consumable = false; 
+		selfUse = true;  
+		ID = 20016; 
+	}
+	void ability(Entity* user, Entity* target){
+		std::cout << "Grasping the metal, it feels cool in the palm of your hand but begins to warm slightly from within. You have a rising urge to push the knob and open it but...you're scared. You know it's not just for telling the time. Taking a breath, you close your eyes and open the watch, feeling a sort of energy slither throughout your body and restore " << healStrength << " of your health. You then lift your hands and channel its power towards " << target->getName() << ", knocking them back and dealing " << target->dealMDamage(user->getMAtk() * 1.2) << " damage. You pocket it for later use.\n"; 
+	}
+}; 
 
 #endif
