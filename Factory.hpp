@@ -55,6 +55,7 @@ public:
 };
 
 class ItemFactory {
+public:
     Item* generate(unsigned int id) {
         switch(id) {
             case 20001: return new DullBlade();
@@ -77,6 +78,7 @@ class ItemFactory {
 };
 
 class RoomFactory {
+public:
     Room* generate(unsigned int id) {
         switch(id) {
             case 30001: return new GoldStatueRoom();

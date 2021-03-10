@@ -62,6 +62,14 @@ public:
 		return speed;
 	}
 
+        int getValue() {
+                return value;
+        }
+
+        unsigned getID() {
+                return ID;
+        }
+
     bool isSelfUse(){
         return selfUse;
     }
