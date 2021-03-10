@@ -4,8 +4,10 @@
 #include "Quest.cpp"
 #include "Entity.hpp"
 #include "InputReader.cpp"
+#include "Factory.hpp"
 
 #include <string>
+#include <vector>
 
 //FIXME: Whitespace should be cleaned up throughout the entire program whenever we can :)
 
@@ -32,7 +34,7 @@ private:
    QuestStub* q2;
    Quest* nextQuest;
    std::string description;
-
+   std::vector<Item*> supply{ nullptr, nullptr, nullptr };
 
 
 //Displays the Inn and manages quest selection
@@ -58,67 +60,94 @@ private:
 
 
 //Displays the Store and manages purchases
-   void Store() { //TODO: Implement store once Items are added
-      std::cout << "\nYou enter the Store... " //Will make this flavorful later as well...
-                << "\n...and are promptly shooed out!"
-                << "\n\"Sorry, sorry! We aren't open yet, come back later!" << std::endl;
+   void Store(Adventurer* player) {
+      std::cout << "\nYou enter the Store and are immediately rushed by the Merchant."
+                << "\n\"Welcome, welcome! What do you need today?\"";
+
+      ItemFactory shop;
+      int playerGold = player->getGold();
+      Item* curItem = nullptr;
+
+      for (unsigned i = 0; i < supply.size(); ++i) {
+         curItem = supply.at(i);
+         std::cout << "\n" << i + 1 << ".\t" << curItem->getName() << ": " << curItem->getValue() << " gold";
+      }
+      std::cout << "\n0.\tReturn to Town\n";
+
+      int choices[] = {1, 2, 3, 0};
+      InputReader read;
+      int select = read.readInput(choices, 4);
+
+      while (select != 0) {
+         curItem = supply.at(select - 1);
+         if (playerGold >= curItem->getValue()) {
+            player->addItem(shop.generate(curItem->getID()));
+            player->addGold(-1 * (curItem->getValue()));
+            playerGold -= curItem->getValue();
+            std::cout << "\nThe Merchant grins. \"Thank you so much! You'll be needing something else, yes?\"\n";
+         }
+         else {
+            std::cout << "\nThe Merchant grimaces. \"So, so, so sorry! It seems you're a little too... poor!\"\n";
+         }
+         select = read.readInput(choices, 4);
+      }
    }
 
 
 
 //Displays the Clinic and manages revivals
-   void Clinic() { //TODO: Finish implementing this once party is added
+   void Clinic(Adventurer* player) {
       std::cout << "\nYou walk into the Clinic and are greeted by the Healer."
-                << "\n\"Welcome, travelers, I hope you are faring well...\"";
-      int deceased = 0; //FIXME: (number of dead characters in the party);
-
-      switch (deceased) {
-         case 0:
-            std::cout << "\nThe Healer gives you a warm smile."
-                      << "\n\"It seems you are in no need of my services. Thank you for saying hello!\"";
-            break;
-         case 1:
-            std::cout << "\nThe Healer nods sadly at your fallen companion."
-                      << "\n\"Ah, I see. I have seen worse, I can certainly help with this.\"";
-            break;
-         case 2:
-            std::cout << "\nUpon seeing your party, the Healer lets out a worried sigh."
-                      << "\n\"Oh dear... Please be more careful, okay?\"";
-            break;
-         case 3:
-            std::cout << "\nThe Healer regards your party with fearful eyes."
-                      << "\n\"Dark heavens--! You are lucky to have made it here in one piece!\"";
-            break;
+                << "\n\"Welcome, traveler, I hope you are faring well...\"";
+      int health = player->getCurrentHealth();
+      int maxHealth = player->getMaxHealth();
+      if (health == maxHealth) {
+         std::cout << "\nThe Healer gives you a warm smile."
+                   << "\n\"It seems you are in no need of my services. Thank you for saying hello!\"";
+      }
+      else if (health >= (maxHealth * 0.7)) {
+         std::cout << "\nThe Healer glances over your injuries."
+                   << "\n\"Ah, I see. I have seen worse, I can certainly help with this.\"";
+      }
+      else if (health >= (maxHealth * 0.3)) {
+         std::cout << "\nUpon seeing your state, the Healer lets out a worried sigh."
+                   << "\n\"Oh dear... Please be more careful, okay?\"";
+      }
+      else {
+         std::cout << "\nThe Healer regards you with fearful eyes."
+                   << "\n\"Dark heavens--! You are lucky to have made it here in one piece!\"";
       }
 
       InputReader* read = new InputReader();
       int choices[2] = {0,1};
       int select = -1;
       while (select != 0) {
+         health = player->getCurrentHealth();
          std::cout << std::endl;
-         if (deceased != 0) { 
-            std::cout << "\nReviving your party will cost " << RevCost(deceased) << " gold.";
+         if (health != maxHealth) { 
+            std::cout << "\nHealing will cost " << HealCost((static_cast<double>(health)/maxHealth)) << " gold.";
          }
-         std::cout << "\n1.\tRevive the Party"
+         std::cout << "\n1.\tAsk for Healing"
                    << "\n0.\tReturn to Town" << std::endl;
          select = read->readInput(choices,2);
-         if (select == 1) { Revive(deceased); }
+         if (select == 1) { Revive(player); }
       }
+      delete read;
    }
 
 //Revives characters and subtracts the cost
-   void Revive(int deceased) {
-      if (deceased == 0) { std::cout << "\nNobody is in need of revival!"; }
-      else {
-      /* for (each character in party) {
-            if (character health = 0) { character health = 1; }
-         }
-         partyGold -= RevCost(deceased); */
+   void Revive(Adventurer* player) {
+      if (player->getCurrentHealth() == player->getMaxHealth()) { std::cout << "\nYou are not in need of revival!"; }
+      else { 
+         player->addGold(-1 * HealCost(static_cast<double>(player->getCurrentHealth())/player->getMaxHealth()));
+         player->setHealth(player->getMaxHealth());
+         std::cout << "\nThe Healer applies a salve over your wounds. It tickles, and you start seeing strange colors..."
+                   << "\n...You awaken feeling very refreshed! The Healer removes your bandages and bids you adieu.\n";
       }
    }
 
 //Calculates cost of revival
-   unsigned int RevCost(int n) { return (n * 200); } //can be changed to scale properly
+   unsigned int HealCost(double percentage) { return ((1 - percentage) * 200); } //can be changed to scale properly
 
 
 
@@ -157,24 +186,31 @@ private:
 public:
    Town() {
       //condition = (rand() % 100) + 1;
-      //TODO: Implement "randomness". q1B, q2B, q1, q2 should be randomized on each creation of Town.
-      Entity* q1B = new Entity("Awkward Avocado", "We'd put a description but it'd be awkward", 1, 1, 1, 1, 1, 1);
-      Entity* q2B = new Entity("Monopoly Man", "The mustachioed menace himself", 9, 9, 9, 9, 9, 9);
-      q1 = new QuestStub(100, q1B, "Please save my kitten from the ");
-      q2 = new QuestStub(9000, q2B, "Help! I'm being held at gunpoint by ");
+      EnemyFactory bossGen;
+      Entity* q1B = bossGen.generate((rand() % 5) + 10001);
+      Entity* q2B = bossGen.generate((rand() % 5) + 10001);
+      q1 = new QuestStub(((rand() % 101) + 50), q1B, "Defeat a dangerous ");
+      q2 = new QuestStub(((rand() % 101) + 50), q2B, "Eliminate an evil ");
+      ItemFactory itemGen;
       nextQuest = nullptr;
-      description = "You are in town."; //testing value, tbif.
+      description = "You are in town.";
+      supply.at(0) = itemGen.generate(20004); //guarantee potions in store
+      supply.at(1) = itemGen.generate((rand() % 9) + 20001);
+      supply.at(2) = itemGen.generate((rand() % 9) + 20001);
    }
 
    ~Town() {
       if (q1 != nullptr) { delete q1; }
       if (q2 != nullptr) { delete q2; }
       nextQuest = nullptr; //cannot be deleted, quest is needed. Delete quest directly instead
+      for (unsigned i = 0; i < supply.size(); ++i) {
+         delete supply.at(i);
+      }
    }
 
 
-   //Master quest that manages all of the town. Accepts no arguments and returns the Quest to be started.
-   Quest* RoamTown() {
+   //Master function that manages all of the town. Accepts the player and returns the Quest to be started.
+   Quest* RoamTown(Adventurer* player) {
       bool questStarted = false;
       InputReader* read = new InputReader();
       int choices[5] = {0,1,2,3,4};
@@ -187,11 +223,12 @@ public:
          select = read->readInput(choices,5);
          switch(select) {
             case 0:
-               std::cout << "Save and quit has been called!" << std::endl; //TODO: Add save and exit routine!
+               if (nextQuest != nullptr) { delete nextQuest; }
+               nextQuest = nullptr;
                break;
             case 1: Inn();    break;
-            case 2: Store();  break;
-            case 3: Clinic(); break;
+            case 2: Store(player);  break;
+            case 3: Clinic(player); break;
             case 4:
                if (nextQuest == nullptr) {
                   std::cout << "\nYou don't have a quest to embark on!\n"
@@ -207,7 +244,6 @@ public:
       delete read;
       return nextQuest;
    }
-
 };
 
 #endif

@@ -6,6 +6,9 @@
 #include "./../Factory.hpp"
 #include "./../Entity.hpp"
 #include "./../Adventurer.cpp"
+#include "./../Warrior.cpp"
+#include "./../Wizard.cpp"
+#include "./../Samurai.cpp"
 
 EnemyFactory factory;
 unsigned NUM_ENEMIES = 5; //update these numbers when new things are introduced.
@@ -66,13 +69,13 @@ TEST(AdventurerSuite, ConstructDestructAdventurers) {
     for (unsigned i = 1; i <= NUM_CLASSES; ++i) {
         switch (i) {
         case 1:
-            test = new Adventurer(Warrior,"TestWarrior","Just a test warrior");
+            test = new Warrior("TestWarrior","Just a test warrior");
             break;
         case 2:
-            test = new Adventurer(Wizard,"TestWizard","Just a test wizard");
+            test = new Wizard("TestWizard","Just a test wizard");
             break;
         case 3:
-            test = new Adventurer(Rogue,"TestRogue","Just a test rogue");
+            test = new Samurai("TestSammy","Just a test sammy");
             break;
         }
         ASSERT_TRUE(test != nullptr); //If any class fails to construct, tests will abort.
@@ -87,13 +90,13 @@ TEST(AdventurerSuite, AdventurerBehaviors) {
     for (unsigned i = 1; i <= NUM_CLASSES; ++i) {
         switch (i) {
         case 1:
-            test = new Adventurer(Warrior,"TestWarrior","Just a test warrior");
+            test = new Warrior("TestWarrior","Just a test warrior");
             break;
         case 2:
-            test = new Adventurer(Wizard,"TestWizard","Just a test wizard");
+            test = new Wizard("TestWizard","Just a test wizard");
             break;
         case 3:
-            test = new Adventurer(Rogue,"TestRogue","Just a test rogue");
+            test = new Samurai("TestSammy","Just a test sammy");
             break;
         }
         EXPECT_EQ(test->getLevel(), 1); //all classes should start at level 1

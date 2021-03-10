@@ -179,7 +179,7 @@ int main() {
     while (true){
         // roam the town. get a new quest and start it
         // Quest* currentQuest = testTown->RoamTown();
-        Quest* newQuest = testTown->RoamTown();
+        Quest* newQuest = testTown->RoamTown(player);
 
         currentRoom = &currentQuest->getBeginning();
         while (true){
