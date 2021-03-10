@@ -220,7 +220,7 @@ int main() {
     delete fairy;
     delete shieldSkelly;
     delete skelly;
-    delete growslime;
+    //delete growslime;
     delete currentQuest;
     delete player;
     delete testTown;
