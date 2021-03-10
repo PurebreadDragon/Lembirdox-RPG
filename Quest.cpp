@@ -1,3 +1,6 @@
+#ifndef __QUEST_CPP__
+#define __QUEST_CPP__
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -81,3 +84,5 @@ public:
         std::cout << "Quest reward: " << reward << " gold" << std::endl;
     }
 };
+
+#endif

@@ -7,6 +7,7 @@
 #include "InputReader.cpp"
 #include "Item.hpp"
 
+//ID 30001
 class GoldStatueRoom : public Room{
 
     /**
@@ -36,6 +37,7 @@ class GoldStatueRoom : public Room{
     }
 };
 
+//ID 30002
 class DartTrapRoom : public Room{
     void interact(){
         std::cout << "You enter an empty room with stone walls. Vines are obscuring what look like carvings on the walls. "
@@ -48,6 +50,7 @@ class DartTrapRoom : public Room{
     }
 };
 
+//ID 30003
 class CatRoom : public Room{
 public:
     CatRoom(){
@@ -211,6 +214,7 @@ public:
     }
 };
 
+//ID 30004
 class MirrorRoom : public Room {
 public:
     MirrorRoom() {

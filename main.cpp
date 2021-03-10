@@ -119,6 +119,7 @@ int main() {
     // arena->addEnemy(ratticus);
     // arena->addEnemy(growslime);
     arena->addEnemy(fairy);
+    arena->addEnemy(skelly);
     arena->addEnemy(shieldSkelly);
     arena->linkPlayer(player);
     GoldStatueRoom *goldstatue = new GoldStatueRoom();
@@ -172,7 +173,15 @@ int main() {
     while (true){
         // roam the town. get a new quest and start it
         // Quest* currentQuest = testTown->RoamTown();
-        Quest* newQuest = testTown->RoamTown();
+        Quest* newQuest = testTown->RoamTown(player);
+
+	if (newQuest == nullptr){
+		std::string temp;
+		std::cout << "Thanks for playing!\n";
+		cin >> temp;
+		delete newQuest;
+		break;
+	}
 
         currentRoom = &currentQuest->getBeginning();
         while (true){
@@ -203,15 +212,12 @@ int main() {
                 }
             }
         }
-
-        // this is just for testing
-        std::cout << "Thanks for playing!";
-        std::string temp;
-        cin >> temp;
-        delete newQuest;
-        break;
     }
 
+    delete fairy;
+    delete shieldSkelly;
+    delete skelly;
+    //delete growslime;
     delete currentQuest;
     delete player;
     delete testTown;

@@ -62,7 +62,7 @@ Special room interaction and player inspect:
 ![image](https://user-images.githubusercontent.com/49847628/110477217-c183f600-8097-11eb-89fb-935a0a58e501.png)
  
  ## Installation/Usage
- Simply clone the repository and run `cmake3 .` and `make`. If that doesn't work, you can alternatively compile with the command `g++ main.cpp Adventurer.cpp -std=c++11` instead. 
+ Simply clone the repository and run `cmake3 .` and `make`. If that doesn't work, you can alternatively compile with the command `g++ main.cpp Adventurer.cpp -std=c++11` instead. There is also a pre-compiled release executable. 
  
  ## Testing
  We created unit tests for the various methods in the program and also extensively tested the functionality of all items, abilities, enemies and rooms within main. 

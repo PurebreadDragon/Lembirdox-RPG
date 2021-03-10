@@ -25,6 +25,7 @@ protected:
     std::string abilityName;
     std::string abilityDescription;
 	int maxHealth = 0, physAtk = 0, physDef = 0, magAtk = 0, magDef = 0, speed = 0, cooldown = 0, maxCooldown = 0, value = 0;
+    unsigned ID;
     bool consumable = false, selfUse = false; 
     // items with the self-use flag set to true should not make use of the second target field in their ability().
     // items with the consumable flag set to true should never have any stat bonuses. 
@@ -71,6 +72,14 @@ public:
 	int getSpeed() {
 		return speed;
 	}
+
+        int getValue() {
+                return value;
+        }
+
+        unsigned getID() {
+                return ID;
+        }
 
     bool isSelfUse(){
         return selfUse;
@@ -124,6 +133,7 @@ public:
         abilityDescription = "A powerful slash using the blade of the sword. Hits more through blunt force than anything. Deals 120% PAtk physical damage.";
 		physAtk = 10;
         value = 100;
+        ID = 20001;
 	}
 
 	void ability(Entity* user, Entity* target) {
@@ -144,6 +154,7 @@ public:
         physAtk = 10;
         speed = 10;
         value = 300;
+        ID = 20002;
     }
 
     void ability(Entity* user, Entity* target) {
@@ -163,6 +174,7 @@ public:
 		magAtk = 10;
         consumable = false;
         value = 100;
+        ID = 20003;
 	}
 
 	void ability(Entity* user, Entity* target) {
@@ -185,6 +197,7 @@ public:
         consumable = true;
         selfUse = true;
         value = 30;
+        ID = 20004;
 	}
 
 	void ability(Entity* user, Entity* target) {
@@ -207,6 +220,7 @@ public:
         consumable = true;
         selfUse = true;
         value = 60;
+        ID = 20005;
 	}
 
 	void ability(Entity* user, Entity* target) {
@@ -229,6 +243,7 @@ public:
         consumable = true;
         selfUse = true;
         value = 120;
+        ID = 20006;
 	}
 
 	void ability(Entity* user, Entity* target) {
@@ -251,6 +266,7 @@ public:
         consumable = true;
         selfUse = true;
         value = 400;
+        ID = 20007;
 	}
 
 	void ability(Entity* user, Entity* target) {
@@ -269,6 +285,7 @@ public:
 		speed = 20;
         consumable = false;
         value = 300;
+        ID = 20008;
 	}
 	
 	void ability(Entity* user, Entity* target) {
@@ -290,6 +307,7 @@ public:
         magDef = 5;
         maxCooldown = 3;
         value = 500;
+        ID = 20009;
     }
 
     void ability(Entity* user, Entity* target) {
@@ -311,6 +329,7 @@ public:
         physAtk = 20;
         physDef = 10;
         value = 400;
+        ID = 20010;
     }
 
     void ability(Entity* user, Entity* target) {
@@ -328,6 +347,7 @@ public:
         magAtk = 20;
         magDef = 10;
         value = 400;
+        ID = 20011;
     }
 
     void ability(Entity* user, Entity* target) {
@@ -345,6 +365,7 @@ public:
         speed = 10;
         magAtk = 5;
         value = 1000;
+        ID = 20012;
     }
 
     void ability(Entity* user, Entity* target) {
@@ -373,6 +394,7 @@ public:
         consumable = false;
         sheathed = true;
         damage = 0;
+        ID = 20013;
     }
 
     void ability(Entity* user, Entity* target) {
@@ -423,6 +445,7 @@ public:
         description = "for testing";
         abilityName = "debufftest";
         abilityDescription = "debufftest";
+        ID = 20014;
     }
 
     void ability(Entity* user, Entity* target){
@@ -440,5 +463,51 @@ public:
         target->buff(SPEED, -2);
     }
 };
+
+class FakePotion : public Item{
+protected:
+        int damageStrength;
+        int healStrength;
+public:
+        FakePotion(){
+                name = "Healing Potion";
+                description = "A mysterious concoction of herbs and dark magical essence. It carries the soothing scent of medicinal plants but there is an underlying hint of something new and strange.  Surely, this would be more than able to heal a couple of scratches. Well, you hope it will...";
+                abilityName = "Drink";
+        abilityDescription = "Drink the potion to possibly heal yourself a little.";
+        damageStrength = 90;
+        healStrength = 50;
+        consumable = true;
+        selfUse = true;
+        value = 30;
+        ID = 20015;
+        }
+
+        void ability(Entity* user, Entity* target){
+                std::cout << "As you hold up the bottle, the alluring smell of something sweet yet musty fills your senses. Quickly, you pop off the cap and are hit with the sickening smell of roses. You peer into the bottle and notice droplets of....is that blood?. Somehow, you can't resist anymore despite your slight disgust and you down the potion quickly, feeling a bit of a burning sensation. You feel good and gain " << healStrength << " health, but then you start to cough violently and you end up losing " << damageStrength << " health. Darn, you're worse for wear now. Never trust mysterious items again.\n";
+        user->heal(healStrength);
+        user->dealPDamage(damageStrength);
+        }
+};
+
+class FobWatch : public Item {
+protected: 
+	int healStrength;  
+public:
+	FobWatch() {
+		name = "Fob Watch aka a Pocket Watch"; 
+		description = "";
+		abilityName = "Energy"; 
+		abilityDescription = "Rumored to hold a mysterious golden energy that has regenerative abilities for the user but can also destroy others if the user so wills it."; 
+		magAtk = 50; 
+		value = 1000;
+		healStrength = 50; 
+		consumable = false; 
+		selfUse = true;  
+		ID = 20016; 
+	}
+	void ability(Entity* user, Entity* target){
+		std::cout << "Grasping the metal, it feels cool in the palm of your hand but begins to warm slightly from within. You have a rising urge to push the knob and open it but...you're scared. You know it's not just for telling the time. Taking a breath, you close your eyes and open the watch, feeling a sort of energy slither throughout your body and restore " << healStrength << " of your health. You then lift your hands and channel its power towards " << target->getName() << ", knocking them back and dealing " << target->dealMDamage(user->getMAtk() * 1.2) << " damage. You pocket it for later use.\n"; 
+	}
+}; 
 
 #endif
