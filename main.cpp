@@ -117,7 +117,7 @@ int main() {
     // arena->addEnemy(growslime);
     arena->addEnemy(fairy);
     GrowSlime* growslime = new GrowSlime();
-    ShieldSkeleton* shieldSkelly = new ShieldSkeleton();
+    //ShieldSkeleton* shieldSkelly = new ShieldSkeleton();
     arena->addEnemy(skelly);
     arena->addEnemy(shieldSkelly);
     arena->linkPlayer(player);
