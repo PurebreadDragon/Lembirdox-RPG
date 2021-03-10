@@ -9,8 +9,8 @@
 #include "gtest/gtest.h"
 
 ItemFactory iFactory;
-unsigned NUM_ITEMS = 14; //update these when new items are implemented.
-unsigned NUM_CONSUMABLES = 4;
+unsigned NUM_ITEMS = 16; //update these when new items are implemented.
+unsigned NUM_CONSUMABLES = 5;
 
 //----- ItemSuite tests begin -----
 //Check if constructors and destructors working properly
@@ -52,9 +52,18 @@ TEST(ItemSuite, AllItemsAbility) {
             test->ability(user, target);
             EXPECT_NE(userHealth, user->getCurrentHealth());
         }
+	
         else if (i == 14) { //DebuffStick needs special treatment.
             EXPECT_TRUE(test->getName() != "");
         }
+	
+	else if (i == 15) { //FakePotion needs special treatment. 
+		EXPECT_TRUE(test->getName() != "");
+	}
+	else if (i == 16) { //FobWatch needs special treatment.
+		EXPECT_TRUE(test->getName() != ""); 
+	}
+ 	 
         else {
             EXPECT_NE(targetHealth, target->getCurrentHealth());
         }
