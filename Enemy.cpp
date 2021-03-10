@@ -56,12 +56,12 @@ public:
         physDef = 10;
         magAtk = 2;
         magDef = 30;
-        speed = 75;
+        speed = 75 + rand() % 10 - 5;
         ID = 10001;
     }
 
     void turn(Entity* target){
-        std::cout << "The skeleton flails its arms at " << target->getName() << ". It deals " << target->dealPDamage(physAtk * 1.5) << " damage.\n";
+        std::cout << "The skeleton flails its arms at " << target->getName() << ". It deals " << target->dealPDamage(physAtk) << " damage.\n";
     }
 };
 
@@ -79,7 +79,7 @@ public:
         physDef = 20;
         magAtk = 2;
         magDef = 10;
-        speed = 125;
+        speed = 125 + rand() % 10 - 5;
         ID = 10002;
     }
 
@@ -102,7 +102,7 @@ public:
         physDef = 25;
         magAtk = 0;
         magDef = 25;
-        speed = 75;
+        speed = 75 + rand() % 10 - 5;
         ID = 10003;
     }
 
@@ -163,7 +163,7 @@ public:
         physDef = 0;
         magAtk = 5;
         magDef = 0;
-        speed = 60;
+        speed = 60 + rand() % 10 - 5;
         shieldUp = false;
         ID = 10004;
     }
@@ -215,7 +215,7 @@ public:
         physDef = 0;
         magAtk = 1;
         magDef = 100;
-        speed = 50;
+        speed = 50 + rand() % 10 - 5;
         ID = 10005;
     }
 
