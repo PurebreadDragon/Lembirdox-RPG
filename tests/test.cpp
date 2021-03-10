@@ -6,7 +6,8 @@
 
 #include "town_tests.cpp"
 #include "entity_tests.cpp"
-//#include "your_tests_here.cpp"
+#include "item_tests.cpp"
+#include "room_tests.cpp"
 
 int main(int argc, char** argv) {
    ::testing::InitGoogleTest(&argc, argv);

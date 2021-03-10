@@ -20,6 +20,11 @@ public:
         this->combatDoneDescription = combatDoneDescription;
     }
 
+    ~CombatRoom(){
+        for (auto e : entities) delete e;
+        entities.clear();
+    }
+
     /**
      * interact: Combat method. 
      * This is where combat is handled. more details to come when entity is finished
@@ -42,6 +47,7 @@ public:
                 // execute player turn, if it is their turn
                 if (player->getTurnBar() >= MAX_TURN_BAR){
                     std::cout << "================================[TURN " << turn << "]===============================\n";
+                    player->printSpecialFeature();
                     player->turn(entities);
                     player->updateBuffs();
                     player->setTurnBar(player->getTurnBar() - MAX_TURN_BAR);

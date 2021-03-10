@@ -15,7 +15,6 @@ protected:
     std::vector<std::string> exitLabels;
     Adventurer* player;
     bool end = false;
-
 public:
     virtual ~Room() = default;
 

@@ -139,6 +139,18 @@ public:
         return (int)((double)damage * reduction + 0.5);
     }
 
+    virtual int dealPDamage(int damage, double ignoreDef){
+        double reduction = 1 - (double) physDef * (1 - ignoreDef) / (physDef * (1 - ignoreDef) + 100);
+        health -= (int)((double)damage * reduction + 0.5);
+        return (int)((double)damage * reduction + 0.5);
+    }
+
+    virtual int dealMDamage(int damage, double ignoreDef){
+        double reduction = 1 - (double) magDef * (1 - ignoreDef) / (magDef * (1 - ignoreDef) + 100);
+        health -= (int)((double)damage * reduction + 0.5);
+        return (int)((double)damage * reduction + 0.5);
+    }
+
     void heal(int value){
         health += value; 
         if (health > maxHealth) health = maxHealth;
