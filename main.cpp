@@ -51,17 +51,13 @@ Adventurer* CharacterGeneration() {
         classSelection = reader.readInput(twoChoice, 2);
     }
 
-    switch(pickedClass) {
-        case 1: return new Warrior(playername, "It's you!");
-        case 2: return new Wizard(playername, "It's you!");
-        case 3: return new Samurai(playername, "It's you!");
-
     Adventurer *player;
     switch(pickedClass){
         case 1: player = new Warrior(playername, "It's you!"); break;
         case 2: player = new Wizard(playername, "It's you!"); break;
         case 3: player = new Samurai(playername, "It's you!"); break;
     }
+    return player;
 }
 
 void TraverseQuest(Quest* quest, Adventurer* player) {
