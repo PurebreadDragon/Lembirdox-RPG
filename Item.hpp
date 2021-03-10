@@ -14,7 +14,7 @@ enum Rarity{Common, Uncommon, Rare, Epic, Legendary, Unique};
  * Rare: An item with noticeable enchanted power. You'd have to search many cities to find an item of this power. 
  * Epic: An item with incredible power. These items are hidden away by people of power or great evils. Wars are waged using these. 
  * Legendary: An item of legends. Wielded by great heroes or enchanted by legendary forgemasters and wizards, these items are 
- *      incredibly difficult to get their hands on. Only the strongest can wield items of such power. 
+ *      incredibly difficult to get one's hands on. Only the strongest can wield items of such power. 
  * Unique: A one-of-a-kind item. Reserve this rarity for quest items and special items. 
  * */
 

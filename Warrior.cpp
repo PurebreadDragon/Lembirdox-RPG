@@ -3,7 +3,8 @@
 
 class Warrior : public Adventurer{
 private:
-    int revenge;
+    int revenge, revengeMax;
+    double revengeReduction, revengeDamage;
 
 public:
     Warrior(std::string name, std::string description) : Adventurer(name, description) {
@@ -30,9 +31,13 @@ public:
 
         abi1MaxCD = 0;
         revenge = 0;
+        revengeMax = 3;
+        revengeReduction = 0.05;
+        revengeDamage = 0.15;
 
         description = "Warriors are slow, heavy hitters with the ability to tank a lot of damage and dish it back. The warrior's defining "
-        "feature is Revenge. When taking damage, the Warrior gains a stack of Revenge, up to 4. For each stack of Revenge, the warrior takes less damage "
+        "feature is Revenge. When taking damage, the Warrior gains a stack of Revenge. The maximum amount of Revenge stacks increases with "
+        "level. For each stack of Revenge, the warrior takes less damage "
         "and deals additional damage on their next attack. Revenge stacks are consumed upon attack.";
         // levelUp();
         // levelUp();
@@ -73,7 +78,8 @@ public:
         // update abilities
         if (level == 4){
             abi2MaxCD = 4;
-            std::cout << "You unlocked Drain.\n";
+            ++revengeMax;
+            std::cout << "You unlocked Drain. Your maximum amount of revenge stacks increased to " << revengeMax << ".\n";
         }
     }
 
@@ -93,6 +99,35 @@ public:
                                        << "applies a 3 turn PDef debuff.\n";
         if (abi2MaxCD != -1) std::cout << "Drain (" << abi2MaxCD << " turn CD): Attack an enemy. Deals 200% PAtk physical damage and "
                                        << "heals yourself for 30% of the damage dealt.\n";
+    }
+
+    /**Warrior has special damage taken feature due to revenge stacks.*/
+    int dealPDamage(int damage){
+        if (revenge < revengeMax) ++revenge;
+        double reduction = revenge * revengeReduction * (1 - (double) physDef / (physDef + 100));
+        health -= (int)((double)damage * reduction + 0.5);
+        return (int)((double)damage * reduction + 0.5);
+    }
+
+    int dealMDamage(int damage){
+        if (revenge < revengeMax) ++revenge;
+        double reduction = revenge * revengeReduction * (1 - (double) magDef / (magDef + 100));
+        health -= (int)((double)damage * reduction + 0.5);
+        return (int)((double)damage * reduction + 0.5);
+    }
+
+    int dealPDamage(int damage, double ignoreDef){
+        if (revenge < revengeMax) ++revenge;
+        double reduction = revenge * revengeReduction * (1 - (double) physDef * (1 - ignoreDef) / (physDef * (1 - ignoreDef) + 100));
+        health -= (int)((double)damage * reduction + 0.5);
+        return (int)((double)damage * reduction + 0.5);
+    }
+
+    int dealMDamage(int damage, double ignoreDef){
+        if (revenge < revengeMax) ++revenge;
+        double reduction = revenge * revengeReduction * (1 - (double) magDef * (1 - ignoreDef) / (magDef * (1 - ignoreDef) + 100));
+        health -= (int)((double)damage * reduction + 0.5);
+        return (int)((double)damage * reduction + 0.5);
     }
 
     void attack(Enemy* target){
