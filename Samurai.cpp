@@ -34,18 +34,12 @@ public:
         ki = 0;
         perfectDomain = 0;
         premonition = false;
-        levelUp();
-        levelUp();
-        levelUp();
-        levelUp();
-        levelUp();
-        levelUp();
-        levelUp();
-        levelUp();
-        levelUp();
-        levelUp();
-        levelUp();
-        levelUp();
+
+        description = "Samurai are masters of the blade, with skills as sharp as the honed edge of their katana. The Samurai, unlike other classes, lacks "
+        "damaging abilities. Instead, their basic attack is replaced with an Iai Slash, a sword strike that has a chance to critically strike, dealing "
+        "double damage. Their critical strike chance is dependant upon their Ki, a resource which fills when performing a successful Iai Slash, but lowers "
+        "when taking damage. To augment this, the Samurai has various abilities that increase the amount of times their Iai Slashes hit or can block "
+        "incoming damage. Striking fast and often is critical to maintaining high Ki and damage output.";
     }
 
     /**

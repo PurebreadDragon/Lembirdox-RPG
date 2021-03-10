@@ -35,7 +35,8 @@ public:
         revengeReduction = 0.05;
         revengeDamage = 0.15;
 
-        description = "Warriors are slow, heavy hitters with the ability to tank a lot of damage and dish it back. The warrior's defining "
+        description = "Warriors are slow, heavy hitters with the ability to tank a lot of damage and dish it back. The warrior thrives in the thick "
+        "of battle, facing off against hordes of enemies. The warrior's defining "
         "feature is Revenge. When taking damage, the Warrior gains a stack of Revenge. The maximum amount of Revenge stacks increases with "
         "level. For each stack of Revenge, the warrior takes less damage "
         "and deals additional damage on their next attack. Revenge stacks are consumed upon attack.";
@@ -147,11 +148,11 @@ public:
     }
 
     /**And a special feature for dealing damage.
-     * This method reduces the revenge stack by 1 each time it's called. 
+     * This method resets revenge stacks to 0. Only call this when you're making an attack. 
      * */
     int getModifiedPAtk(){
         double damage = (double)physAtk * (1 + (double)revenge * revengeDamage);
-        if (revenge > 0) --revenge;
+        revenge = 0;
         return damage;
     }
 
