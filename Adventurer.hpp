@@ -22,10 +22,10 @@ class Adventurer : public Entity
 
 		// viewing methods
 		int getLevel() const; 
+                int getGold() const;
 		virtual void inspect();
 		void checkInventory();
 		virtual void printSpecialFeature();
-
 		// behaviors
 		void deathPenalty();
 		void turn(std::vector<Enemy*>);

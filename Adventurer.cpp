@@ -55,6 +55,10 @@ int Adventurer::getLevel() const {
 	return level;
 }
 
+int Adventurer::getGold() const {
+    return gold;
+}
+
 void Adventurer::inspect(){
     std::cout << name << " - Level " << level << " classgoeshere";
     std::cout << "\nExperience: \t\t" << experience << ", " << 75 * pow(1.1, level) << " to level\n"

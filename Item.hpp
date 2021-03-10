@@ -14,6 +14,7 @@ protected:
     std::string abilityName;
     std::string abilityDescription;
 	int maxHealth = 0, physAtk = 0, physDef = 0, magAtk = 0, magDef = 0, speed = 0, cooldown = 0, maxCooldown = 0, value = 0;
+    unsigned ID;
     bool consumable = false, selfUse = false; 
     // items with the self-use flag set to true should not make use of the second target field in their ability().
     // items with the consumable flag set to true should never have any stat bonuses. 
@@ -113,6 +114,7 @@ public:
         abilityDescription = "A powerful slash using the blade of the sword. Hits more through blunt force than anything. Deals 120% PAtk physical damage.";
 		physAtk = 10;
         value = 100;
+        ID = 20001;
 	}
 
 	void ability(Entity* user, Entity* target) {
@@ -133,6 +135,7 @@ public:
         physAtk = 10;
         speed = 10;
         value = 300;
+        ID = 20002;
     }
 
     void ability(Entity* user, Entity* target) {
@@ -152,6 +155,7 @@ public:
 		magAtk = 10;
         consumable = false;
         value = 100;
+        ID = 20003;
 	}
 
 	void ability(Entity* user, Entity* target) {
@@ -174,6 +178,7 @@ public:
         consumable = true;
         selfUse = true;
         value = 30;
+        ID = 20004;
 	}
 
 	void ability(Entity* user, Entity* target) {
@@ -196,6 +201,7 @@ public:
         consumable = true;
         selfUse = true;
         value = 60;
+        ID = 20005;
 	}
 
 	void ability(Entity* user, Entity* target) {
@@ -218,6 +224,7 @@ public:
         consumable = true;
         selfUse = true;
         value = 120;
+        ID = 20006;
 	}
 
 	void ability(Entity* user, Entity* target) {
@@ -240,6 +247,7 @@ public:
         consumable = true;
         selfUse = true;
         value = 400;
+        ID = 20007;
 	}
 
 	void ability(Entity* user, Entity* target) {
@@ -258,6 +266,7 @@ public:
 		speed = 20;
         consumable = false;
         value = 300;
+        ID = 20008;
 	}
 	
 	void ability(Entity* user, Entity* target) {
@@ -279,6 +288,7 @@ public:
         magDef = 5;
         maxCooldown = 3;
         value = 500;
+        ID = 20009;
     }
 
     void ability(Entity* user, Entity* target) {
@@ -300,6 +310,7 @@ public:
         physAtk = 20;
         physDef = 10;
         value = 400;
+        ID = 20010;
     }
 
     void ability(Entity* user, Entity* target) {
@@ -317,6 +328,7 @@ public:
         magAtk = 20;
         magDef = 10;
         value = 400;
+        ID = 20011;
     }
 
     void ability(Entity* user, Entity* target) {
@@ -334,6 +346,7 @@ public:
         speed = 10;
         magAtk = 5;
         value = 1000;
+        ID = 20012;
     }
 
     void ability(Entity* user, Entity* target) {
@@ -362,6 +375,7 @@ public:
         consumable = false;
         sheathed = true;
         damage = 0;
+        ID = 20013;
     }
 
     void ability(Entity* user, Entity* target) {
@@ -412,6 +426,7 @@ public:
         description = "for testing";
         abilityName = "debufftest";
         abilityDescription = "debufftest";
+        ID = 20014;
     }
 
     void ability(Entity* user, Entity* target){
