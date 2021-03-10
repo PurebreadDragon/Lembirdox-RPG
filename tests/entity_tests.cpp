@@ -10,7 +10,7 @@
 #include "./../Wizard.cpp"
 #include "./../Samurai.cpp"
 
-EnemyFactory factory;
+EnemyFactory eFactory;
 unsigned NUM_ENEMIES = 5; //update these numbers when new things are introduced.
 unsigned NUM_CLASSES = 3;
 
@@ -20,11 +20,12 @@ unsigned NUM_CLASSES = 3;
 TEST(EnemySuite, ConstructDestructAllEnemies) {
     Enemy* test = nullptr;
     for (unsigned i = 1; i <= NUM_ENEMIES; ++i) {
-        test = factory.generate(10000 + i);
+        test = eFactory.generate(10000 + i);
         ASSERT_TRUE(test != nullptr); //If any enemy fails to construct, tests will abort.
         EXPECT_NE(test->getName(), ""); //If there's an error in the constructor, this segfaults.
         test->inspect(); //Tests all attributes of an enemy simultaneously. SegFaults if an error occurs.
         delete test;
+        test = nullptr;
     }
 }
 
@@ -35,7 +36,7 @@ TEST(EnemySuite, AllEnemiesTakeTurn) {
     int priorHP;
     for (unsigned i = 1; i <= NUM_ENEMIES; ++i) {
         priorHP = dummy->getCurrentHealth();
-        test = factory.generate(10000 + i);
+        test = eFactory.generate(10000 + i);
         test->turn(dummy); //this should give output for every attack.
         if (i == 4) { test->turn(dummy); } //ShieldSkeleton needs special treatment.
         EXPECT_TRUE(dummy->getCurrentHealth() != priorHP); //expect damage to be done to dummy.
@@ -48,7 +49,7 @@ TEST(EnemySuite, AllEnemiesTakeTurn) {
 TEST(EnemySuite, AllEnemiesPerish) {
     Enemy* test = nullptr;
     for (unsigned i = 1; i <= NUM_ENEMIES; ++i) {
-        test = factory.generate(10000 + i);
+        test = eFactory.generate(10000 + i);
         test->dealPDamage(99999999); //WE SMITE THEE
         EXPECT_TRUE (!test->isAlive());
         test->heal(999999999); //just kidding we heal thee
