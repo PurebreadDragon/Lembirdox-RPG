@@ -7,7 +7,7 @@ Adventurer::Adventurer(std::string name, std::string description) {
         this->description = description;
         level = 1;
         experience = 0;
-        gold = 0;
+        gold = 300;
     }
 
 Adventurer::~Adventurer(){
