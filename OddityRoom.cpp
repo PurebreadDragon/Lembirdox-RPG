@@ -47,6 +47,8 @@ class DartTrapRoom : public Room{
         if (player->getSpeed() > 100) std::cout << "However, you're quick on your feet, and jump out of the way before they can hit you.\n";
         else std::cout << "You make an attempt to jump out of the way, but you're not fast enough. You dodge most "
                        << "of them but some of them still connect, causing painful wounds. You take " << player->dealPDamage(30) << " physical damage.\n";
+        
+        if (!player->isAlive()) setEnd();
     }
 };
 
@@ -268,6 +270,8 @@ public:
                 }
                 break;
         }
+
+        if (!player->isAlive()) setEnd();
     }
 
     void mirrorMatch() {

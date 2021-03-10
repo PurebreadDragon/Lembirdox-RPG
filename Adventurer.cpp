@@ -7,7 +7,7 @@ Adventurer::Adventurer(std::string name, std::string description) {
         this->description = description;
         level = 1;
         experience = 0;
-        gold = 0;
+        gold = 300;
     }
 
 Adventurer::~Adventurer(){
@@ -235,6 +235,11 @@ void Adventurer::turn(std::vector<Enemy*> enemies){
             } break;
             /*************************** ITEM ***************************/
             case 3:{ //use item
+		if (inventory.size() <= 0){
+			std::cout << "You don't have any items.\n";
+			selection = 0;
+			break;
+		}
                 std::cout << "Choose an item to use.\n"
                           << "0:\tCancel\n";
 

@@ -8,9 +8,6 @@ private:
 
 public:
     Warrior(std::string name, std::string description) : Adventurer(name, description) {
-        level = 1;
-        experience = 0;
-        gold = 0;
 
         maxHealth = 250;
         health = maxHealth;

@@ -50,18 +50,18 @@ public:
         name = "Skeleton";
         description = "A skeleton of a long-dead adventurer, but somehow it's moving again.";
         deathMessage = "The skeleton crumbles to the ground, reduced to dust.";
-        maxHealth = 200;
-        health = 200;
+        maxHealth = 150;
+        health = 150;
         physAtk = 20;
         physDef = 10;
         magAtk = 2;
         magDef = 30;
-        speed = 75;
+        speed = 75 + rand() % 10 - 5;
         ID = 10001;
     }
 
     void turn(Entity* target){
-        std::cout << "The skeleton flails its arms at " << target->getName() << ". It deals " << target->dealPDamage(physAtk * 1.5) << " damage.\n";
+        std::cout << "The skeleton flails its arms at " << target->getName() << ". It deals " << target->dealPDamage(physAtk) << " damage.\n";
     }
 };
 
@@ -79,7 +79,7 @@ public:
         physDef = 20;
         magAtk = 2;
         magDef = 10;
-        speed = 125;
+        speed = 125 + rand() % 10 - 5;
         ID = 10002;
     }
 
@@ -102,7 +102,7 @@ public:
         physDef = 25;
         magAtk = 0;
         magDef = 25;
-        speed = 75;
+        speed = 75 + rand() % 10 - 5;
         ID = 10003;
     }
 
@@ -163,7 +163,7 @@ public:
         physDef = 0;
         magAtk = 5;
         magDef = 0;
-        speed = 60;
+        speed = 60 + rand() % 10 - 5;
         shieldUp = false;
         ID = 10004;
     }
@@ -215,7 +215,7 @@ public:
         physDef = 0;
         magAtk = 1;
         magDef = 100;
-        speed = 50;
+        speed = 50 + rand() % 10 - 5;
         ID = 10005;
     }
 
@@ -232,6 +232,66 @@ public:
         target->setTurnBar(0);
         turnBar = 1000;
         health = 0;
+    }
+};
+
+class GreenSlime : public Enemy{
+public:
+    GreenSlime(){
+        goldReward = 10;
+        expReward = 10;
+        name = "Green Slime";
+        description = "It's a green slime. Mostly harmless but it is a little bit acidic and can dissolve your skin if kept in contact too long.";
+        deathMessage = "The slime melts into the ground.";
+        maxHealth = 50;
+        health = 50;
+        physAtk = 5;
+        physDef = 10;
+        magAtk = 10;
+        magDef = 10;
+        speed = 50 + rand() % 10 - 5;
+        ID = 10006;
+    }
+
+    void turn(Entity* target){
+        std::cout << "The slime attempts to dissolve your clothes a little. It does a little damage.\n";
+        std::cout << "You take " << target->dealMDamage(magAtk) << " magic damage.\n";
+    }
+};
+
+class BowSkeleton : public Enemy{
+public:
+    BowSkeleton(){
+        goldReward = 60;
+        expReward = 60;
+        name = "Bow Skeleton";
+        description = "A skeleton of a long-dead adventurer, but somehow it's moving again. This one has a bow.";
+        deathMessage = "The skeleton crumbles to the ground, reduced to dust. Its bow collapses with it.";
+        maxHealth = 100;
+        health = 100;
+        physAtk = 15;
+        physDef = 10;
+        magAtk = 2;
+        magDef = 30;
+        speed = 90 + rand() % 10 - 5;
+        ID = 10007;
+    }
+
+    void turn(Entity* target){
+        int dodged = rand() % 4; //0, 1, 2, 3
+        std::cout << "The skeleton looses a volley of three arrows at you.\n";
+        switch(dodged){
+            case 0: std::cout << "You try to dodge out of the way, but you're hit by all 3 arrows. The first hits you for " 
+                              << target->dealPDamage(physAtk - rand() % 5) << " physical damage.\n"
+                              << "The second arrow hits you for " << target->dealPDamage(physAtk + rand() % 5) << " physical damage.\n"
+                              << "The last hits you for " << target->dealPDamage(physAtk) << " physical damage.\n"; break;
+            case 1: std::cout << "You duck out of the way of one, but still get hit by the other two. The first hits you for " 
+                              << target->dealPDamage(physAtk - rand() % 5) << " physical damage.\n"
+                              << "The second arrow hits you for " << target->dealPDamage(physAtk + rand() % 5) << " physical damage.\n"; break;
+            case 2: std::cout << "You duck out of the way of two arrows, but the last one still nicks you in the side. It hits you for "
+                              << target->dealPDamage(physAtk - rand() % 5) << " physical damage.\n"; break;
+            case 3: std::cout << "You're fast on your feet and manage to roll out of the way, dodging all 3 arrows.\n";
+        }
     }
 };
 
