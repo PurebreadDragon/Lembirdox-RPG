@@ -42,7 +42,7 @@
  */
 
 unsigned NUM_CLASSES = 3;
-unsigned NUM_ENEMIES = 5;
+unsigned NUM_ENEMIES = 7;
 unsigned NUM_ITEMS = 16;
 unsigned NUM_CONSUMABLES = 4; //Leave this be for now please!
 unsigned NUM_ODDITY_ROOMS = 4;
@@ -57,6 +57,8 @@ public:
             case 10003: return new GrowSlime();
             case 10004: return new ShieldSkeleton();
             case 10005: return new StrangeFairy();
+            case 10006: return new GreenSlime();
+            case 10007: return new BowSkeleton();
             default: std::cout << "There was an error in generating enemy. Is the ID correct?\n"; exit(1);
         }
     }
