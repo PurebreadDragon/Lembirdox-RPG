@@ -126,6 +126,9 @@ int main() {
     // arena->addEnemy(ratticus);
     // arena->addEnemy(growslime);
     arena->addEnemy(fairy);
+    GrowSlime* growslime = new GrowSlime();
+    //ShieldSkeleton* shieldSkelly = new ShieldSkeleton();
+    arena->addEnemy(skelly);
     arena->addEnemy(shieldSkelly);
     arena->linkPlayer(player);
     GoldStatueRoom *goldstatue = new GoldStatueRoom();
