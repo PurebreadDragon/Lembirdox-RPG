@@ -63,6 +63,7 @@ public:
                         goldReward += (*iter)->getGoldReward();
                         expReward += (*iter)->getExpReward();
                         delete (*iter);
+                        iter = entities.erase(iter);
                     }
                     else ++iter;
                 }
