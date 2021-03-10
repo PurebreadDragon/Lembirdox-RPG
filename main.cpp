@@ -181,6 +181,14 @@ int main() {
         // Quest* currentQuest = testTown->RoamTown();
         Quest* newQuest = testTown->RoamTown(player);
 
+	if (newQuest == nullptr){
+		std::string temp;
+		std::cout << "Thanks for playing!\n";
+		cin >> temp;
+		delete newQuest;
+		break;
+	}
+
         currentRoom = &currentQuest->getBeginning();
         while (true){
             currentRoom->interact();
@@ -210,11 +218,6 @@ int main() {
                 }
             }
         }
-
-        // this is just for testing
-        std::cout << "Thanks for playing!";
-        delete newQuest;
-        break;
     }
 
     delete fairy;
