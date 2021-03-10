@@ -140,10 +140,14 @@ private:
    void Revive(Adventurer* player) {
       if (player->getCurrentHealth() == player->getMaxHealth()) { std::cout << "\nYou are not in need of revival!"; }
       else { 
-         player->addGold(-1 * HealCost(static_cast<double>(player->getCurrentHealth())/player->getMaxHealth()));
-         player->setHealth(player->getMaxHealth());
-         std::cout << "\nThe Healer applies a salve over your wounds. It tickles, and you start seeing strange colors..."
-                   << "\n...You awaken feeling very refreshed! The Healer removes your bandages and bids you adieu.\n";
+         double healCost = HealCost(static_cast<double>(player->getCurrentHealth())/player->getMaxHealth());
+         if (player->getGold() < healCost) std::cout << "\nYou don't have the funds to heal!\n";
+         else {
+            player->addGold(-1 * healCost);
+            player->setHealth(player->getMaxHealth());
+            std::cout << "\nThe Healer applies a salve over your wounds. It tickles, and you start seeing strange colors..."
+                     << "\n...You awaken feeling very refreshed! The Healer removes your bandages and bids you adieu.\n";
+         }
       }
    }
 
