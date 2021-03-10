@@ -63,8 +63,9 @@ Adventurer* CharacterGeneration() {
 void TraverseQuest(Quest* quest, Adventurer* player) {
     InputReader read;
     Room* currentRoom = &quest->getBeginning();
-    while (!currentRoom->isEnd()) {
+    while (true) {
         currentRoom->interact();
+        if (currentRoom->isEnd()) break;
         int movementSelection = 0;
         while (movementSelection != 1) {
             std::cout << "\nWhat would you like to do?\n"
