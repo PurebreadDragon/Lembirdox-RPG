@@ -34,18 +34,6 @@ public:
         ki = 0;
         perfectDomain = 0;
         premonition = false;
-        levelUp();
-        levelUp();
-        levelUp();
-        levelUp();
-        levelUp();
-        levelUp();
-        levelUp();
-        levelUp();
-        levelUp();
-        levelUp();
-        levelUp();
-        levelUp();
     }
 
     /**

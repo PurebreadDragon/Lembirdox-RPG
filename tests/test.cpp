@@ -1,7 +1,3 @@
-//This is the file cmake will look at to generate the test executable,
-//please remember to include the individual test files so they get compiled
-//as well <3
-
 #include "gtest/gtest.h"
 
 #include "town_tests.cpp"

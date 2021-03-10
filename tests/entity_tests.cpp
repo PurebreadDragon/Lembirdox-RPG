@@ -11,8 +11,6 @@
 #include "./../Samurai.cpp"
 
 EnemyFactory eFactory;
-unsigned NUM_ENEMIES = 5; //update these numbers when new things are introduced.
-unsigned NUM_CLASSES = 3;
 
 
 //----- EnemySuite tests begin -----

@@ -5,40 +5,46 @@
 #include "Item.hpp"
 #include "OddityRoom.cpp"
 
-/*		  ENTITY    ITEM     ROOM  
- *	   ID   : 10-### , 20-### , 30-### 
- *      ___________________________________
- *	001     : Skeleton, DullBlade, GoldStatueRoom
+/*		   ENEMY    ITEM    O.ROOM    ROOM
+ *	   ID   : 10-### , 20-### , 30-### , 35-###
+ *      _________________________________________________________
+ *	001     : Skeleton, DullBlade, GoldStatueRoom, Tree
  *
- *	002	: BigRat, WindRazor, DartTrapRoom
+ *	002	: BigRat, WindRazor, DartTrapRoom, StoneHall
  *	
- *	003	: GrowSlime, StickWand, CatRoom
+ *	003	: GrowSlime, StickWand, CatRoom, Meadow
  *	
- *	004	: ShieldSkeleton, BasicPotion, MirrorRoom
+ *	004	: ShieldSkeleton, BasicPotion, MirrorRoom, Lake
  *	
- *	005	: StrangeFairy, MediumPotion,
+ *	005	: StrangeFairy, MediumPotion, , ZenGarden
  *	
- *	006	: , StrongPotion, 
+ *	006	: , StrongPotion, , Cave
  *	
- *	007	: , MegaPotion, 
+ *	007	: , MegaPotion, , ColdForge
  *	
- *	008	: , Swifties, 
+ *	008	: , Swifties, , Spiderweb
  *	
- *	009	: , FlareOrb, 
+ *	009	: , FlareOrb, , TorchlitHall
  *	
- *	010	: , RedPaw,
+ *	010	: , RedPaw, , BrokenTrap
  *
- *	011	: , BluePaw,
+ *	011	: , BluePaw, , ChasmBridge
  *
- *	012	: , GoldPaw,
+ *	012	: , GoldPaw, , 
  *
- *	013	: , MirrorKnife,
+ *	013	: , MirrorKnife, , 
  *
- *	014	: , DebuffStick,
+ *	014	: , DebuffStick, , 
  *
- *	015	:
+ *	015	: , , , 
  */
 
+unsigned NUM_CLASSES = 3;
+unsigned NUM_ENEMIES = 5;
+unsigned NUM_ITEMS = 14;
+unsigned NUM_CONSUMABLES = 4;
+unsigned NUM_ODDITY_ROOMS = 4;
+unsigned NUM_AMBIENT_ROOMS = 11;
 
 class EnemyFactory {
 public:
@@ -81,10 +87,23 @@ class RoomFactory {
 public:
     Room* generate(unsigned int id) {
         switch(id) {
+            //ODDITY ROOMS BASE FROM ID 30000
             case 30001: return new GoldStatueRoom();
             case 30002: return new DartTrapRoom();
             case 30003: return new CatRoom();
             case 30004: return new MirrorRoom();
+            //AMBIENT ROOMS BASE FROM ID 35000
+            case 35001: return new Room("A room with a tree","This room has a small tree growing from the cracked earth.\nYou're not quite sure how it is surviving, but you quietly cheer it on.");
+            case 35002: return new Room("A stone hallway","Your footsteps echo as you walk down this stone corridor.\nIt's a bit too quiet... you check behind yourself just to make sure, but you're safe.");
+            case 35003: return new Room("A meadow","You wander into a calm meadow. It feels out of place, but the spot of tranquility nevertheless is appreciated.");
+            case 35004: return new Room("A small lake","To call this a lake is an overstatement... more like a small pool of murky water.\nYou aren't even close to thirsty enough to drink from it.");
+            case 35005: return new Room("A room of grey sand","The ground beneath your feet crumbles, and you realize it is sand. A small, broken rake lies in the rubble.\nWas this a zen garden of some kind?");
+            case 35006: return new Room("A cave","You hear water droplets echo through this small cave, dripping from a stalactite nearby.\nYou cautiously hold your hand out and taste it.");
+            case 35007: return new Room("An abandoned forge","The remains of a forge lay scattered around this room. It seems like it hasn't seen activitiy in years.");
+            case 35008: return new Room("A stone hallway","Your footsteps echo as you walk down--- ECKPTH!! You walked into a spiderweb!!");
+            case 35009: return new Room("A well-lit hall","This hallway has several torches bolted into their brackets.\nSome are extinguished, but the rest pleasantly light the way.");
+            case 35010: return new Room("A stone hallway","Your footsteps echo as you walk down the stone corridor. You hear the click of a pressure plate...\nbut nothing happens. You breathe a sigh of relief for outdated tech.");
+            case 35011: return new Room("A wooden bridge","You make your way to a narrow chasm with planks of wood percariously bridging the gap.\nYou take extreme caution, but you make it across without issue.");
             default: std::cout << "There was an error in generating oddity room. Is the ID correct?\n"; exit(1);
         }
     }

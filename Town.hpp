@@ -4,6 +4,7 @@
 #include "Quest.cpp"
 #include "Entity.hpp"
 #include "InputReader.cpp"
+#include "CombatRoom.cpp"
 #include "Factory.hpp"
 
 #include <string>
@@ -13,14 +14,14 @@
 
 struct QuestStub {
    QuestStub() { reward = 0; boss = nullptr; task = ""; }
-   QuestStub(unsigned int r, Entity* b, std::string t) {
+   QuestStub(unsigned int r, Enemy* b, std::string t) {
       reward = r;
       boss = b;
       task = t;
    }
    ~QuestStub() { delete boss; }
    unsigned int reward;
-   Entity* boss;
+   Enemy* boss;
    std::string task;
 };
 
@@ -187,8 +188,8 @@ public:
    Town() {
       //condition = (rand() % 100) + 1;
       EnemyFactory bossGen;
-      Entity* q1B = bossGen.generate((rand() % 5) + 10001);
-      Entity* q2B = bossGen.generate((rand() % 5) + 10001);
+      Enemy* q1B = bossGen.generate((rand() % 5) + 10001);
+      Enemy* q2B = bossGen.generate((rand() % 5) + 10001);
       q1 = new QuestStub(((rand() % 101) + 50), q1B, "Defeat a dangerous ");
       q2 = new QuestStub(((rand() % 101) + 50), q2B, "Eliminate an evil ");
       ItemFactory itemGen;

@@ -4,26 +4,76 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <cstdlib>
 #include "Room.hpp"
+#include "Factory.hpp"
+#include "CombatRoom.cpp"
 
 class Quest{
 private:
     std::string description;
     std::vector<Room*> map;
-    Entity* boss;
+    Enemy* boss;
     unsigned int reward;
 public:
     Quest();
-    Quest(unsigned int r, Entity* b, std::string d) { //reward, boss, and task passed in from Town
+    Quest(unsigned int r, Enemy* b, std::string d) { //reward, boss, and task passed in from Town
+        RoomFactory factory;
+        EnemyFactory enemies;
+
         reward = r;
         boss = b;
         description = d;
-        map.resize(0);
+
+        unsigned mapSize = 5;
+        map.clear();
+        for (unsigned i = 0; i < mapSize; ++i) {
+            map.push_back(factory.generate((rand() % NUM_AMBIENT_ROOMS) + 35001));
+        }
+
+        unsigned fightLocation = ((rand() % (mapSize - 1)) + 1);
+        unsigned enemyLimit = ((rand() % 5) + 1); // 1 - 5 enemies
+        delete map.at(fightLocation);
+        CombatRoom* arena = new CombatRoom("Arena","You enter a small room and are ambushed by enemies!","With the enemies slain, you can carry on.");
+        for (unsigned i = 0; i < enemyLimit; ++i) {
+            arena->addEnemy(enemies.generate((rand() % NUM_ENEMIES) + 10001));
+        }
+        map.at(fightLocation) = arena;
+
+        unsigned oddLocation = ((rand() % (mapSize - 1)) + 1);
+        delete map.at(oddLocation);
+        map.at(oddLocation) = factory.generate((rand() % 4) + 30001);
+
+        unsigned bossAllies = ((rand() % 4) + 2); // 2 - 6 enemies (+ boss)
+        CombatRoom* bossRoom = new CombatRoom("Boss Arena","You enter an arena and stare down the enemy you were tasked to defeat.","With your adversary defeated, it's only you in the arena now. You can go home.");
+        for (unsigned i = 0; i < bossAllies; ++i) {
+            bossRoom->addEnemy(enemies.generate((rand() % NUM_ENEMIES) + 10001));
+        }
+        bossRoom->addEnemy(boss);
+        bossRoom->setEnd();
+        delete map.at(mapSize - 1);
+        map.at(mapSize - 1) = bossRoom;
+
+        for (unsigned i = 0; (i + 1) < mapSize; ++i) {
+            map.at(i)->addExit(map.at(i+1));
+        }
+        map.shrink_to_fit();
     }
+
     ~Quest() {
-        delete boss;
         for (unsigned int i = 0; i < map.size(); ++i) {
             delete map.at(i);
+        }
+    }
+
+    /**
+     * linkPlayers(): this function links the player to all rooms in the quest.
+     * args: p (the player to be linked)
+     * outputs: none
+     * */ 
+    void linkPlayers(Adventurer* p) {
+        for (unsigned i = 0; i < map.size(); ++i) {
+            map.at(i)->linkPlayer(p);
         }
     }
 
@@ -55,7 +105,7 @@ public:
      * outputs: none
      * */
     void oneWayLink(int index1, int index2){
-        if ((index1 + 1) > map.size() || (index2 + 1) > map.size()){
+        if ((index1) > map.size() || (index2) > map.size()){
             std::cout << "Something went wrong. This room linkage is invalid.\n";
         } else {
             map[index1]->addExit(map[index2]);

@@ -9,8 +9,6 @@
 #include "gtest/gtest.h"
 
 ItemFactory iFactory;
-unsigned NUM_ITEMS = 14; //update these when new items are implemented.
-unsigned NUM_CONSUMABLES = 4;
 
 //----- ItemSuite tests begin -----
 //Check if constructors and destructors working properly

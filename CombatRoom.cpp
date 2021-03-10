@@ -1,3 +1,6 @@
+#ifndef __COMBAT_ROOM__
+#define __COMBAT_ROOM__
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -188,3 +191,5 @@ public:
         return over;
     }
 };
+
+#endif
