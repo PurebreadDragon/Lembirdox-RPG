@@ -5,6 +5,8 @@
 #pragma once
 
 class Wizard : public Adventurer{
+private:
+    int timeWalk;
 public:
     Wizard(std::string name, std::string description) : Adventurer(name, description) {
         maxHealth = 200;
@@ -26,6 +28,7 @@ public:
 
         // start with 1 ability unlocked
         abi1MaxCD = 3;
+        timeWalk = 0;
 
         description = "Wizards are masters of the arcane arts, commanding power over the elements to channel them and unleash devastating "
         "area of effect abilities on multiple targets. The Wizard lacks in single target damage, but when they are outnumbered, it is still "
@@ -36,7 +39,8 @@ public:
      * 1: Chain Lightning. 3 turn CD. 120% MAtk magic damage. Hits all targets. 
      * 4: Frost Storm. 6 turn CD. 60% MAtk magic damage. Hits all targets. Pushes their turn bars back by 30% and applies 2 turn speed debuff. 
      * 7: Mana Tempest. 6 turn CD. 70% MAtk magic damage. Hits all targets. If it kills a target, this ability casts again. Can cast infinitely. 
-     * 10: Time Walk. 20 turn CD. Reset your turn 3 times in a row. 
+     * 10: Antimagic Field. 10 turn CD. Become immune to 3 instances of magic damage. Become immune to all debuffs while this is active. 
+     * 13: Time Walk. 20 turn CD. Reset your turn 3 times in a row. 
      * */
 
     void levelUp(){
@@ -79,6 +83,10 @@ public:
             abi3MaxCD = 6;
             std::cout << "You unlocked Mana Tempest.\n";
         }
+        if (level == 10){
+            abi4MaxCD = 20;
+            std::cout << "You unlocked Time Walk.\n";
+        }
     }
 
     void inspect(){
@@ -91,6 +99,7 @@ public:
         "Magical ATK: \t\t" << magAtk << " (+" << magAtkBonus << ")\n"
         "Magical DEF: \t\t" << magDef << " (+" << magDefBonus << ")\n"
         "Speed: \t\t\t" << speed << " (+" << speedBonus << ")\n";
+        printSpecialFeature();
 
         std::cout << "\nAbilities:\n";
         if (abi1MaxCD != -1) std::cout << "Chain Lightning (" << abi1MaxCD << " turn CD): Conjure a blast of lightning that arcs from enemy to enemy. "
@@ -102,8 +111,22 @@ public:
                                         << "magic damage. If this ability kills an enemy, it casts again for free.\n";
     }
 
+    void printSpecialFeature(){
+        for (int i = 0; i < timeWalk; ++i){
+            std::cout << "+====+ \n";
+            std::cout << "|(::)| \n";
+            std::cout << "| )( | \n";
+            std::cout << "|(..)| \n";
+            std::cout << "+====+ \n";
+        }
+    }
+
     void attack(Enemy* target){
         std::cout << "You summon a bolt of magical energy at " << target->getName() << ", dealing " << target->dealMDamage(magAtk) << " magical damage.\n";
+        if (timeWalk > 0){
+            --timeWalk;
+            turnBar += 1000;
+        }
     }
 
     int ability(std::vector<Enemy*> targets){
@@ -140,6 +163,15 @@ public:
             if (abi3CD == 0) std::cout << "(Ready)\n";
             else std::cout << "(Ready in " << abi3CD << " turn(s))\n";
         }
+
+        // print ability 4
+        if (abi4MaxCD != -1){
+            abilityOptions++;
+            std::cout << "4:\tTime Walk ";
+            if (abi4CD == 0) std::cout << "(Ready)\n";
+            else std::cout << "(Ready in " << abi4CD << " turn(s))\n";
+        }
+
 
         // get user prompt and execute the action
         int abiChoice = reader.readInput(choice, abilityOptions);
