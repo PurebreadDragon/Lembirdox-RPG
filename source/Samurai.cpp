@@ -1,3 +1,6 @@
+#ifndef __SAMURAI__
+#define __SAMURAI__
+
 #include "./../headers/Adventurer.hpp"
 #pragma once
 
@@ -473,3 +476,5 @@ public:
         }
     }
 };
+
+#endif

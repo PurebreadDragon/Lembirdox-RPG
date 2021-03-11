@@ -1,3 +1,6 @@
+#ifndef __WARRIOR__
+#define __WARRIOR__
+
 #include "./../headers/Adventurer.hpp"
 #pragma once
 
@@ -227,3 +230,5 @@ public:
         }
     }
 };
+
+#endif

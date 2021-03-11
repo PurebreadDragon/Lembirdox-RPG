@@ -1,3 +1,6 @@
+#ifndef __WIZARD__
+#define __WIZARD__
+
 #include "./../headers/Adventurer.hpp"
 #pragma once
 
@@ -157,3 +160,5 @@ public:
         return 0;
     }
 };
+
+#endif

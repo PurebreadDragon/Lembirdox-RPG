@@ -151,7 +151,6 @@ private:
       }
    }
 
-//Calculates cost of revival
    unsigned int HealCost(double percentage, int level) {
       return ((1 - percentage) * 50 * level); //can be changed to scale properly
    }
