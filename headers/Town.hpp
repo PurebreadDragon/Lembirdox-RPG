@@ -126,7 +126,7 @@ private:
          health = player->getCurrentHealth();
          std::cout << std::endl;
          if (health != maxHealth) { 
-            std::cout << "\nHealing will cost " << HealCost((static_cast<double>(health)/maxHealth)) << " gold.";
+            std::cout << "\nHealing will cost " << HealCost((static_cast<double>(health)/maxHealth),player->getLevel()) << " gold.";
          }
          std::cout << "\n1.\tAsk for Healing"
                    << "\n0.\tReturn to Town" << std::endl;
@@ -140,7 +140,7 @@ private:
    void Revive(Adventurer* player) {
       if (player->getCurrentHealth() == player->getMaxHealth()) { std::cout << "\nYou are not in need of revival!"; }
       else { 
-         double healCost = HealCost(static_cast<double>(player->getCurrentHealth())/player->getMaxHealth());
+         double healCost = HealCost((static_cast<double>(player->getCurrentHealth())/player->getMaxHealth()),player->getLevel());
          if (player->getGold() < healCost) std::cout << "\nYou don't have the funds to heal!\n";
          else {
             player->addGold(-1 * healCost);
@@ -151,8 +151,9 @@ private:
       }
    }
 
-//Calculates cost of revival
-   unsigned int HealCost(double percentage) { return ((1 - percentage) * 200); } //can be changed to scale properly
+   unsigned int HealCost(double percentage, int level) {
+      return ((1 - percentage) * 50 * level); //can be changed to scale properly
+   }
 
 
 
