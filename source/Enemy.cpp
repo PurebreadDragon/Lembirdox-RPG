@@ -295,27 +295,73 @@ public:
     }
 };
 
-class TrainingDummy : public Enemy{
-private:
-    int turnsPassed;
-
+class VampireWhelp : public Enemy {
 public:
-    TrainingDummy(){
-        goldReward = 5000;
-        expReward = 5000;
-        name = "Training Dummy";
-        description = "It's a training dummy.";
-        maxHealth = 2000;
-        health = 2000;
-        physDef = 100;
-        magDef = 100;
-        speed = 100;
-        turnsPassed = 0;
+    VampireWhelp() {
+        goldReward = 100;
+        expReward = 100;
+        name = "Vampire Whelp";
+        description = "A mere fledgling of a vampire. You won't have to worry about becoming one, but those teeth are still sharp!";
+        deathMessage = "The vampire whelp poofs into a small, tattered bat and collapses to the ground.";
+        maxHealth = 200;
+        health = 200;
+        physAtk = 20;
+        physDef = 10;
+        magAtk = 0;
+        magDef = 20;
+        speed = 60 + rand() % 10 - 5;
+        ID = 10008;
     }
 
-    void turn(Entity* target){
-        turnsPassed++;
-        std::cout << "Turns passed: " << turnsPassed << "\n"
-                  << "Total damage: " << maxHealth - health << "\n";
+    void turn(Entity* target) {
+        int dodge = rand() % 100; //90 - 99 is a dodge
+        std::cout << "The vampire whelp draws close and lunges at your arm, fangs at the ready, ";
+        if (dodge < 90) {
+            int dmg = target->dealPDamage(physAtk);
+            std::cout << "and you feel your life force being drawn as they sink into your skin.\n";
+            std::cout << "You take " << dmg << " damage.\n";
+            this->heal(dmg);
+        }
+        else {
+            std::cout << "but you are faster, and deflect the approach.\n"
+                      << "The whelp hisses angrily at you and keeps its distance.\n";
+        }
+    }
+};
+
+class TinySpider : public Enemy {
+public:
+    TinySpider() {
+        goldReward = 0;
+        expReward = 10;
+        name = "Tiny Spider";
+        description = "A tiny, poisonous spider. It moves quickly and erratically around your feet.";
+        deathMessage = "The spider writhes in tiny anguish and curls its legs inward. Phew!";
+        maxHealth = 1;
+        health = 1;
+        physAtk = 5;
+        physDef = 0;
+        magAtk = 0;
+        magDef = 0;
+        speed = 80 + rand() % 10 - 5;
+        ID = 10009;
+    }
+
+    int dealPDamage(int damage) {
+        int acc = rand() % 100; //80 - 99 is a hit
+        if (acc < 80) {
+            std::cout << "The spider is too quick! It dodges your attack!\n";
+            return 0;
+        }
+        else { return damage; }
+    }
+
+    int dealPDamage(int damage, double ignoreDef) {
+        return dealPDamage(damage);
+    }
+
+    void turn(Entity* target) {
+        std::cout << "The tiny spider crawls onto your leg and bites you, dealing "
+                  << target->dealPDamage(physAtk) << " damage. You flinch and fling it off.\n";
     }
 };
