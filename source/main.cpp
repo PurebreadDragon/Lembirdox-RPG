@@ -94,6 +94,7 @@ void TraverseQuest(Quest* quest, Adventurer* player) {
 
 int main() {
     srand(time(0));
+    unsigned long long score = 0;
 
     std::cout << "\nWelcome!\n";
     Adventurer* player = CharacterGeneration();
@@ -104,6 +105,7 @@ int main() {
     while (currentQuest != nullptr) {
         currentQuest->linkPlayers(player);
         TraverseQuest(currentQuest, player);
+        if (player->isAlive()) { score += currentQuest->getReward(); } //if quest successful, add to score
 
         delete currentQuest;
         delete currentTown;
@@ -112,9 +114,11 @@ int main() {
         currentQuest = currentTown->RoamTown(player);
     }
 
+    score *= player->getLevel(); //final score = level * gold earned
     delete currentTown;
     delete player;
 
-    std::cout << "\nThank you for playing!\n";
+    std::cout << "\nThank you for playing!\n"
+              << "Your final score: " << score << "\n";
     return 0;
 }
