@@ -152,15 +152,15 @@ public:
      * outputs: none
      * */
     void updateTurn(){
-        // go through and find if someone is above max turn bar. reset them to zero if so
-        // for (auto e : entities){
-        //     if (e->getTurnBar() >= MAX_TURN_BAR) e->setTurnBar(0);
-        // }
-
-        // if (player->getTurnBar() >= MAX_TURN_BAR) player->setTurnBar(0);
-
         // loop through all entities and update their turn bars until somebody reaches maximum. 
         bool reachedEnd = false;
+
+        // first check if anybody is currently at or above max turn bar. this usually happens when somebody reset their turn
+        if (player->getTurnBar() >= MAX_TURN_BAR) reachedEnd = true;
+        for (auto e : entities){
+            if (e->isAlive()) if (e->getTurnBar() >= MAX_TURN_BAR) reachedEnd = true;
+        }
+
         while (!reachedEnd){
             player->addTurnBar(player->getSpeed());
             if (player->getTurnBar() >= MAX_TURN_BAR) reachedEnd = true;

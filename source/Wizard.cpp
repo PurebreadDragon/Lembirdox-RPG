@@ -30,16 +30,14 @@ public:
         description = "Wizards are masters of the arcane arts, commanding power over the elements to channel them and unleash devastating "
         "area of effect abilities on multiple targets. The Wizard lacks in single target damage, but when they are outnumbered, it is still "
         "an even fight.";
-        levelUp();
-        levelUp();
-        levelUp();
-        levelUp();
-        levelUp();
-        levelUp();
-        levelUp();
-        levelUp();
-        levelUp();
     }
+
+    /** Wizard: A class focused around AoE skills and control. 
+     * 1: Chain Lightning. 3 turn CD. 120% MAtk magic damage. Hits all targets. 
+     * 4: Frost Storm. 6 turn CD. 60% MAtk magic damage. Hits all targets. Pushes their turn bars back by 30% and applies 2 turn speed debuff. 
+     * 7: Mana Tempest. 6 turn CD. 70% MAtk magic damage. Hits all targets. If it kills a target, this ability casts again. Can cast infinitely. 
+     * 10: Time Walk. 20 turn CD. Reset your turn 3 times in a row. 
+     * */
 
     void levelUp(){
         // update stats
