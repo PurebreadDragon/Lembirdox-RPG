@@ -16,17 +16,17 @@ public:
         health = maxHealth;
         hpLvl = 40;
 
-        physAtk = 50;
+        physAtk = 60;
         pAtkLvl = 5;
-        physDef = 30;
+        physDef = 40;
         pDefLvl = 5;
 
         magAtk = 10;
         mAtkLvl = 0;
-        magDef = 25;
+        magDef = 40;
         mDefLvl = 5;
 
-        speed = 90;
+        speed = 95;
         spdLvl = 0;
 
         abi1MaxCD = 0;
@@ -107,7 +107,7 @@ public:
             std::cout << "\n";
             for (int i = 0; i < revenge; ++i) std::cout << "  |   ";
             std::cout << "\n";
-            std::cout << "Reducing damage by " << revenge * revengeReduction * 100 << "% and increasing damage of the next hit by "
+            std::cout << "Reducing incoming damage by " << revenge * revengeReduction * 100 << "% and increasing damage of the next hit by "
                     << revenge * revengeDamage * 100 << "%\n";   
         }
     }
@@ -152,12 +152,14 @@ public:
 
     /**This method gets the amount of bonus damage from revenge stacks.*/
     int getBonusRevengeDamage(){
-        return (double)physAtk * ((double)revenge * revengeDamage);
+        return (physAtk * ((double)revenge * revengeDamage) + 0.5);
     }
 
     void attack(Enemy* target){
-        std::cout << "You bash " << target->getName() << " with your weapon, dealing (+" << getBonusRevengeDamage() << ") "
-                  << target->dealPDamage(getModifiedPAtk()) << " physical damage.\n";
+        double revengeMod = ((double)revenge * revengeDamage);
+        double dmgDealt = (double)target->dealPDamage(getModifiedPAtk());
+        std::cout << "You bash " << target->getName() << " with your weapon, dealing (+" << dmgDealt * revengeMod << ") "
+                  << dmgDealt << " physical damage.\n";
     }
 
     int ability(std::vector<Enemy*> targets){
