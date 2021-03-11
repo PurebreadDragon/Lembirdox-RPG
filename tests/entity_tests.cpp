@@ -48,8 +48,10 @@ TEST(EnemySuite, AllEnemiesPerish) {
     Enemy* test = nullptr;
     for (unsigned i = 1; i <= NUM_ENEMIES; ++i) {
         test = eFactory.generate(10000 + i);
+        if (i != 9) { //tiny spider will dodge, needs special treatment
         test->dealPDamage(99999999); //WE SMITE THEE
         EXPECT_TRUE (!test->isAlive());
+        }
         test->heal(999999999); //just kidding we heal thee
         EXPECT_EQ (test->getCurrentHealth(), test->getMaxHealth());
         test->dealMDamage(99999999); //WE SMITE THEE
