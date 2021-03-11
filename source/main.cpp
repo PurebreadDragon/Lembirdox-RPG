@@ -53,8 +53,8 @@ Adventurer* CharacterGeneration() {
                 "and deals additional damage on their next attack. Revenge enables the Warrior to tank hits and retaliate with crushing force.\n"; break;
             case 2: std::cout << "Wizards are masters of the arcane arts, commanding power over the elements to channel them and unleash devastating "
                 "area of effect abilities on multiple targets. Their control over magic is so great they can even manipulate the flow of time. "
-                "The Wizard lacks in single target damage, but a Wizard is outnumbered, it is still "
-            "an even fight.\n"; break;
+                "The Wizard lacks in single target damage, but even when a Wizard is outnumbered, it is still "
+                "an even fight.\n"; break;
             case 3: std::cout << "Samurai are masters of the blade, with skills as sharp as the honed edge of their katana. The Samurai, unlike other classes, lacks "
                 "damaging abilities. Instead, their basic attack is replaced with an Iai Slash, a sword strike that has a chance to critically strike, dealing "
                 "double damage. Their critical strike chance is dependant upon their Ki, a resource which fills when performing a successful Iai Slash, but lowers "
