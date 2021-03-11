@@ -30,6 +30,15 @@ public:
         description = "Wizards are masters of the arcane arts, commanding power over the elements to channel them and unleash devastating "
         "area of effect abilities on multiple targets. The Wizard lacks in single target damage, but when they are outnumbered, it is still "
         "an even fight.";
+        levelUp();
+        levelUp();
+        levelUp();
+        levelUp();
+        levelUp();
+        levelUp();
+        levelUp();
+        levelUp();
+        levelUp();
     }
 
     void levelUp(){
@@ -174,7 +183,7 @@ public:
                     return 0; 
                 } else {
                     std::cout << "You channel the latent mana flowing around you and summon a devastating hurricane of magic power.\n";
-                    bool reset = true;
+                    bool reset = true, hasAlive = true;
 
                     while (reset){
                         reset = false;
@@ -184,10 +193,15 @@ public:
                                 std::cout << e->getName() << " takes " << e->dealMDamage(magAtk * 0.7) << " magic damage.\n";
 
                                 if (!e->isAlive() && !reset){ //if a previously alive target died
-                                    std::cout << "The tempest rips up " << e->getName() << " and absorbs their life essence, fueling the tempest to strike again.\n";
+                                    std::cout << "The tempest rips up " << e->getName() << " and absorbs their life essence, fueling the tempest's power.\n";
                                     reset = true;
-                                }
+                                } else hasAlive = true;
                             }
+                        }
+
+                        if (reset && hasAlive){
+                            std::cout << "The tempest surges with power and strikes all enemies again.\n";
+                            hasAlive = false;
                         }
                     }
                     abi3CD = abi3MaxCD;
