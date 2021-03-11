@@ -341,7 +341,7 @@ public:
                 }
             } break;
             case 4:{ // antimagic field
-                if (abi3CD > 0){
+                if (abi4CD > 0){
                     std::cout << "That ability isn't ready yet.\n";
                     return 0; 
                 } else {
