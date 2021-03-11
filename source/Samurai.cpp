@@ -186,7 +186,7 @@ public:
             case 9: std::cout << "You slice through " << target->getName() << " so fast that your blade's reflection is barely a flicker. "; break;
         } 
         
-        if (ki < 100) ki += 20;
+        ki = std::min(ki + 20, 100);
 
         int crit = rand() % 100 + 1;
         if (crit < ki) std::cout << "Your attack critically strikes. It deals " << target->dealPDamage(physAtk) << " physical damage.\n";
@@ -211,7 +211,7 @@ public:
                 case 9: std::cout << "You slice through " << target->getName() << " so fast that your blade's reflection is barely a flicker. "; break;
             } 
             
-            if (ki < 100) ki += 20;
+            ki = std::min(ki + 20, 100);
 
             int crit = rand() % 100 + 1;
             if (crit < ki) std::cout << "Your attack critically strikes. It deals " << target->dealPDamage(physAtk) << " physical damage.\n";
@@ -222,7 +222,7 @@ public:
     // for non-attack actions with special descriptions
     // need to call this twice during perfect domain
     void attackNoDescription(Enemy* target){
-        if (ki < 100) ki += 20;
+        ki = std::min(ki + 20, 100);
 
         int crit = rand() % 100 + 1;
         if (crit < ki) std::cout << "Your attack critically strikes. It deals " << target->dealPDamage(physAtk) << " physical damage.\n";
@@ -247,6 +247,32 @@ public:
             if (ki > 0) ki -= 10;
             if (perfectDomain > 0) --perfectDomain;
             double reduction = 1 - (double) magDef / (magDef + 100);
+            health -= (int)((double)damage * reduction + 0.5);
+            return (int)((double)damage * reduction + 0.5);
+        } else {
+            premonition = false;
+            return 0;
+        }
+    }
+
+    int dealPDamage(int damage, double ignoreDef){
+        if (!premonition){
+            if (ki > 0) ki -= 10;
+            if (perfectDomain > 0) --perfectDomain;
+            double reduction = 1 - (double) physDef * (1 - ignoreDef) / (physDef * (1 - ignoreDef) + 100);
+            health -= (int)((double)damage * reduction + 0.5);
+            return (int)((double)damage * reduction + 0.5);
+        } else {
+            premonition = false;
+            return 0;
+        }
+    }
+
+    int dealMDamage(int damage, double ignoreDef){
+        if (!premonition){
+            if (ki > 0) ki -= 10;
+            if (perfectDomain > 0) --perfectDomain;
+            double reduction = 1 - (double) magDef * (1 - ignoreDef) / (magDef * (1 - ignoreDef) + 100);
             health -= (int)((double)damage * reduction + 0.5);
             return (int)((double)damage * reduction + 0.5);
         } else {
@@ -452,7 +478,7 @@ public:
                                       << "lightning coursing through them.\n"
                                       << targets[enemySelection - 1]->getName() << " takes " << targets[enemySelection - 1]->dealPDamage(physAtk, 1) 
                                       << " physical damage.\n";
-                            if (ki < 100) ki += 20;
+                            if (ki < 100) ki = std::min(ki + 20, 100);
                         } else {
                             std::cout << "You unleash two blindingly fast strikes, carving through air and flesh alike. "
                                       << targets[enemySelection - 1]->getName() << " has barely registered what happened before crumpling under the force of your two strikes, "
@@ -461,8 +487,8 @@ public:
                                       << " critical physical damage.\n";
                             std::cout << targets[enemySelection - 1]->getName() << " takes an additional " << targets[enemySelection - 1]->dealPDamage(physAtk, 1) 
                                       << " critical physical damage.\n";
-                            if (ki < 100) ki += 20;
-                            if (ki < 100) ki += 20;
+                            if (ki < 100) ki = std::min(ki + 20, 100);
+                            if (ki < 100) ki = std::min(ki + 20, 100);
                         }
                         std::cout << "Before the dust cloud from your movement has even started forming, you return to your original position, and sheathe "
                                   << "your blade with a quiet *click*. ";

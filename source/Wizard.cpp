@@ -6,7 +6,7 @@
 
 class Wizard : public Adventurer{
 private:
-    int timeWalk;
+    int timeWalk, antimagicField;
 public:
     Wizard(std::string name, std::string description) : Adventurer(name, description) {
         maxHealth = 200;
@@ -29,6 +29,7 @@ public:
         // start with 1 ability unlocked
         abi1MaxCD = 3;
         timeWalk = 0;
+        antimagicField = 0;
 
         description = "Wizards are masters of the arcane arts, commanding power over the elements to channel them and unleash devastating "
         "area of effect abilities on multiple targets. The Wizard lacks in single target damage, but when they are outnumbered, it is still "
@@ -83,8 +84,8 @@ public:
             abi3MaxCD = 6;
             std::cout << "You unlocked Mana Tempest.\n";
         }
-        if (level == 10){
-            abi4MaxCD = 20;
+        if (level == 13){
+            abi5MaxCD = 20;
             std::cout << "You unlocked Time Walk.\n";
         }
     }
@@ -109,6 +110,9 @@ public:
                                         << "for 2 turns.\n";
         if (abi3MaxCD != -1) std::cout << "Mana Tempest (" << abi2MaxCD << " turn CD): Conjure up a tempest of pure mana. Hits all targets for 70% MAtk "
                                         << "magic damage. If this ability kills an enemy, it casts again for free.\n";
+        if (abi5MaxCD != -1) std::cout << "Time Walk (" << abi5MaxCD << " turn CD): Using the power of ancient magic, open a door to the temporal plane. "
+                                       << "In the temporal plane, time flows freely for you but is stopped for your enemies.\n"
+                                       << "Take 3 turns in a row.\n";
     }
 
     void printSpecialFeature(){
@@ -133,8 +137,6 @@ public:
         InputReader reader;
         int choice[]{0, 1, 2, 3, 4, 5};
         int abilityOptions = 1;
-        if (abi3MaxCD != -1) abilityOptions++;
-        if (abi4MaxCD != -1) abilityOptions++;
         if (abi5MaxCD != -1) abilityOptions++;
         // prompt for ability choice
         std::cout << "Choose an ability to use.\n"
@@ -167,11 +169,18 @@ public:
         // print ability 4
         if (abi4MaxCD != -1){
             abilityOptions++;
-            std::cout << "4:\tTime Walk ";
+            std::cout << "4:\tUNIMPLEMENTED ABILITY SORRY ";
             if (abi4CD == 0) std::cout << "(Ready)\n";
             else std::cout << "(Ready in " << abi4CD << " turn(s))\n";
         }
 
+        // print ability 5
+        if (abi5MaxCD != -1){
+            abilityOptions++;
+            std::cout << "5:\tTime Walk ";
+            if (abi5CD == 0) std::cout << "(Ready)\n";
+            else std::cout << "(Ready in " << abi5CD << " turn(s))\n";
+        }
 
         // get user prompt and execute the action
         int abiChoice = reader.readInput(choice, abilityOptions);
@@ -238,6 +247,8 @@ public:
                     return 2;
                 }
             } break;
+
+
         }
         return 0;
     }

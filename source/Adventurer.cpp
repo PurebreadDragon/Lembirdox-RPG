@@ -287,7 +287,7 @@ void Adventurer::turn(std::vector<Enemy*> enemies){
             } break;
             /*************************** FLEE ***************************/
             case 5:{ //flee
-                std::cout << "Waste your turn and do nothing because this function isn't implemented.\n";
+                std::cout << "You try to flee.";
             } break;
             default:{
                 std::cout << "There was an error in the selection.\n";
@@ -340,13 +340,7 @@ int Adventurer::selectTarget(std::vector<Enemy*> targets){
  * Warrior: A class focused around tanking and dealing a lot of single-target damage. Boss killer. 
  * 1: Expose. 0 turn CD. 20% PAtk physical damage. Applies 3 turn defense debuff.
  * 4: Drain. 4 turn CD. 200% PAtk physical damage. Heals for 30% of damage dealt. 
- * 7: Sunder. 2 turn CD. 170% PAtk physical damage. Hits twice if self has attack buff. Buffs own attack for 2 turns but debuffs own defense for 1 turn. 
- * 10: Revenge. Passive skill. Taking damage increases the damage of your next attack by 25%. Stacks infinitely. 
- * ================================================================
- * Wizard: A class focused around AoE skills and control. 
- * 1: Chain Lightning. 3 turn CD. 120% MAtk magic damage. Hits all targets. 
- * 4: Frost Storm. 6 turn CD. 60% MAtk magic damage. Hits all targets. Pushes their turn bars back by 30% and applies 2 turn speed debuff. 
- * 7: Mana Tempest. 6 turn CD. 100% MAtk magic damage. Hits all targets. If it kills a target, this ability casts again. Can cast infinitely. 
+ * 7: 
  * ================================================================
  * Psionic: A class of mage with the ability to transform into a psionic being.
  * Psionics have a resource called Psi. Using Psi Strike gains Psi, up to 5. They can expend it to fuel their more powerful abilities. 
