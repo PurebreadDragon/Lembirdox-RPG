@@ -348,16 +348,20 @@ public:
     }
 
     int dealPDamage(int damage) {
-        int acc = rand() % 100; //90 - 99 is a hit
-        if (acc < 90) {
+        int acc = rand() % 100; //80 - 99 is a hit
+        if (acc < 80) {
             std::cout << "The spider is too quick! It dodges your attack!\n";
             return 0;
         }
         else { return damage; }
     }
 
+    int dealPDamage(int damage, double ignoreDef) {
+        return dealPDamage(damage);
+    }
+
     void turn(Entity* target) {
         std::cout << "The tiny spider crawls onto your leg and bites you, dealing "
-                  << target->dealPDamage(physAtk); " damage. You flinch and fling it off.\n";
+                  << target->dealPDamage(physAtk) << " damage. You flinch and fling it off.\n";
     }
 };
