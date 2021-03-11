@@ -5,6 +5,8 @@
 #pragma once
 
 class Wizard : public Adventurer{
+private:
+    int timeWalk;
 public:
     Wizard(std::string name, std::string description) : Adventurer(name, description) {
         maxHealth = 200;
@@ -26,13 +28,20 @@ public:
 
         // start with 1 ability unlocked
         abi1MaxCD = 3;
+        timeWalk = 0;
 
         description = "Wizards are masters of the arcane arts, commanding power over the elements to channel them and unleash devastating "
-        "area of effect abilities on multiple targets.";
-        // levelUp();
-        // levelUp();
-        // levelUp();
+        "area of effect abilities on multiple targets. The Wizard lacks in single target damage, but when they are outnumbered, it is still "
+        "an even fight.";
     }
+
+    /** Wizard: A class focused around AoE skills and control. 
+     * 1: Chain Lightning. 3 turn CD. 120% MAtk magic damage. Hits all targets. 
+     * 4: Frost Storm. 6 turn CD. 60% MAtk magic damage. Hits all targets. Pushes their turn bars back by 30% and applies 2 turn speed debuff. 
+     * 7: Mana Tempest. 6 turn CD. 70% MAtk magic damage. Hits all targets. If it kills a target, this ability casts again. Can cast infinitely. 
+     * 10: Antimagic Field. 10 turn CD. Become immune to 3 instances of magic damage. Become immune to all debuffs while this is active. 
+     * 13: Time Walk. 20 turn CD. Reset your turn 3 times in a row. 
+     * */
 
     void levelUp(){
         // update stats
@@ -70,6 +79,14 @@ public:
             abi2MaxCD = 6;
             std::cout << "You unlocked Frost Storm.\n";
         }
+        if (level == 7){
+            abi3MaxCD = 6;
+            std::cout << "You unlocked Mana Tempest.\n";
+        }
+        if (level == 10){
+            abi4MaxCD = 20;
+            std::cout << "You unlocked Time Walk.\n";
+        }
     }
 
     void inspect(){
@@ -82,6 +99,7 @@ public:
         "Magical ATK: \t\t" << magAtk << " (+" << magAtkBonus << ")\n"
         "Magical DEF: \t\t" << magDef << " (+" << magDefBonus << ")\n"
         "Speed: \t\t\t" << speed << " (+" << speedBonus << ")\n";
+        printSpecialFeature();
 
         std::cout << "\nAbilities:\n";
         if (abi1MaxCD != -1) std::cout << "Chain Lightning (" << abi1MaxCD << " turn CD): Conjure a blast of lightning that arcs from enemy to enemy. "
@@ -89,18 +107,32 @@ public:
         if (abi2MaxCD != -1) std::cout << "Frost Storm (" << abi2MaxCD << " turn CD): Summon a storm of icicles to pierce through your enemies. "
                                         << "Hits all targets for 60% MAtk magic damage, reduces their turn bars by 30% and debuffs their speed "
                                         << "for 2 turns.\n";
+        if (abi3MaxCD != -1) std::cout << "Mana Tempest (" << abi2MaxCD << " turn CD): Conjure up a tempest of pure mana. Hits all targets for 70% MAtk "
+                                        << "magic damage. If this ability kills an enemy, it casts again for free.\n";
+    }
+
+    void printSpecialFeature(){
+        for (int i = 0; i < timeWalk; ++i){
+            std::cout << "+====+ \n";
+            std::cout << "|(::)| \n";
+            std::cout << "| )( | \n";
+            std::cout << "|(..)| \n";
+            std::cout << "+====+ \n";
+        }
     }
 
     void attack(Enemy* target){
         std::cout << "You summon a bolt of magical energy at " << target->getName() << ", dealing " << target->dealMDamage(magAtk) << " magical damage.\n";
+        if (timeWalk > 0){
+            --timeWalk;
+            turnBar += 1000;
+        }
     }
 
     int ability(std::vector<Enemy*> targets){
         InputReader reader;
         int choice[]{0, 1, 2, 3, 4, 5};
         int abilityOptions = 1;
-        if (abi1MaxCD != -1) abilityOptions++;
-        if (abi2MaxCD != -1) abilityOptions++;
         if (abi3MaxCD != -1) abilityOptions++;
         if (abi4MaxCD != -1) abilityOptions++;
         if (abi5MaxCD != -1) abilityOptions++;
@@ -109,7 +141,8 @@ public:
                     << "0:\tCancel\n";
         
         // print ability 1
-        if (abi1MaxCD != -1){
+        if (abi1MaxCD != -1){ 
+            abilityOptions++;
             std::cout << "1:\tChain Lighting ";
             if (abi1CD == 0) std::cout << "(Ready)\n";
             else std::cout << "(Ready in " << abi1CD << " turn(s))\n";
@@ -117,10 +150,28 @@ public:
 
         // print ability 2
         if (abi2MaxCD != -1){
+            abilityOptions++;
             std::cout << "2:\tFrost Storm ";
             if (abi2CD == 0) std::cout << "(Ready)\n";
             else std::cout << "(Ready in " << abi2CD << " turn(s))\n";
         }
+
+        // print ability 3
+        if (abi3MaxCD != -1){
+            abilityOptions++;
+            std::cout << "3:\tMana Tempest ";
+            if (abi3CD == 0) std::cout << "(Ready)\n";
+            else std::cout << "(Ready in " << abi3CD << " turn(s))\n";
+        }
+
+        // print ability 4
+        if (abi4MaxCD != -1){
+            abilityOptions++;
+            std::cout << "4:\tTime Walk ";
+            if (abi4CD == 0) std::cout << "(Ready)\n";
+            else std::cout << "(Ready in " << abi4CD << " turn(s))\n";
+        }
+
 
         // get user prompt and execute the action
         int abiChoice = reader.readInput(choice, abilityOptions);
@@ -153,6 +204,37 @@ public:
                         e->affectTurnBar(-300);
                     }
                     abi2CD = abi2MaxCD;
+                    return 2;
+                }
+            } break;
+            case 3:{ // mana tempest
+                if (abi3CD > 0){
+                    std::cout << "That ability isn't ready yet.\n";
+                    return 0; 
+                } else {
+                    std::cout << "You channel the latent mana flowing around you and summon a devastating hurricane of magic power.\n";
+                    bool reset = true, hasAlive = true;
+
+                    while (reset){
+                        reset = false;
+
+                        for (auto e : targets){
+                            if (e->isAlive()){ //attack all enemies
+                                std::cout << e->getName() << " takes " << e->dealMDamage(magAtk * 0.7) << " magic damage.\n";
+
+                                if (!e->isAlive() && !reset){ //if a previously alive target died
+                                    std::cout << "The tempest rips up " << e->getName() << " and absorbs their life essence, fueling the tempest's power.\n";
+                                    reset = true;
+                                } else hasAlive = true;
+                            }
+                        }
+
+                        if (reset && hasAlive){
+                            std::cout << "The tempest surges with power and strikes all enemies again.\n";
+                            hasAlive = false;
+                        }
+                    }
+                    abi3CD = abi3MaxCD;
                     return 2;
                 }
             } break;

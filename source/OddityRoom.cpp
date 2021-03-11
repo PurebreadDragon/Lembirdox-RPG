@@ -125,9 +125,9 @@ public:
         
         if (selection == 1){
             std::cout << "Mort straightens up a little. \nI COME BEARING GIFTS, HUMAN. FROM THE OLD HAG HERSELF. STATE YOUR WISH.\n"
-                    << "1\tPower.\n"
-                    << "2\tWealth.\n"
-                    << "3\tWisdom.\n";
+                    << "1:\tPower.\n"
+                    << "2:\tWealth.\n"
+                    << "3:\tWisdom.\n";
             int choices7[]{1, 2, 3};
             selection = reader.readInput(choices7, 3);
 
