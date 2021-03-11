@@ -156,9 +156,9 @@ public:
     }
 
     void attack(Enemy* target){
-        double revengeMod = ((double)revenge * revengeDamage);
+        double revengeMod = 1 + (double)revenge * revengeDamage;
         double dmgDealt = (double)target->dealPDamage(getModifiedPAtk());
-        std::cout << "You bash " << target->getName() << " with your weapon, dealing (+" << dmgDealt * revengeMod << ") "
+        std::cout << "You bash " << target->getName() << " with your weapon, dealing (+" << (int)(dmgDealt - dmgDealt / revengeMod) << ") "
                   << dmgDealt << " physical damage.\n";
     }
 
@@ -198,8 +198,10 @@ public:
                 int enemySelection = selectTarget(targets);
                 if (enemySelection == 0) return 0;
                 else {
+                    double revengeMod = 1 + (double)revenge * revengeDamage;
+                    double dmgDealt = (double)targets[enemySelection - 1]->dealPDamage(getModifiedPAtk() * 0.6);
                     std::cout << "You dash towards " << targets[enemySelection - 1]->getName() << " and strike them, throwing them off balance. "
-                                << "You deal " << targets[enemySelection - 1]->dealPDamage(getModifiedPAtk() * 0.6) << " physical damage and lower their "
+                                << "You deal (+" << (int)(dmgDealt - dmgDealt / revengeMod) << ") " << dmgDealt << " physical damage and lower their "
                                 << "physical defense for 3 turns.\n";
                     targets[enemySelection - 1]->buff(PHYS_DEF, -3);
                 }
@@ -214,10 +216,12 @@ public:
                     int enemySelection = selectTarget(targets);
                     if (enemySelection == 0) return 0;
                     else {
-                        int damageDealt = targets[enemySelection - 1]->dealPDamage(getModifiedPAtk() * 2);
-                        std::cout << "You deal a heavy strike at " << targets[enemySelection - 1]->getName() << ", dealing "
-                                << damageDealt << " physical damage and healing yourself for " << damageDealt * 0.3 << " health.\n";
-                                heal(damageDealt * 0.3);
+                        double revengeMod = 1 + (double)revenge * revengeDamage;
+                        double dmgDealt = (double)targets[enemySelection - 1]->dealPDamage(getModifiedPAtk() * 2);
+                        std::cout << "You deal a heavy strike at " << targets[enemySelection - 1]->getName() << ", dealing (+"
+                                << (int)(dmgDealt - dmgDealt / revengeMod) << ") " << dmgDealt 
+                                << " physical damage and healing yourself for " << dmgDealt * 0.3 << " health.\n";
+                                heal(dmgDealt * 0.3);
                     }
                     abi2CD = abi2MaxCD;
                     return 2;
