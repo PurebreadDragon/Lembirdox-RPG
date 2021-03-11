@@ -346,25 +346,7 @@ int Adventurer::selectTarget(std::vector<Enemy*> targets){
  * Wizard: A class focused around AoE skills and control. 
  * 1: Chain Lightning. 3 turn CD. 120% MAtk magic damage. Hits all targets. 
  * 4: Frost Storm. 6 turn CD. 60% MAtk magic damage. Hits all targets. Pushes their turn bars back by 30% and applies 2 turn speed debuff. 
- * 7: Mana Tempest. 6 turn CD. 100% MAtk magic damage. Hits all targets. If it kills a target, this ability casts a second time at no cost. 
- * ================================================================
- * Samurai: A class focused around speed and turn cycling.
- * Samurai have a resource called Ki. They gain 20 Ki when performing Iai Slash but lose 10 Ki when taking damage, up to 100. 
- * Samurai are very fragile, but have high physical attack, speed, physical attack growth and speed growth. 
- * Basic attack: Replaced with Iai Slash. A lightning fast slash that cannot be seen by the naked eye.
- *      Deals 50% PAtk damage, but can crit for double damage. Crit chance is equal to the percentage of filled Ki bar. 
- * 1: Blink Strike: 3 turn CD. Teleport behind an enemy and cut them. Debuff their defense for 1 turn and perform an Iai Slash. Sets own turn bar to 50%. 
- * 4: Perfect Domain: 8 turn CD. 3 hit duration. Breathe deeply and draw upon the latent power within, sharpening your senses to detect all 
- * nearby movement. 
- *      Reset your turn on cast. Cleanse all debuffs. 
- *      When in your Perfect Domain state, you are immune to all debuffs and each Iai Slash hits twice. You always have speed buff. 
- *      Kills during Perfect Domain extend the duration by 1 hit. 
- *      Taking damage during Perfect Domain reduces the duration by 1 hit. 
- * 7: Bladestorm: 4 turn CD. Shower the enemy in countless slashes. Casts 3 Iai Slashes in quick succession.  
- * 10: Premonition: 6 turn CD. Focus your mind and predict the enemy's movements. Resets turn. Negate the next instance of damage. 
- *      Casting premonition multiple times will not stack the damage negation. 
- * 14: Ultimate Technique - Thunder Flash. 10 turn CD. Draw your blade and strike with the power of thunder and speed of lightning. Grant self 2T PAtk buff. 
- *      Perform an Iai Slash. This Iai Slash is guaranteed to crit and ignores all defense. Reset your turn. 
+ * 7: Mana Tempest. 6 turn CD. 100% MAtk magic damage. Hits all targets. If it kills a target, this ability casts again. Can cast infinitely. 
  * ================================================================
  * Psionic: A class of mage with the ability to transform into a psionic being.
  * Psionics have a resource called Psi. Using Psi Strike gains Psi, up to 5. They can expend it to fuel their more powerful abilities. 
