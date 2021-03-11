@@ -22,8 +22,8 @@ class Adventurer : public Entity
 
 		// viewing methods
 		int getLevel() const; 
-                int getGold() const;
-                int getInvSize() const;
+		int getGold() const;
+		int getInvSize() const;
 		virtual void inspect();
 		void checkInventory();
 		virtual void printSpecialFeature();
@@ -31,6 +31,7 @@ class Adventurer : public Entity
 		void deathPenalty();
 		void turn(std::vector<Enemy*>);
 		virtual void attack(Enemy*);
+		virtual int useItem(std::vector<Enemy*>);
 		int selectTarget(std::vector<Enemy*>);
 		virtual int ability(std::vector<Enemy*>);
 		void updateCooldowns();

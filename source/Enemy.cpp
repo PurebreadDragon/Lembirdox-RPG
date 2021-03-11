@@ -353,7 +353,10 @@ public:
             std::cout << "The spider is too quick! It dodges your attack!\n";
             return 0;
         }
-        else { return damage; }
+        else { 
+            health = 0;
+            return damage; 
+        }
     }
 
     int dealPDamage(int damage, double ignoreDef) {

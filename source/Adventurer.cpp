@@ -235,46 +235,7 @@ void Adventurer::turn(std::vector<Enemy*> enemies){
             } break;
             /*************************** ITEM ***************************/
             case 3:{ //use item
-		if (inventory.size() <= 0){
-			std::cout << "You don't have any items.\n";
-			selection = 0;
-			break;
-		}
-                std::cout << "Choose an item to use.\n"
-                          << "0:\tCancel\n";
-
-                // build item selection array
-                int itemChoices[inventory.size()];
-                int itemIndex = 1;
-                int itemSelection = 0;
-                if (inventory.size() > 0){
-                    for (auto item : inventory){
-                        std::cout << itemIndex << ":\t" << item->getName() << ": " << item->getAbilityName() << "\n";
-                        itemChoices[itemIndex - 1] = itemIndex;
-                        ++itemIndex;
-                    }
-                }
-
-                // read what item the user wants to use
-                itemSelection = reader.readInputCancel(itemChoices, inventory.size());
-
-                if (itemSelection != 0){
-                    // if the item is a self usage item, prompt for their target
-                    if (!inventory[itemSelection - 1]->isSelfUse()){
-                        // read the user's target
-                        int enemySelection = selectTarget(enemies);
-
-                        // execute the action
-                        if (enemySelection != 0) inventory[itemSelection - 1]->ability(this, enemies[enemySelection - 1]);
-                        else selection = 0; // if a cancel was selected, set selection to 0 so we don't consume the turn. 
-                    } else { // else just use it on yourself 
-                        inventory[itemSelection - 1]->ability(this, NULL);
-                    }
-                    // if the item is consumable, destroy it
-                    if (inventory[itemSelection - 1]->isConsumable()){
-                        inventory.erase(inventory.begin() + itemSelection - 1);
-                    }
-                } else selection = 0;
+                selection = useItem(enemies);
             } break;
             /*************************** INSPECT ***************************/
             case 4:{ //inspect
@@ -287,7 +248,7 @@ void Adventurer::turn(std::vector<Enemy*> enemies){
             } break;
             /*************************** FLEE ***************************/
             case 5:{ //flee
-                std::cout << "Waste your turn and do nothing because this function isn't implemented.\n";
+                std::cout << "You try to flee, but your escape is unsuccessful.\n";
             } break;
             default:{
                 std::cout << "There was an error in the selection.\n";
@@ -307,6 +268,57 @@ void Adventurer::turn(std::vector<Enemy*> enemies){
  * */
 void Adventurer::attack(Enemy* target){
     std::cout << "You strike the " << target->getName() << " with your bare fists, dealing " << target->dealPDamage(physAtk) << " physical damage.\n";
+}
+
+/**useItem: use an item from inventory.
+ * Returns 0 if a cancel was selected.
+ * args: a vector of target
+ * outputs: 0 if cancel selected. 3 if item was used
+ * */
+int Adventurer::useItem(std::vector<Enemy*> enemies){
+    if (inventory.size() <= 0){
+        std::cout << "You don't have any items.\n";
+        return 0;
+    }
+
+    InputReader reader;
+    std::cout << "Choose an item to use.\n"
+                << "0:\tCancel\n";
+
+    // build item selection array
+    int itemChoices[inventory.size()];
+    int itemIndex = 1;
+    int itemSelection = 0;
+    if (inventory.size() > 0){
+        for (auto item : inventory){
+            std::cout << itemIndex << ":\t" << item->getName() << ": " << item->getAbilityName() << "\n";
+            itemChoices[itemIndex - 1] = itemIndex;
+            ++itemIndex;
+        }
+    }
+
+    // read what item the user wants to use
+    itemSelection = reader.readInputCancel(itemChoices, inventory.size());
+
+    if (itemSelection != 0){
+        // if the item is a self usage item, prompt for their target
+        if (!inventory[itemSelection - 1]->isSelfUse()){
+            // read the user's target
+            int enemySelection = selectTarget(enemies);
+
+            // execute the action
+            if (enemySelection != 0) inventory[itemSelection - 1]->ability(this, enemies[enemySelection - 1]);
+            else return 0; // if a cancel was selected, set selection to 0 so we don't consume the turn. 
+        } else { // else just use it on yourself 
+            inventory[itemSelection - 1]->ability(this, NULL);
+        }
+        // if the item is consumable, destroy it
+        if (inventory[itemSelection - 1]->isConsumable()){
+            inventory.erase(inventory.begin() + itemSelection - 1);
+        }
+        // item was used so we return a 3
+        return 3;
+    } else return 0;
 }
 
 /**
@@ -340,13 +352,7 @@ int Adventurer::selectTarget(std::vector<Enemy*> targets){
  * Warrior: A class focused around tanking and dealing a lot of single-target damage. Boss killer. 
  * 1: Expose. 0 turn CD. 20% PAtk physical damage. Applies 3 turn defense debuff.
  * 4: Drain. 4 turn CD. 200% PAtk physical damage. Heals for 30% of damage dealt. 
- * 7: Sunder. 2 turn CD. 170% PAtk physical damage. Hits twice if self has attack buff. Buffs own attack for 2 turns but debuffs own defense for 1 turn. 
- * 10: Revenge. Passive skill. Taking damage increases the damage of your next attack by 25%. Stacks infinitely. 
- * ================================================================
- * Wizard: A class focused around AoE skills and control. 
- * 1: Chain Lightning. 3 turn CD. 120% MAtk magic damage. Hits all targets. 
- * 4: Frost Storm. 6 turn CD. 60% MAtk magic damage. Hits all targets. Pushes their turn bars back by 30% and applies 2 turn speed debuff. 
- * 7: Mana Tempest. 6 turn CD. 100% MAtk magic damage. Hits all targets. If it kills a target, this ability casts again. Can cast infinitely. 
+ * 7: 
  * ================================================================
  * Psionic: A class of mage with the ability to transform into a psionic being.
  * Psionics have a resource called Psi. Using Psi Strike gains Psi, up to 5. They can expend it to fuel their more powerful abilities. 
