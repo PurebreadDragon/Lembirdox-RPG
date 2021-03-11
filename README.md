@@ -42,7 +42,8 @@ For the strategy pattern:
 ## Design Documents
 
 Class diagram: 
-![image](https://user-images.githubusercontent.com/49847628/110477489-13c51700-8098-11eb-9f17-63cb3b7ee28d.png)
+![Final Project UML Diagram (3)](https://user-images.githubusercontent.com/49847628/110729805-2fcdd300-81d4-11eb-99a2-a420e3924a4d.jpg)
+
 
 This diagram shows the structure of our program. The Composite pattern consists of Quest (the component class), Room (the composite class), CombatRoom and OddityRoom (leaf classes that are derived from the Room class). Quest is the handler for the various rooms while the room types manage the different kinds of encounters the player can come across. The Factory pattern consists of a Generator, which generates the three types of objects - Entities (enemies), Rooms and Items, for usage in Quest. The Strategy pattern is implemented in Adventurer, where the client interacts during runtime with the class to choose a strategy during combat, when roaming the town and when traversing between rooms. 
 
