@@ -319,9 +319,11 @@ public:
             } break;
         }
 
-        if (pAtkBuff < 0 || pDefBuff < 0 || mAtkBuff < 0 || mDefBuff < 0 || spdBuff < 0){
-            std::cout << "Your Perfect Domain deflects the incoming debuff.\n";
-            cleanse();
+        if (perfectDomain > 0){
+            if (pAtkBuff < 0 || pDefBuff < 0 || mAtkBuff < 0 || mDefBuff < 0 || spdBuff < 0){
+                std::cout << "Your Perfect Domain deflects the incoming debuff.\n";
+                cleanse();
+            }
         }
     }
 
