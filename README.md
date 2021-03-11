@@ -63,7 +63,7 @@ Special room interaction and player inspect:
  
  ## Installation/Usage
  1. Clone this repository recursively in your terminal using `git clone --recursive` and the https link under the code button. 
- 2. Run `cmake3 .` and `make` to compile the program. If that doesn't work, you can alternatively compile with the command `g++ source/main.cpp sourceAdventurer.cpp -std=c++11` instead. There is also a pre-compiled release executable (see step below). 
+ 2. Run `cmake3 .` and `make` to compile the program. If that doesn't work, you can alternatively compile with the command `g++ source/main.cpp source/Adventurer.cpp -std=c++11` instead. There is also a pre-compiled release executable (see step below). 
  3. Run the main executable. Enjoy! Please let us know of any comments/suggestions/bugs :)
  
  ## Testing
