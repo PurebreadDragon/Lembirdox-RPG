@@ -30,10 +30,6 @@ public:
         abi1MaxCD = 3;
         timeWalk = 0;
         antimagicField = 0;
-
-        description = "Wizards are masters of the arcane arts, commanding power over the elements to channel them and unleash devastating "
-        "area of effect abilities on multiple targets. The Wizard lacks in single target damage, but when they are outnumbered, it is still "
-        "an even fight.";
     }
 
     /** Wizard: A class focused around AoE skills and control. 

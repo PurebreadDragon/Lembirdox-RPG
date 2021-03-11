@@ -32,14 +32,8 @@ public:
         abi1MaxCD = 0;
         revenge = 0;
         revengeMax = 3;
-        revengeReduction = 0.05;
-        revengeDamage = 0.15;
-
-        description = "Warriors are slow, heavy hitters with the ability to tank a lot of damage and dish it back. The warrior thrives in the thick "
-        "of battle, facing off against hordes of enemies. The warrior's defining "
-        "feature is Revenge. When taking damage, the Warrior gains a stack of Revenge. The maximum amount of Revenge stacks increases with "
-        "level. For each stack of Revenge, the warrior takes less damage "
-        "and deals additional damage on their next attack. Revenge stacks are consumed upon attack.";
+        revengeReduction = 0.1;
+        revengeDamage = 0.2;
         // levelUp();
         // levelUp();
         // levelUp();

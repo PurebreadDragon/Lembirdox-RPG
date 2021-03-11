@@ -42,9 +42,25 @@ Adventurer* CharacterGeneration() {
         std::cout << "\nPlease choose your class.\n"
                   << "1.\tWarrior: A physical class that can soak up and dish out damage in equal measure.\n"
                   << "2.\tWizard: A magical class with many unique and devastating abilities.\n"
-                  << "3.\tSamurai: A physical class that attacks fast and controls the tides of combat.\n";
+                  << "3.\tSamurai: A physical class with high single target damage that attacks fast and controls the tides of combat.\n";
         int classChoice[]{1, 2, 3};
         pickedClass = reader.readInput(classChoice, 3);
+        switch (pickedClass){
+            case 1: std::cout << "Warriors are slow, heavy hitters with the ability to tank a lot of damage and dish it back. The warrior thrives in the thick "
+                "of battle, facing off against hordes of enemies. The warrior's defining "
+                "feature is Revenge. When taking damage, the Warrior gains a stack of Revenge. The maximum amount of Revenge stacks increases with "
+                "level. For each stack of Revenge, the warrior takes less damage "
+                "and deals additional damage on their next attack. Revenge enables the Warrior to tank hits and retaliate with crushing force.\n"; break;
+            case 2: std::cout << "Wizards are masters of the arcane arts, commanding power over the elements to channel them and unleash devastating "
+                "area of effect abilities on multiple targets. Their control over magic is so great they can even manipulate the flow of time. "
+                "The Wizard lacks in single target damage, but a Wizard is outnumbered, it is still "
+            "an even fight.\n"; break;
+            case 3: std::cout << "Samurai are masters of the blade, with skills as sharp as the honed edge of their katana. The Samurai, unlike other classes, lacks "
+                "damaging abilities. Instead, their basic attack is replaced with an Iai Slash, a sword strike that has a chance to critically strike, dealing "
+                "double damage. Their critical strike chance is dependant upon their Ki, a resource which fills when performing a successful Iai Slash, but lowers "
+                "when taking damage. To augment this, the Samurai has various abilities that increase the amount of times their Iai Slashes hit or can block "
+                "incoming damage. Striking fast and often and carefully selecting targets to prevent incoming damage is critical to maintaining high Ki and damage output."; break;
+        }
         std::cout << "\nAre you sure? You cannot change this later.\n"
                   << "1.\tYes.\n"
                   << "2.\tNo.\n";
