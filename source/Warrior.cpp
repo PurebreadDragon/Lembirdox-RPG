@@ -39,6 +39,11 @@ public:
         // levelUp();
     }
 
+    std::string outputSaveFile(){
+        std::string save = "PLAYERINFO\nWarrior\n";
+        return save + Adventurer::outputSaveFile();
+    }
+
     void levelUp(){
         // update stats
         std::cout << "You leveled up! Your strength grows.\n";

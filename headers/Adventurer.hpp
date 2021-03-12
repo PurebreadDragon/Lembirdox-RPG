@@ -19,14 +19,18 @@ class Adventurer : public Entity
 		void addItem(Item*);
 		void setHealth(double);
 		void setHealth(int);
+		void loadSaveFile(std::string);
 
 		// viewing methods
 		int getLevel() const; 
 		int getGold() const;
+		int getExperience() const;
 		int getInvSize() const;
 		virtual void inspect();
 		void checkInventory();
 		virtual void printSpecialFeature();
+		virtual std::string outputSaveFile();
+
 		// behaviors
 		void deathPenalty();
 		void turn(std::vector<Enemy*>);

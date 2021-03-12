@@ -5,6 +5,7 @@
  */
 
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <cstdlib>
 #include <ctime>
@@ -21,6 +22,7 @@
 #include "./Samurai.cpp"
 
 using namespace std;
+const std::string SAVE_LOCATION = "saves/save.txt";
 
 Adventurer* CharacterGeneration() {
     InputReader reader;
@@ -108,12 +110,63 @@ void TraverseQuest(Quest* quest, Adventurer* player) {
     if (player->isAlive()) { currentRoom->interact(); } //player made it to boss fight
 }
 
+Adventurer* loadSave(){
+    Adventurer* player;
+    std::ifstream save(SAVE_LOCATION);
+
+    if (save.is_open()){
+        std::string playerClass;
+        getline(save, playerClass); //PLAYERINFO
+        getline(save, playerClass); //Actual class
+
+        // construct the class
+        if (playerClass == "Samurai") player = new Samurai("", "");
+        else if (playerClass == "Warrior") player = new Warrior("", "");
+        else if (playerClass == "Wizard") player = new Wizard("", "");
+
+        // load stats
+        player->loadSaveFile(SAVE_LOCATION);
+        save.clear();
+        save.seekg(0);
+
+        // load items
+        ItemFactory itemGen;
+        int trueHealth;
+        for (int i = 0; i < 8; ++i){ //skip 8 lines before items start coming in 
+            getline(save, playerClass);
+            if (i == 3) trueHealth = std::stoi(playerClass);
+        }
+
+        int itemID;
+        while (save >> itemID){
+            player->addItem(itemGen.generate(itemID));
+        }
+
+        player->setHealth(trueHealth);
+        save.close();
+    } else {
+        std::cout << "Unable to open save. No file was found.\n";
+        return CharacterGeneration();
+    }
+    return player;
+}
+
 int main() {
     srand(time(0));
     unsigned long long score = 0;
 
-    std::cout << "\nWelcome!\n";
-    Adventurer* player = CharacterGeneration();
+    InputReader reader;
+    std::cout << "\nWelcome!\n"
+                 "1:\tNew Game\n"
+                 "2:\tLoad Save\n";
+    int startChoice[]{1, 2};
+
+    Adventurer* player;
+    switch(reader.readInput(startChoice, 2)){
+        case 1: player = CharacterGeneration(); break;
+        case 2: player = loadSave(); break;
+        default: std::cout << "There was an error in creating a new game.\n"; break;
+    }
 
     Town* currentTown = new Town();
     Quest* currentQuest = currentTown->RoamTown(player);
@@ -129,6 +182,14 @@ int main() {
         currentTown = new Town();
         currentQuest = currentTown->RoamTown(player);
     }
+
+    std::ofstream save (SAVE_LOCATION);
+    if (save.is_open()){
+        std::cout << "Writing to file...";
+        save << player->outputSaveFile();
+        save.close();
+    }
+    else std::cout << "Unable to open save file. Please check that you have not modified the game folder.\n";
 
     score *= player->getLevel(); //final score = level * gold earned
     delete currentTown;

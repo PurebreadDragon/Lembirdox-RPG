@@ -40,6 +40,11 @@ public:
      * 13: Time Walk. 20 turn CD. Reset your turn 3 times in a row. 
      * */
 
+    std::string outputSaveFile(){
+        std::string save = "PLAYERINFO\nWizard\n";
+        return save + Adventurer::outputSaveFile();
+    }
+
     void levelUp(){
         // update stats
         std::cout << "You leveled up! You can feel your magical prowess increasing.\n";

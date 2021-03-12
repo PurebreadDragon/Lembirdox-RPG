@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <string>
 #include "./../headers/Adventurer.hpp" 
 
@@ -57,6 +58,10 @@ int Adventurer::getLevel() const {
 
 int Adventurer::getGold() const {
     return gold;
+}
+
+int Adventurer::getExperience() const{
+    return experience;
 }
 
 int Adventurer::getInvSize() const {
@@ -152,6 +157,75 @@ void Adventurer::addGold(int gold){
     this->gold += gold;
 }
 
+/**Outputs a save file.
+ * Format:
+ * PLAYERINFO
+ * Class
+ * Name
+ * Health
+ * Level
+ * Experience
+ * Gold
+ * INVENTORY
+ * (list of all item ids)
+ * 
+ * args: none
+ * outputs: a std::string with a save file in plaintext
+ * */
+std::string Adventurer::outputSaveFile(){
+    std::string save = "";
+    save += name + "\n";
+    save += std::to_string(health) + "\n";
+    save += std::to_string(level) + "\n";
+    save += std::to_string(experience) + "\n";
+    save += std::to_string(gold) + "\n";
+    save += "INVENTORY\n";
+    for (auto item : inventory){
+        save += std::to_string(item->getID()) + "\n";
+    }
+    return save;
+}
+
+/**
+ * loadSaveFile(): loads a save file
+ * Gives this adventurer all the required information.
+ * args: save file in plaintext. NOT a filepath, main does the file reading/writing
+ * outputs: none
+ * */
+void Adventurer::loadSaveFile(std::string saveFile){
+    // read all info
+    // ItemFactory invGen;
+    std::string line = "";
+    std::ifstream save(saveFile);
+    getline(save, line); //PLAYERINFO
+    getline(save, line); //class
+    getline(save, name); //name
+    getline(save, line); //health
+    int targetHealth = std::stoi(line);
+    getline(save, line); //level
+    int targetLevel = std::stoi(line);
+
+    // level up. don't print messages
+    std::cout.setstate(std::ios_base::failbit);
+    for (int i = 1; i < targetLevel; ++i){
+        levelUp();
+    }
+    std::cout.clear();
+
+    health = targetHealth;
+
+    getline(save, line); //exp
+    experience = std::stoi(line);
+    getline(save, line); //gold
+    gold = std::stoi(line);
+    getline(save, line); //INVENTORY
+
+    // generate items
+    // int itemId;
+    // while (save >> itemId){
+    //     addItem(invGen.generate(itemId));
+    // }
+}
 
 /**addExp: adds experience from combat victories
  * Level up the player if they reach a certain amount.

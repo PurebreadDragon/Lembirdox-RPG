@@ -55,6 +55,11 @@ public:
     *      Perform an Iai Slash. This Iai Slash is guaranteed to crit and ignores all defense. Reset your turn. 
      * */
 
+    std::string outputSaveFile(){
+        std::string save = "PLAYERINFO\nSamurai\n";
+        return save + Adventurer::outputSaveFile();
+    }
+
     void levelUp(){
         // update stats
         std::cout << "You leveled up! You can feel your skill with the blade becoming ever sharper.\n";
