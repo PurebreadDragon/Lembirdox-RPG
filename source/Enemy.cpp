@@ -52,6 +52,7 @@ public:
         deathMessage = "The skeleton crumbles to the ground, reduced to dust.";
         maxHealth = 150;
         health = 150;
+        maxHPOrig = 150;
         physAtk = 20;
         physDef = 10;
         magAtk = 2;
@@ -75,6 +76,7 @@ public:
         deathMessage = "The rat screeches as it dies.";
         maxHealth = 100;
         health = 100;
+        maxHPOrig = 100;
         physAtk = 10;
         physDef = 20;
         magAtk = 2;
@@ -98,6 +100,7 @@ public:
         deathMessage = "The core inside the slime shatters as it melts into a puddle on the ground.";
         maxHealth = 200;
         health = 200;
+        maxHPOrig = 200;
         physAtk = 0;
         physDef = 25;
         magAtk = 0;
@@ -159,6 +162,7 @@ public:
         deathMessage = "The shield skeleton crumbles into dust on the ground. Its shield crumbles with it.";
         maxHealth = 100;
         health = 100;
+        maxHPOrig = 100;
         physAtk = 10;
         physDef = 0;
         magAtk = 5;
@@ -211,6 +215,7 @@ public:
         deathMessage = "With a flash, the fairy disappears. It blinds you for a moment, leaving you dazed.\n";
         maxHealth = 2;
         health = 2;
+        maxHPOrig = 2;
         physAtk = 1;
         physDef = 0;
         magAtk = 1;
@@ -245,6 +250,7 @@ public:
         deathMessage = "The slime melts into the ground.";
         maxHealth = 50;
         health = 50;
+        maxHPOrig = 50;
         physAtk = 5;
         physDef = 10;
         magAtk = 10;
@@ -269,6 +275,7 @@ public:
         deathMessage = "The skeleton crumbles to the ground, reduced to dust. Its bow collapses with it.";
         maxHealth = 100;
         health = 100;
+        maxHPOrig = 100;
         physAtk = 15;
         physDef = 10;
         magAtk = 2;
@@ -305,6 +312,7 @@ public:
         deathMessage = "The vampire whelp poofs into a small, tattered bat and collapses to the ground.";
         maxHealth = 200;
         health = 200;
+        maxHPOrig = 200;
         physAtk = 20;
         physDef = 10;
         magAtk = 0;
@@ -339,6 +347,7 @@ public:
         deathMessage = "The spider writhes in tiny anguish and curls its legs inward. Phew!";
         maxHealth = 1;
         health = 1;
+        maxHPOrig = 1;
         physAtk = 5;
         physDef = 0;
         magAtk = 0;

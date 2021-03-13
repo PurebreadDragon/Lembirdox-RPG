@@ -22,9 +22,10 @@ Adventurer::~Adventurer(){
  * */
 void Adventurer::levelUp(){
     // update stats
-    std::cout << "You leveled up!\n";
+    std::cout << std::endl << levelMessage << std::endl;
     if (hpLvl > 0){
         maxHealth += hpLvl;
+        maxHPOrig += hpLvl;
         health += hpLvl;
         std::cout << "Health: +" << hpLvl <<"\n";
     }
@@ -64,7 +65,7 @@ int Adventurer::getInvSize() const {
 }
 
 void Adventurer::inspect(){
-    std::cout << name << " - Level " << level << " classgoeshere";
+    std::cout << "\n" << name << " - Level " << level << " " << className << "\n";
     std::cout << "\nExperience: \t\t" << experience << ", " << 75 * pow(1.1, level) << " to level\n"
     "Gold: \t\t\t" << gold << "\n"
     "Health: \t\t" << health << "/" << maxHealth << " (+" << maxHealthBonus << ")\n"
@@ -73,9 +74,7 @@ void Adventurer::inspect(){
     "Magical ATK: \t\t" << magAtk << " (+" << magAtkBonus << ")\n"
     "Magical DEF: \t\t" << magDef << " (+" << magDefBonus << ")\n"
     "Speed: \t\t\t" << speed << " (+" << speedBonus << ")\n";
-
-    std::cout << "\nAbilities:\n";
-    std::cout << "You don't have any abilities unlocked.\n";
+    //display unique traits, adventurer abilities in derived classes
 }
 
 /**
@@ -146,7 +145,7 @@ void Adventurer::checkInventory(){
  * */
 void Adventurer::printSpecialFeature(){
 
-};
+}
 
 void Adventurer::addGold(int gold){
     this->gold += gold;
@@ -419,17 +418,4 @@ void Adventurer::updateCooldowns(){
     if (abi3CD > 0) abi3CD--;
     if (abi4CD > 0) abi4CD--;
     if (abi5CD > 0) abi5CD--;
-}
-
-/**setHealth: used to set the user's health to a certain percentage.
- * Use this for % max health based healing and attacks.
- * args: the percentage to set the user's health to
- * outputs: none
- * */
-void Adventurer::setHealth(double percent){
-    health = maxHealth * percent;
-}
-
-void Adventurer::setHealth(int value){
-    health = value;
 }
