@@ -41,7 +41,7 @@
  *	016	: , FobWatch,
  */
 
-unsigned const NUM_CLASSES = 3; //classes do not have ids :)
+unsigned const NUM_CLASSES = 4; //classes do not have ids :)
 unsigned const NUM_ENEMIES = 9; //ID 10-###
 unsigned const NUM_ITEMS = 16; //ID 20-###
 unsigned const NUM_CONSUMABLES = 4; //Consumables should have their own ID chain if we want to add more. Changing this number may have unexpected consequences.
