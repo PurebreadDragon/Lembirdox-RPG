@@ -17,14 +17,18 @@ class Adventurer : public Entity
 		void addGold(int);
 		void addExp(int);
 		void addItem(Item*);
+		void loadSaveFile(std::string);
 
 		// viewing methods
 		int getLevel() const; 
 		int getGold() const;
+		int getExperience() const;
 		int getInvSize() const;
 		virtual void inspect();
 		void checkInventory();
 		virtual void printSpecialFeature();
+		virtual std::string outputSaveFile();
+
 		// behaviors
 		void deathPenalty();
 		void turn(std::vector<Enemy*>);
