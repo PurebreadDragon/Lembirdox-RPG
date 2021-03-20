@@ -82,7 +82,8 @@ private:
       while (select != 0) {
          curItem = supply.at(select - 1);
          if (playerGold >= curItem->getValue()) {
-            player->addItem(shop.generate(curItem->getID()));
+            Item* newItem = shop.generate(curItem->getID());
+            player->addItem(newItem);
             player->addGold(-1 * (curItem->getValue()));
             playerGold -= curItem->getValue();
             std::cout << "\nThe Merchant grins. \"Thank you so much! You'll be needing something else, yes?\"\n";
@@ -195,8 +196,8 @@ public:
    Town() {
       //condition = (rand() % 100) + 1;
       EnemyFactory bossGen;
-      Enemy* q1B = bossGen.generate((rand() % 5) + 10001);
-      Enemy* q2B = bossGen.generate((rand() % 5) + 10001);
+      Enemy* q1B = bossGen.generate((rand() % NUM_ENEMIES) + 10001);
+      Enemy* q2B = bossGen.generate((rand() % NUM_ENEMIES) + 10001);
       q1 = new QuestStub(((rand() % 101) + 50), q1B, "Defeat a dangerous ");
       q2 = new QuestStub(((rand() % 101) + 50), q2B, "Eliminate an evil ");
       ItemFactory itemGen;

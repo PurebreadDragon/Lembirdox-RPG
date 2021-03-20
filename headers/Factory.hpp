@@ -18,13 +18,13 @@
  *	
  *	005	: StrangeFairy, MediumPotion, , ZenGarden
  *	
- *	006	: , StrongPotion, , Cave
+ *	006	: GreenSlime, StrongPotion, , Cave
  *	
- *	007	: , MegaPotion, , ColdForge
+ *	007	: BowSkeleton, MegaPotion, , ColdForge
  *	
- *	008	: , Swifties, , Spiderweb
+ *	008	: VampireWhelp, Swifties, , Spiderweb
  *	
- *	009	: , FlareOrb, , TorchlitHall
+ *	009	: TinySpider, FlareOrb, , TorchlitHall
  *	
  *	010	: , RedPaw, , BrokenTrap
  *
@@ -41,12 +41,12 @@
  *	016	: , FobWatch,
  */
 
-unsigned NUM_CLASSES = 3;
-unsigned NUM_ENEMIES = 9;
-unsigned NUM_ITEMS = 16;
-unsigned NUM_CONSUMABLES = 4; //Leave this be for now please!
-unsigned NUM_ODDITY_ROOMS = 4;
-unsigned NUM_AMBIENT_ROOMS = 11;
+unsigned const NUM_CLASSES = 4; //classes do not have ids :)
+unsigned const NUM_ENEMIES = 9; //ID 10-###
+unsigned const NUM_ITEMS = 16; //ID 20-###
+unsigned const NUM_CONSUMABLES = 4; //Consumables should have their own ID chain if we want to add more. Changing this number may have unexpected consequences.
+unsigned const NUM_ODDITY_ROOMS = 4; //ID 30-###
+unsigned const NUM_AMBIENT_ROOMS = 11; //ID 35-###
 
 class EnemyFactory {
 public:

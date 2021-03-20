@@ -17,8 +17,6 @@ class Adventurer : public Entity
 		void addGold(int);
 		void addExp(int);
 		void addItem(Item*);
-		void setHealth(double);
-		void setHealth(int);
 		void loadSaveFile(std::string);
 
 		// viewing methods
@@ -45,5 +43,6 @@ class Adventurer : public Entity
 		int hpLvl = 0, pAtkLvl = 0, pDefLvl = 0, mAtkLvl = 0, mDefLvl = 0, spdLvl = 0;
 		// max cd is set to -1 if the ability is not unlocked yet. 
 		int abi1CD = 0, abi1MaxCD = -1, abi2CD = 0, abi2MaxCD = -1, abi3CD = 0, abi3MaxCD = -1, abi4CD = 0, abi4MaxCD = -1, abi5CD = 0, abi5MaxCD = -1;
+                std::string levelMessage = "You leveled up!", className = "Adventurer";
 		std::vector<Item*> inventory;
 }; 
