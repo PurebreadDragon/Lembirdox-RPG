@@ -82,7 +82,8 @@ private:
       while (select != 0) {
          curItem = supply.at(select - 1);
          if (playerGold >= curItem->getValue()) {
-            player->addItem(shop.generate(curItem->getID()));
+            Item* newItem = shop.generate(curItem->getID());
+            player->addItem(newItem);
             player->addGold(-1 * (curItem->getValue()));
             playerGold -= curItem->getValue();
             std::cout << "\nThe Merchant grins. \"Thank you so much! You'll be needing something else, yes?\"\n";

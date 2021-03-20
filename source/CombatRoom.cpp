@@ -51,7 +51,7 @@ public:
                 if (player->getTurnBar() >= MAX_TURN_BAR){
                     std::cout << "================================[TURN " << turn << "]===============================\n";
                     player->printSpecialFeature();
-                    player->turn(entities);
+                    if (!player->isStunned()) { player->turn(entities); }
                     player->updateBuffs();
                     player->setTurnBar(player->getTurnBar() - MAX_TURN_BAR);
                     std::cout << "================================[TURN " << turn << "]===============================\n";
@@ -74,7 +74,7 @@ public:
                 // execute any enemy turns
                 for (auto e : entities){
                     if (e->getTurnBar() >= MAX_TURN_BAR){
-                        e->turn(player);
+                        if (!e->isStunned()) { e->turn(player); }
                         e->updateBuffs();
                         e->setTurnBar(e->getTurnBar() - MAX_TURN_BAR);
                     }
