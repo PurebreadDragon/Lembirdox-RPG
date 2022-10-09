@@ -1,5 +1,4 @@
 #include <iostream>
-#include <fstream>
 #include <string>
 #include "./../headers/Adventurer.hpp" 
 
@@ -23,10 +22,9 @@ Adventurer::~Adventurer(){
  * */
 void Adventurer::levelUp(){
     // update stats
-    std::cout << std::endl << levelMessage << std::endl;
+    std::cout << "You leveled up!\n";
     if (hpLvl > 0){
         maxHealth += hpLvl;
-        maxHPOrig += hpLvl;
         health += hpLvl;
         std::cout << "Health: +" << hpLvl <<"\n";
     }
@@ -61,16 +59,12 @@ int Adventurer::getGold() const {
     return gold;
 }
 
-int Adventurer::getExperience() const{
-    return experience;
-}
-
 int Adventurer::getInvSize() const {
     return inventory.size();
 }
 
 void Adventurer::inspect(){
-    std::cout << "\n" << name << " - Level " << level << " " << className << "\n";
+    std::cout << name << " - Level " << level << " classgoeshere";
     std::cout << "\nExperience: \t\t" << experience << ", " << 75 * pow(1.1, level) << " to level\n"
     "Gold: \t\t\t" << gold << "\n"
     "Health: \t\t" << health << "/" << maxHealth << " (+" << maxHealthBonus << ")\n"
@@ -79,7 +73,9 @@ void Adventurer::inspect(){
     "Magical ATK: \t\t" << magAtk << " (+" << magAtkBonus << ")\n"
     "Magical DEF: \t\t" << magDef << " (+" << magDefBonus << ")\n"
     "Speed: \t\t\t" << speed << " (+" << speedBonus << ")\n";
-    //display unique traits, adventurer abilities in derived classes
+
+    std::cout << "\nAbilities:\n";
+    std::cout << "You don't have any abilities unlocked.\n";
 }
 
 /**
@@ -150,81 +146,12 @@ void Adventurer::checkInventory(){
  * */
 void Adventurer::printSpecialFeature(){
 
-}
+};
 
 void Adventurer::addGold(int gold){
     this->gold += gold;
 }
 
-/**Outputs a save file.
- * Format:
- * PLAYERINFO
- * Class
- * Name
- * Health
- * Level
- * Experience
- * Gold
- * INVENTORY
- * (list of all item ids)
- * 
- * args: none
- * outputs: a std::string with a save file in plaintext
- * */
-std::string Adventurer::outputSaveFile(){
-    std::string save = "";
-    save += name + "\n";
-    save += std::to_string(health) + "\n";
-    save += std::to_string(level) + "\n";
-    save += std::to_string(experience) + "\n";
-    save += std::to_string(gold) + "\n";
-    save += "INVENTORY\n";
-    for (auto item : inventory){
-        save += std::to_string(item->getID()) + "\n";
-    }
-    return save;
-}
-
-/**
- * loadSaveFile(): loads a save file
- * Gives this adventurer all the required information.
- * args: save file in plaintext. NOT a filepath, main does the file reading/writing
- * outputs: none
- * */
-void Adventurer::loadSaveFile(std::string saveFile){
-    // read all info
-    // ItemFactory invGen;
-    std::string line = "";
-    std::ifstream save(saveFile);
-    getline(save, line); //PLAYERINFO
-    getline(save, line); //class
-    getline(save, name); //name
-    getline(save, line); //health
-    int targetHealth = std::stoi(line);
-    getline(save, line); //level
-    int targetLevel = std::stoi(line);
-
-    // level up. don't print messages
-    std::cout.setstate(std::ios_base::failbit);
-    for (int i = 1; i < targetLevel; ++i){
-        levelUp();
-    }
-    std::cout.clear();
-
-    health = targetHealth;
-
-    getline(save, line); //exp
-    experience = std::stoi(line);
-    getline(save, line); //gold
-    gold = std::stoi(line);
-    getline(save, line); //INVENTORY
-
-    // generate items
-    // int itemId;
-    // while (save >> itemId){
-    //     addItem(invGen.generate(itemId));
-    // }
-}
 
 /**addExp: adds experience from combat victories
  * Level up the player if they reach a certain amount.
@@ -492,4 +419,17 @@ void Adventurer::updateCooldowns(){
     if (abi3CD > 0) abi3CD--;
     if (abi4CD > 0) abi4CD--;
     if (abi5CD > 0) abi5CD--;
+}
+
+/**setHealth: used to set the user's health to a certain percentage.
+ * Use this for % max health based healing and attacks.
+ * args: the percentage to set the user's health to
+ * outputs: none
+ * */
+void Adventurer::setHealth(double percent){
+    health = maxHealth * percent;
+}
+
+void Adventurer::setHealth(int value){
+    health = value;
 }

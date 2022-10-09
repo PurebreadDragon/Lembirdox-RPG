@@ -11,11 +11,8 @@ private:
 
 public:
     Warrior(std::string name, std::string description) : Adventurer(name, description) {
-        className = "Warrior";
-        levelMessage = "You leveled up! Your strength grows.\n";
 
         maxHealth = 250;
-        maxHPOrig = 250;
         health = maxHealth;
         hpLvl = 40;
 
@@ -37,19 +34,42 @@ public:
         revengeMax = 3;
         revengeReduction = 0.1;
         revengeDamage = 0.2;
-         levelUp();
-         levelUp();
-         levelUp();
-    }
-
-    std::string outputSaveFile(){
-        std::string save = "PLAYERINFO\nWarrior\n";
-        return save + Adventurer::outputSaveFile();
+        // levelUp();
+        // levelUp();
+        // levelUp();
     }
 
     void levelUp(){
         // update stats
-        Adventurer::levelUp();
+        std::cout << "You leveled up! Your strength grows.\n";
+        if (hpLvl > 0){
+            maxHealth += hpLvl;
+            health += hpLvl;
+            std::cout << "Health: +" << hpLvl <<"\n";
+        }
+        if (pAtkLvl > 0){
+            physAtk += pAtkLvl; 
+            std::cout << "Physical ATK: +" << pAtkLvl << "\n";
+        }
+        if (pDefLvl > 0){
+            physDef += pDefLvl; 
+            std::cout << "Physical DEF: +" << pDefLvl << "\n";
+        }
+        if (mAtkLvl > 0){
+            magAtk += mAtkLvl; 
+            std::cout << "Magical ATK: +" << mAtkLvl << "\n";
+        }
+        if (mDefLvl > 0){
+            magAtk += mAtkLvl; 
+            std::cout << "Magical DEF: +" << mDefLvl << "\n";
+        }
+        if (spdLvl > 0){
+            speed += spdLvl;
+            std::cout << "Speed: +" << spdLvl << "\n";
+        }
+
+        ++level;	
+
         // update abilities
         if (level == 4){
             abi2MaxCD = 4;
@@ -59,7 +79,15 @@ public:
     }
 
     void inspect(){
-        Adventurer::inspect();
+        std::cout << name << " - Level " << level << " Warrior";
+        std::cout << "\nExperience: \t\t" << experience << ", " << 75 * pow(1.1, level) << " to level\n"
+        "Gold: \t\t\t" << gold << "\n"
+        "Health: \t\t" << health << "/" << maxHealth << " (+" << maxHealthBonus << ")\n"
+        "Physical ATK: \t\t" << physAtk << " (+" << physAtkBonus << ")\n"
+        "Physical DEF: \t\t" << physDef << " (+" << physDefBonus << ")\n"
+        "Magical ATK: \t\t" << magAtk << " (+" << magAtkBonus << ")\n"
+        "Magical DEF: \t\t" << magDef << " (+" << magDefBonus << ")\n"
+        "Speed: \t\t\t" << speed << " (+" << speedBonus << ")\n";
         printSpecialFeature();
 
         std::cout << "\nAbilities:\n";

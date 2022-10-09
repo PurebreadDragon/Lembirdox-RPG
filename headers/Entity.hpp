@@ -16,10 +16,9 @@ protected:
     unsigned ID = 0;
     // fields for buffs and debuffs below
     // a positive value means the unit is buffed for (value) turns. a negative value means the opposite. 
-    int pAtkBuff = 0, pDefBuff = 0, mAtkBuff = 0, mDefBuff = 0, spdBuff = 0, maxHPBuff = 0;
+    int pAtkBuff = 0, pDefBuff = 0, mAtkBuff = 0, mDefBuff = 0, spdBuff = 0;
     // pre-buff/debuff values. 
-    int pAtkOrig = 0, pDefOrig = 0, mAtkOrig = 0, mDefOrig = 0, spdOrig = 0, maxHPOrig = 0;
-    int stunDuration = 0;
+    int pAtkOrig = 0, pDefOrig = 0, mAtkOrig = 0, mDefOrig = 0, spdOrig = 0;
 
 public:
     Entity(){
@@ -33,7 +32,6 @@ public:
         this->description = description;
         this->maxHealth = maxHealth;
         health = maxHealth;
-        maxHPOrig = maxHealth;
         this->physAtk = physAtk;
         this->physDef = physDef;
         this->magAtk = magAtk;
@@ -158,14 +156,6 @@ public:
         if (health > maxHealth) health = maxHealth;
     }
 
-    void setHealth(int value) {
-        health = value;
-    }
-
-    void setHealth(double percentage) {
-        health = (percentage * maxHealth);
-    }
-
     /**
      * Methods for buffing and debuffing the target below.
      * buff(): Pass in a negative value to debuff, positive value to buff. 
@@ -227,23 +217,6 @@ public:
                 else if (spdBuff == 0) speed = spdOrig;
                 else speed = 0.7 * spdOrig;
             } break;
-            case MAX_HEALTH:{
-                if (maxHPBuff == 0) maxHPOrig = maxHealth;
-                maxHPBuff += duration;
-
-                if (maxHPBuff > 0) {
-                    maxHealth = 1.25 * maxHPOrig;
-                    heal(maxHealth - maxHPOrig);
-                }
-                else if (maxHPBuff == 0) { 
-                    maxHealth = maxHPOrig;
-                    if (health > maxHealth) { health = maxHealth; }
-                }
-                else {
-                    maxHealth = 0.75 * maxHPOrig;
-                    if (health > maxHealth) { health = maxHealth; }
-                }
-            } break;
         }
     }
 
@@ -264,8 +237,6 @@ public:
         else if (mDefBuff < 0) std::cout << "[-MDEF] ";
         if (spdBuff > 0) std::cout << "[+SPD] ";
         else if (spdBuff < 0) std::cout << "[-SPD] ";
-        if (maxHPBuff > 0) std::cout << "[+HEALTH]";
-        else if (maxHPBuff < 0) std::cout << "[-HEALTH]";
     }
 
     /**
@@ -281,8 +252,6 @@ public:
         mAtkOrig = magAtk;
         mDefOrig = magDef;
         spdOrig = speed;
-        maxHPOrig = maxHealth;
-        stunDuration = 0;
     }
 
     /**
@@ -292,7 +261,7 @@ public:
      * args: none
      * outputs: none
      * */
-    virtual void updateBuffs(){
+    void updateBuffs(){
         // first update buff durations
         if (pAtkBuff > 0) pAtkBuff--;
         else if (pAtkBuff < 0) pAtkBuff++;
@@ -334,23 +303,6 @@ public:
         if (spdBuff > 0) speed = 1.3 * spdOrig;
         else if (spdBuff == 0) speed = spdOrig;
         else speed = 0.7 * spdOrig;
-
-        // max health
-        if (maxHPBuff > 0) maxHPBuff--;
-        else if (maxHPBuff < 0) maxHPBuff++;
-
-        if (maxHPBuff > 0) maxHealth = 1.25 * maxHPOrig;
-        else if (maxHPBuff == 0) {
-            maxHealth = maxHPOrig;
-            //if (health > maxHPOrig) { health = maxHealth; }
-        }
-        else {
-            maxHealth = 0.75 * maxHPOrig;
-            //if (health > maxHealth) { health = maxHealth; }
-        }
-
-        // stun
-        if (isStunned()) { --stunDuration; }
     }
 
     /**
@@ -380,14 +332,6 @@ public:
             spdBuff = 0;
             speed = spdOrig;
         }
-        if (maxHPBuff != 0){
-            maxHPBuff = 0;
-            maxHealth = maxHPOrig;
-            if (health > maxHealth) { health = maxHealth; }
-        }
-        if (isStunned()) {
-            stun(-1);
-        }
     }
 
     /**
@@ -416,38 +360,9 @@ public:
             spdBuff = 0;
             speed = spdOrig;
         }
-        if (maxHPBuff < 0){
-            maxHPBuff = 0;
-            maxHealth = maxHPOrig;
-        }
-        if (isStunned()) {
-            stun(-1);
-        }
     }
 
     virtual ~Entity() = default;
-
-    /* stun(): Administers stun for the duration.
-     * args: int duration (in turns)
-     * outputs: none
-     * If the duration is negative, remove all stun.
-     */
-    virtual void stun(int duration) {
-        if (duration <= 0) { stunDuration = 0; }
-        else { stunDuration += duration; }
-    }
-
-    /* isStunned(): Checks if the entity is stunned.
-     * args: none
-     * outputs: A message explaining why the turn is skipped.
-     */
-    virtual bool isStunned() {
-        if (stunDuration > 0) {
-            std::cout << name << " is stunned! They cannot act!\n";
-            return true;
-        }
-        else { return false; }
-    }
 };
 
 class TEST_DUMMY : public Entity {
